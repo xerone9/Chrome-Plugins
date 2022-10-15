@@ -1,0 +1,109 @@
+
+var childDivs = document.getElementById('test');
+
+for( i=0; i< childDivs.length; i++ )
+{
+ var childDiv = childDivs[i];
+ console.log(childDiv)
+}
+
+var table = document.getElementsByTagName("td");
+for (var i = 0, row; row = table.rows[i]; i++) {
+   //iterate through rows
+   //rows would be accessed using the "row" variable assigned in the for loop
+   console.log(row);
+   for (var j = 0, col; col = row.cells[j]; j++) {
+     //iterate through columns
+     //columns would be accessed using the "col" variable assigned in the for loop
+     console.log(col);
+   }  
+}
+
+
+
+var table = document.getElementsByTagName("td");
+for (let i in table.rows) {
+   let row = table.rows[i]
+   //iterate through rows
+   //rows would be accessed using the "row" variable assigned in the for loop
+   console.log("row");
+   for (let j in row.cells) {
+     let col = row.cells[j]
+     //iterate through columns
+     //columns would be accessed using the "col" variable assigned in the for loop
+     console.log("row");
+   }  
+}
+
+var tds = document.querySelectorAll('#firstTable tbody td'), i;
+for(i = 0; i < tds.length; ++i) {
+    console.log(tds[i].innerHTML);
+}
+var tds = document.querySelectorAll('strong'), i;
+for(i = 0; i < tds.length; ++i) {
+    console.log(tds[i].innerHTML);
+}
+
+if($("#divContent").find('table').length) {
+    // table exists
+   } else {
+    // no table found
+   }
+
+var table = document.getElementsByClassName("t-Report-report")[2];
+var arr = new Array();
+for (var i = 0, row; row = table.rows[i]; i++) {
+    for (var j = 0, col; col = row.cells[j]; j++) {
+        arr.push(row.cells[j].firstChild.value);
+    }  
+}
+console.log(arr);
+
+var table = document.getElementsByClassName("t-Report-report")[2];
+var arr = new Array();
+for (var i = 1, row; row = table.rows[i]; i++) {
+    for (var j = 1, col; col = row.cells[j]; j++) {
+        arr.push(row.cells[j].firstChild.value);
+        console.log(row.cells[j].innerHTML);
+    }  
+}
+
+var table = document.getElementsByClassName("t-Report-report")[2];
+var arr = new Array();
+for (var i = 0, row; row = table.rows[i]; i++) {    
+    for (var j = 0, col; col = row.cells[j]; j+=8) {
+        arr.push(row.cells[j].innerHTML);  
+        console.log(row.cells[j].innerHTML);           
+    }  
+}
+
+
+
+total = 0
+var table = document.getElementsByClassName("t-Report-report")[2];
+var arr = new Array();
+for (var i = 1, row; row = table.rows[i]; i++) {    
+    for (var j = 0, col; col = row.cells[j]; j++) {
+        arr.push(row.cells[5].innerHTML);
+        removing_comas = row.cells[5].innerHTML.replace(",", "");
+        value = parseInt(removing_comas);
+        if (Number.isInteger(value)) {
+            total += value/8;                                  
+        } else {
+            
+        }           
+    }  
+}
+console.log(total)
+
+final_session = "";
+var table = document.getElementsByClassName("t-Report-report")[2];
+var arr = new Array();
+for (var i = 1, row; row = table.rows[i]; i++) {    
+    for (var j = 0, col; col = row.cells[j]; j++) {  
+        final_session = row.cells[2].innerHTML;   
+    }  
+}
+console.log(final_session)
+
+

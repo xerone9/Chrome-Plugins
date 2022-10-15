@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Percentage Adder</title>
+    <link rel="stylesheet" href="style.css" class="style">
+</head>
+<body>
+    <div class="set-form">
+        <img src="heading.png">
+    </div>
+    <div class="set-form">
+        <div>
+            <div class="ask">
+                <div class="setter">                    
+                    <label class="amount-label">Amount: </label>                    
+                    <input type="number" id="amount" class="amount" placeholder="75000">
+                </div>
+            </div>
+            <div class="ask">
+                <div class="setter">                    
+                    <label class="amount-label">Years: </label>                    
+                    <input class="years" type="number" id="years" placeholder="5">
+                    <label class="percentage-label"></label>                    
+                    <input class="percentage" type="number" id="tax" placeholder="4.5">
+                    <span>&nbsp;&#37;</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="set-result">
+        <div>
+            <p id="interest_label" class="value_label"></p>&nbsp;         
+        </div>
+        <div>
+            <p id="Interest_amount" class=""></p>
+        </div>
+    </div>
+    <div class="set-result">
+        <div>
+            <p id="total_label" class="value_label"></p>&nbsp;
+        </div>
+        <div>
+            <p id="total_amount" class=""></p>
+        </div>
+    </div>    
+    <div>
+        <div class="set-form">
+            <button id="paste-result" class="calculate">Calculate</button>
+        </div>
+    </div>
+    <div class="follow"> 
+        <!-- <span style="color:red;" class="error_number">&#10084;</span> -->
+        <div class="credit">
+            <p>Developed By</p> 
+            <p>Usman Mustafa Khawar </p> 
+        </div>
+    </div>  
+    <div class="set-form">             
+        <div class="link">
+            <a href="https://www.linkedin.com/in/usman-mustafa-khawar-41374a234/" target="_blank" class="linkedin">Linkedin</a>
+        </div>
+        <div class="link">
+            <a href="https://github.com/xerone9" target="_blank" class="linkedin">Github</a>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

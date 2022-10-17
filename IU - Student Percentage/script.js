@@ -8,6 +8,15 @@ if (el !== null) {
     document.getElementById("710_menubar_0").style.backgroundColor = "red";   
     document.getElementById("710_menubar_0").style.fontSize = "x-large";    
     document.getElementById("710_menubar_0").style.fontFamily = "Garamond";
+    var elements = document.getElementsByClassName('t-NavigationBar'); // get all elements
+    for(var i = 0; i < elements.length; i++){
+        elements[i].style.backgroundColor = "black";
+    }
+    var elements = document.getElementsByClassName('t-Header-logo-link'); // get all elements
+    for(var i = 0; i < elements.length; i++){
+        elements[i].style.backgroundColor = "black";
+    }
+    
     
     final_session = "";
     remaining_balance = 0;

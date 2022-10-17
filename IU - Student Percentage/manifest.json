@@ -9,8 +9,7 @@
     "permissions": ["activeTab"],
     "content_scripts": [
         {
-            "matches": ["http://172.16.0.6:81/ords/*", "http://faculty.induscms.com:81/ords/*"],
-            "css": ["style.css"],
+            "matches": ["http://172.16.0.6:81/ords/*", "http://faculty.induscms.com:81/ords/*"],            
             "js": ["script.js"]
         }
     ]

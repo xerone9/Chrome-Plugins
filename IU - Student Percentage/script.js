@@ -62,19 +62,19 @@ if (el !== null) {
         var needed = total / 2;
         required = Math.round(remaining_balance - needed);
         document.getElementById('R26939838904143271_heading').style.color = "#ff0000";
-        document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result) + "%" + " - (Tui Fee: " + Math.round(needed) + ")" + " - (Balance: " + required + ")";
+        document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.round(needed).toLocaleString("en-US") + ")" + " - (Balance: " + required.toLocaleString("en-US") + ")";
     }
     else if (result < 50){
         var result = 100 - (remaining_balance / total * 100)
         var needed = total / 2;
         required = Math.round(remaining_balance - needed);
         document.getElementById('R26939838904143271_heading').style.color = "#ff0000";
-        document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result) + "%" + " - (Tui Fee: " + Math.round(needed) + ")" + " - (Balance: " + required + ")";
+        document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.round(needed).toLocaleString("en-US") + ")" + " - (Balance: " + required.toLocaleString("en-US") + ")";
     }
     else {
         var result = 100 - (remaining_balance / total * 100)
         document.getElementById('R26939838904143271_heading').style.color = "#0000ff";
-        document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result) + "%";
+        document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%";
     }
 
 }

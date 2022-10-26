@@ -9,13 +9,7 @@ function calculateValue() {
     converting_percentage_to_decimal = tax / 100;    
     calucating_power = Math.pow(converting_percentage_to_decimal + 1, years);
     result = Math.round(amount * calucating_power);  
-    interest_amount = result - amount;  
-    // if (isInteger(result)) {
-    //     result = result;
-    // }         
-    // else{
-    //     result =  ((amount / calculation) * 100).toFixed(2);
-    // }
+    interest_amount = result - amount;     
     document.getElementById('interest_label').textContent = "Interest Amount: ";
     document.getElementById('Interest_amount').textContent = interest_amount.toLocaleString("en-US");
     document.getElementById('total_label').textContent = "Total Amount: ";

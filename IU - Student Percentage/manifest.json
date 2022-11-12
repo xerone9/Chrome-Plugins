@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
     "name": "IU - Student Fee Percentage",
-    "description": "How much fee the student has paid in percentage and also tells how much minimum fee is required to sit in examination",
-    "version": "1.0",    
+    "description": "How much fee the student has paid in percentage and also tells how much minimum fee is required to sit in Mid-Term Examination",
+    "version": "1.1",    
     "icons": {
         "128": "logo.png"
     },    

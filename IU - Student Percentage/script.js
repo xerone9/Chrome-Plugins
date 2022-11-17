@@ -202,7 +202,7 @@ if (el !== null) {
     if (advance_fee > 0) { // if advance fee is in positive means access fee has been paid in previous semester           
         debt = (0 - advance_fee)       
     }
-
+    
     
     if (remaining_balance != 0) {
         remaining_balance = remaining_balance - (degree_provisional_cms/8)
@@ -227,7 +227,6 @@ if (el !== null) {
         }   
     }
     
-    
     var required = 0;
     if (full_scholorship == true) {
         document.getElementById('R26939838904143271_heading').style.color = "#8F00FF";
@@ -239,7 +238,7 @@ if (el !== null) {
                 var result = 0 - (0 - debt / total * 100)
                 required = Math.round(remaining_balance - (total / 2));
                 document.getElementById('R26939838904143271_heading').style.color = "#000000";
-                document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed + debt)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
+                document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
             }
             else {                
                 var result = 0;          

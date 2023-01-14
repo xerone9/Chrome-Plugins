@@ -60,7 +60,20 @@ if (el !== null) {
                   }                                          
             }             
         } 
-    }    
+    } 
+    
+    // Coloring Add Extra Lines
+    var table = document.getElementsByClassName("t-Report-report")[2];
+    for (var i = 1, row; row = table.rows[i]; i++) {    
+        for (var j = 1, col; col = row.cells[j]; j++) {
+            if (row.cells[1].innerHTML == "&nbsp;" && row.cells[2].innerHTML == "&nbsp;") {
+                if (row.cells[3].innerHTML != "Package") {
+                    row.cells[3].style.color = "brown";
+                    row.cells[3].style.fontWeight = "750";
+                }
+            }            
+        }
+    }
     
     
     // getting total semester tuition fee
@@ -318,7 +331,7 @@ Calculation
 
 Partial Scholor has no consistency so is removed from the plugin now
 
-Changelog 1.2:
+Changelog 2.0:
 ``````````````
 
 As adviced that degree fee and provisional fee charged will be ignored for the clearance of Mid-Term Examinaitons but if the student has 
@@ -332,5 +345,10 @@ students 100% scholorship if there tuition fee balance is 0 eventhough they are 
 Added Red Color To Warning Narrations
 
 Added Green Color To Posted Voucher
+
+Changelog 2.1:
+``````````````
+
+Added Brown Color To Add Extra (Package) Lines
 
 */

@@ -3,7 +3,7 @@
 
 ![alt text](https://github.com/xerone9/Chrome-Plugins/blob/main/IU%20-%20Student%20Percentage/ERP.jpg)
 
-## What That Plugin Do?:
+## What That Plugin Do?
 Designed for a specific ERP...
 
 How much fee the student has paid in percentage and also tells how much minimum fee is required to sit in Mid-Term Examination

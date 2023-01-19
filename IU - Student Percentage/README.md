@@ -1,5 +1,5 @@
-# PDF Search Engine
- It will search for supplied value in PDFs inside the location supplied to it
+# IU - Student Fee Percentage (Chrome Plugin)
+ It'll do all the calculations to check either student is eligible for sitting in Mid-Term Examinations
 
 ![alt text](https://github.com/xerone9/Chrome-Plugins/blob/main/IU%20-%20Student%20Percentage/ERP.jpg)
 

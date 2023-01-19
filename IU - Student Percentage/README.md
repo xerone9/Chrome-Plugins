@@ -1,7 +1,7 @@
 # PDF Search Engine
  It will search for supplied value in PDFs inside the location supplied to it
 
-![alt text](https://github.com/xerone9/Chrome-Plugins/blob/main/IU - Student Percentage/ERP.jpeg)
+![alt text](https://github.com/xerone9/Chrome-Plugins/blob/main/IU%20-%20Student%20Percentage/ERP.jpeg)
 
 ## How To Use:
 When launch the app...

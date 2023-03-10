@@ -24,7 +24,7 @@ if (el !== null) {
     // Create second row
     const rowTwoElement = document.createElement('tr');
     const cellThreeElement = document.createElement('td');
-    cellThreeElement.textContent = '50% Tuition. Fee';    
+    cellThreeElement.textContent = '50% Tui. Fee';    
     const tuitionFeeElement = document.createElement('td');
     tuitionFeeElement.textContent = '';
     rowTwoElement.appendChild(cellThreeElement);
@@ -63,9 +63,9 @@ if (el !== null) {
     }
     .my-table td {
         border: 1px solid black;
-        padding: 15px; 
+        padding: 8px 12px;
         border-color: lightgrey; 
-        column-width: 50px;      
+        column-width: 85px;      
     }
     `;
     document.head.appendChild(styleElement);

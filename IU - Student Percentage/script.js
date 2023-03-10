@@ -15,9 +15,12 @@ if (el !== null) {
     // Create first row
     const rowOneElement = document.createElement('tr');
     const cellOneElement = document.createElement('td');
-    cellOneElement.textContent = 'Fee Paid';    
+    cellOneElement.textContent = 'Fee Paid'; 
+    cellOneElement.style.columnWidth = "122px"   
     const feePaidElement = document.createElement('td');
     feePaidElement.textContent = '';
+    feePaidElement.style.columnWidth = "40px"   
+    feePaidElement.style.textAlign =  "end";    
     rowOneElement.appendChild(cellOneElement);
     rowOneElement.appendChild(feePaidElement);
 
@@ -27,6 +30,7 @@ if (el !== null) {
     cellThreeElement.textContent = '50% Tui. Fee';    
     const tuitionFeeElement = document.createElement('td');
     tuitionFeeElement.textContent = '';
+    tuitionFeeElement.style.textAlign =  "end";
     rowTwoElement.appendChild(cellThreeElement);
     rowTwoElement.appendChild(tuitionFeeElement);
 
@@ -36,6 +40,7 @@ if (el !== null) {
     cellFiveElement.textContent = 'For Midterm';    
     const forMidElement = document.createElement('td');
     forMidElement.textContent = '';
+    forMidElement.style.textAlign =  "end";
     rowThreeElement.appendChild(cellFiveElement);
     rowThreeElement.appendChild(forMidElement);
 
@@ -55,17 +60,17 @@ if (el !== null) {
     .my-table {
         border-collapse: collapse;        
         border-color: lightgrey;
+        font-family: 'Helvetica Neue','Segoe UI',Helvetica,Arial,sans-serif;
         
     }
     .my-class {
         margin-top: 10px; 
-        font-size: 14px;       
+        font-size: 1.2rem;       
     }
     .my-table td {
         border: 1px solid black;
         padding: 8px 12px;
-        border-color: lightgrey; 
-        column-width: 85px;      
+        border-color: lightgrey;              
     }
     `;
     document.head.appendChild(styleElement);
@@ -135,12 +140,13 @@ if (el !== null) {
     } 
 
     document.getElementById('R26939838904143271_heading').textContent = final_session
-    document.getElementById('R26939838904143271_heading').style.fontFamily = "Georgia";
+    document.getElementById('R26939838904143271_heading').style.fontFamily = "'Helvetica Neue','Segoe UI',Helvetica,Arial,sans-serif";
     document.getElementById('R26939838904143271_heading').style.color = "#A020F0";
-    document.getElementById('R26939838904143271_heading').style.fontWeight = "600";
-    document.getElementById('R26939838904143271_heading').style.fontSize = "16px";
+    document.getElementById('R26939838904143271_heading').style.fontWeight = "700";
+    document.getElementById('R26939838904143271_heading').style.fontSize = "1.2rem";
     // document.getElementById('R26939838904143271_heading').style.textDecoration = "underline";
-    document.getElementById('R26939838904143271_heading').style.marginLeft = "45px";
+    document.getElementById('R26939838904143271_heading').style.marginLeft = "65px";
+    
     
     // Coloring Add Extra Lines
     var table = document.getElementsByClassName("t-Report-report")[2];
@@ -344,7 +350,7 @@ if (el !== null) {
             if (debt < 0) {                
                 var result = 0 - (0 - debt / total * 100)
                 required = Math.round(remaining_balance - (total / 2));
-                document.getElementById('R26939838904143271_heading').style.color = "#000000";
+                document.getElementById('R26939838904143271_heading').style.color = "#404040";
                 // document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
                 feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
                 tuitionFeeElement.textContent = Math.abs(Math.round(needed)).toLocaleString("en-US");
@@ -354,7 +360,7 @@ if (el !== null) {
             else {                
                 var result = 0;          
                 required = Math.round(remaining_balance - needed);
-                document.getElementById('R26939838904143271_heading').style.color = "#000000";
+                document.getElementById('R26939838904143271_heading').style.color = "#404040";
                 // document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed + debt)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
                 feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
                 tuitionFeeElement.textContent =Math.abs(Math.round(needed + debt)).toLocaleString("en-US");
@@ -363,7 +369,7 @@ if (el !== null) {
         }
         else if (result < 50){                                   
             required = Math.round(remaining_balance - (total / 2));
-            document.getElementById('R26939838904143271_heading').style.color = "#000000";
+            document.getElementById('R26939838904143271_heading').style.color = "#404040";
             // document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed + debt)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
             feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
             tuitionFeeElement.textContent =Math.abs(Math.round(needed + debt)).toLocaleString("en-US");
@@ -378,7 +384,7 @@ if (el !== null) {
                 if (t_fee_required < 0) {
                     t_fee_required = 0
                 }
-                document.getElementById('R26939838904143271_heading').style.color = "#000000";
+                document.getElementById('R26939838904143271_heading').style.color = "#404040";
                 // document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.round(t_fee_required).toLocaleString("en-US") + ")" + " - (For Mid: " + ((other_values_charged - other_values_paid) / 8).toLocaleString("en-US") + ")";
                 feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
                 tuitionFeeElement.textContent = Math.round(t_fee_required).toLocaleString("en-US");

@@ -67,6 +67,7 @@ if (el !== null) {
     }
     .my-class {
         margin-top: 10px; 
+        margin-bottom: 0px; 
         font-size: 1.2rem;       
     }
     .my-table td {

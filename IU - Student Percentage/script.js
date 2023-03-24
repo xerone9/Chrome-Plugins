@@ -13,23 +13,25 @@ if (el !== null) {
     tableElement.setAttribute('class', 'my-table'); // Add class to table element
 
     // Create first row
-    const rowOneElement = document.createElement('tr');
-    const cellOneElement = document.createElement('td');
-    cellOneElement.textContent = 'Fee Paid'; 
-    cellOneElement.style.columnWidth = "122px"   
-    const feePaidElement = document.createElement('td');
-    feePaidElement.textContent = '';
-    feePaidElement.style.columnWidth = "40px"   
-    feePaidElement.style.textAlign =  "end";    
-    rowOneElement.appendChild(cellOneElement);
-    rowOneElement.appendChild(feePaidElement);
+    // const rowOneElement = document.createElement('tr');
+    // const cellOneElement = document.createElement('td');
+    // cellOneElement.textContent = 'Fee Paid'; 
+    // cellOneElement.style.columnWidth = "122px"   
+    // const feePaidElement = document.createElement('td');
+    // feePaidElement.textContent = '';
+    // feePaidElement.style.columnWidth = "40px"   
+    // feePaidElement.style.textAlign =  "end";    
+    // rowOneElement.appendChild(cellOneElement);
+    // rowOneElement.appendChild(feePaidElement);
 
     // Create second row
     const rowTwoElement = document.createElement('tr');
     const cellThreeElement = document.createElement('td');
-    cellThreeElement.textContent = '50% Tui. Fee';    
+    cellThreeElement.textContent = '50% Tuition Fee'; 
+    cellThreeElement.style.columnWidth = "122px"      
     const tuitionFeeElement = document.createElement('td');
     tuitionFeeElement.textContent = '';
+    tuitionFeeElement.style.columnWidth = "40px" 
     tuitionFeeElement.style.textAlign =  "end";
     rowTwoElement.appendChild(cellThreeElement);
     rowTwoElement.appendChild(tuitionFeeElement);
@@ -45,7 +47,7 @@ if (el !== null) {
     rowThreeElement.appendChild(forMidElement);
 
     // Append all rows to table element
-    tableElement.appendChild(rowOneElement);
+    // tableElement.appendChild(rowOneElement);
     tableElement.appendChild(rowTwoElement);
     tableElement.appendChild(rowThreeElement);
 
@@ -137,15 +139,19 @@ if (el !== null) {
                   }                                          
             }             
         } 
-    } 
+    }
+    
+    if (final_session == "") {
+        final_session = "No Session"
+    }
 
-    document.getElementById('R26939838904143271_heading').textContent = final_session
+    // document.getElementById('R26939838904143271_heading').textContent = final_session
     document.getElementById('R26939838904143271_heading').style.fontFamily = "'Helvetica Neue','Segoe UI',Helvetica,Arial,sans-serif";
     document.getElementById('R26939838904143271_heading').style.color = "#A020F0";
     document.getElementById('R26939838904143271_heading').style.fontWeight = "700";
     document.getElementById('R26939838904143271_heading').style.fontSize = "1.2rem";
     // document.getElementById('R26939838904143271_heading').style.textDecoration = "underline";
-    document.getElementById('R26939838904143271_heading').style.marginLeft = "65px";
+    document.getElementById('R26939838904143271_heading').style.marginLeft = "52px";
     
     
     // Coloring Add Extra Lines
@@ -343,6 +349,7 @@ if (el !== null) {
     var required = 0;
     if (full_scholorship == true) {
         document.getElementById('R26939838904143271_heading').style.color = "#8F00FF";
+        document.getElementById('R26939838904143271_heading').style.marginLeft = "9px";
         document.getElementById('R26939838904143271_heading').textContent = "Full Scholorship" + " - (For Mid: " + (remaining_balance).toLocaleString("en-US") + ")";
     }
     else {  
@@ -352,7 +359,8 @@ if (el !== null) {
                 required = Math.round(remaining_balance - (total / 2));
                 document.getElementById('R26939838904143271_heading').style.color = "#404040";
                 // document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
-                feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
+                document.getElementById('R26939838904143271_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
+                // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
                 tuitionFeeElement.textContent = Math.abs(Math.round(needed)).toLocaleString("en-US");
                 forMidElement.textContent = required.toLocaleString("en-US");
                 
@@ -362,7 +370,8 @@ if (el !== null) {
                 required = Math.round(remaining_balance - needed);
                 document.getElementById('R26939838904143271_heading').style.color = "#404040";
                 // document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed + debt)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
-                feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
+                document.getElementById('R26939838904143271_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
+                // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
                 tuitionFeeElement.textContent =Math.abs(Math.round(needed + debt)).toLocaleString("en-US");
                 forMidElement.textContent = required.toLocaleString("en-US");
             }
@@ -371,7 +380,8 @@ if (el !== null) {
             required = Math.round(remaining_balance - (total / 2));
             document.getElementById('R26939838904143271_heading').style.color = "#404040";
             // document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed + debt)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
-            feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
+            document.getElementById('R26939838904143271_heading').textContent =  final_session +  "(" + Math.round(result).toLocaleString("en-US") + "%)"
+            // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
             tuitionFeeElement.textContent =Math.abs(Math.round(needed + debt)).toLocaleString("en-US");
             forMidElement.textContent = required.toLocaleString("en-US");
         }
@@ -386,14 +396,16 @@ if (el !== null) {
                 }
                 document.getElementById('R26939838904143271_heading').style.color = "#404040";
                 // document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.round(t_fee_required).toLocaleString("en-US") + ")" + " - (For Mid: " + ((other_values_charged - other_values_paid) / 8).toLocaleString("en-US") + ")";
-                feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
+                document.getElementById('R26939838904143271_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
+                // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
                 tuitionFeeElement.textContent = Math.round(t_fee_required).toLocaleString("en-US");
                 forMidElement.textContent = ((other_values_charged - other_values_paid) / 8).toLocaleString("en-US");
             }
             else {                                
                 document.getElementById('R26939838904143271_heading').style.color = "#0000ff";
                 // document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%";
-                feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
+                document.getElementById('R26939838904143271_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
+                // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
             }
         }
     }
@@ -469,6 +481,6 @@ Changelog 3.0:
 ``````````````
 
 Added Student Sessions on Screen (Like Fall-2021 etc.)
-Added Table
+Added Table (Fee Paid % row removed due to screen size shortage)
 
 */

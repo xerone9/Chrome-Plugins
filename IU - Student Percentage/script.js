@@ -332,9 +332,7 @@ if (el !== null) {
                 var result = 0 - (0 - debt / total * 100)
             }  
         }   
-    }
-
-    console.log(needed)
+    }   
     
     // const newDivElement = document.createElement('div');
     // newDivElement.setAttribute('class', 'my-class');

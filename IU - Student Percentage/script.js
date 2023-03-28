@@ -292,10 +292,10 @@ if (el !== null) {
     
     debt = 0
     if (advance_fee <= 0) { // check access amount is paid or previous balance             
-        if (total + advance_fee == 0) { // if 0 means no advance fee paid nor any previos balance
+        if (total - advance_fee == 0) { // if 0 means no advance fee paid nor any previos balance
             var needed = 0
         }
-        else {             
+        else {       
             debt = advance_fee // if advance fee is in neagtive means its a debt so adding that debt
             var needed = (total / 2) - debt;                                    
         }      
@@ -333,6 +333,8 @@ if (el !== null) {
             }  
         }   
     }
+
+    console.log(needed)
     
     // const newDivElement = document.createElement('div');
     // newDivElement.setAttribute('class', 'my-class');

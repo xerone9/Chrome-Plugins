@@ -1,10 +1,13 @@
 const el = document.getElementById('R312550953030404706_heading');
 
+function insertAfter(newNode, existingNode) {
+    existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
+}
+
 
 if (el !== null) {
-
-    // const oldDivElement = document.querySelector('.t-Region t-Region--removeHeader js-removeLandmark t-Region--scrollBody t-Form--large t-Form--stretchInputs t-Form--labelsAbove');
-    const oldDivElement = document.getElementById('report_table_R312550953030404706');
+    // const oldDivElement = document.querySelector('.t-Region-headerItems t-Region-headerItems--buttons');
+    const oldDivElement = document.getElementById('R312550953030404706_heading');
     const parentElement = oldDivElement.parentNode;
 
     const newDivElement = document.createElement('div');
@@ -30,10 +33,10 @@ if (el !== null) {
     const rowTwoElement = document.createElement('tr');
     const cellThreeElement = document.createElement('td');
     cellThreeElement.textContent = '50% Tuition Fee'; 
-    cellThreeElement.style.columnWidth = "155px"      
+    cellThreeElement.style.columnWidth = "132px"      
     const tuitionFeeElement = document.createElement('td');
     tuitionFeeElement.textContent = '';
-    tuitionFeeElement.style.columnWidth = "55px" 
+    tuitionFeeElement.style.columnWidth = "78px" 
     tuitionFeeElement.style.textAlign =  "end";
     rowTwoElement.appendChild(cellThreeElement);
     rowTwoElement.appendChild(tuitionFeeElement);
@@ -57,32 +60,46 @@ if (el !== null) {
 
     // Append table element to new div element
     newDivElement.appendChild(tableElement);
-    parentElement.insertBefore(newDivElement, oldDivElement.nextElementSibling,);
+    insertAfter(newDivElement, oldDivElement);
+    // parentElement.insertBefore(newDivElement, oldDivElement.nextElementSibling,);
 
     // CSS
     const styleElement = document.createElement('style');
     styleElement.textContent = `
     .my-table {
         border-collapse: collapse;        
-        border-color: #e6e6e6;
+        border-color: #262626;
         font-family: 'Helvetica Neue','Segoe UI',Helvetica,Arial,sans-serif;
+        font-weight: lighter;
         
     }
     .my-class {
         margin-top: 10px; 
         margin-bottom: 0px; 
-        margin-left: 10px;
-        font-size: 12px;       
+        margin-left: -10px;
+        font-size: 0.75rem;       
     }
     .my-table td {
         border: 1px solid black;
-        padding: 8px 2px;
+        padding: 8px 16px;
         border-color: #e6e6e6;              
     }
     `;
     document.head.appendChild(styleElement);
     
+    
 
+    document.querySelectorAll('.t-Region-headerItems.t-Region-headerItems--buttons').forEach(function(element) {
+        element.remove();
+    });
+    
+    document.querySelectorAll('.t-Region-headerItems--title').forEach(function(element) {
+        element.style.display = 'block';
+        element.style.marginRight = '-15px';
+    });
+
+    cellThreeElement.style.paddingLeft = '10px'
+    cellFiveElement.style.paddingLeft = '10px'
 
 
     final_session = "";
@@ -146,9 +163,7 @@ if (el !== null) {
                   }                                          
             }             
         } 
-    }
-
-    console.log(final_session)
+    }    
     
     if (final_session == "") {
         final_session = "No Session"
@@ -168,7 +183,7 @@ if (el !== null) {
     var table = document.getElementById("report_table_R312545805814404689");
     for (var i = 1, row; row = table.rows[i]; i++) {    
         for (var j = 1, col; col = row.cells[j]; j++) {
-            if (row.cells[1].innerHTML == "&nbsp;" && row.cells[2].innerHTML == "&nbsp;") {
+            if (row.cells[1].innerHTML == "" && row.cells[2].innerHTML == "") {
                 if (row.cells[3].innerHTML != "Package") {
                     row.cells[3].style.color = "brown";
                     row.cells[3].style.fontWeight = "750";
@@ -449,7 +464,7 @@ if (el !== null) {
     //             }
     //         }
     //     }
-    // }
+    // }    
 
 }
 

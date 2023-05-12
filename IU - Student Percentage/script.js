@@ -1,8 +1,10 @@
-const el = document.getElementById('R26939838904143271_heading');
+const el = document.getElementById('R312550953030404706_heading');
+
 
 if (el !== null) {
 
-    const oldDivElement = document.querySelector('.t-Region-title');
+    // const oldDivElement = document.querySelector('.t-Region t-Region--removeHeader js-removeLandmark t-Region--scrollBody t-Form--large t-Form--stretchInputs t-Form--labelsAbove');
+    const oldDivElement = document.getElementById('report_table_R312550953030404706');
     const parentElement = oldDivElement.parentNode;
 
     const newDivElement = document.createElement('div');
@@ -28,13 +30,14 @@ if (el !== null) {
     const rowTwoElement = document.createElement('tr');
     const cellThreeElement = document.createElement('td');
     cellThreeElement.textContent = '50% Tuition Fee'; 
-    cellThreeElement.style.columnWidth = "122px"      
+    cellThreeElement.style.columnWidth = "155px"      
     const tuitionFeeElement = document.createElement('td');
     tuitionFeeElement.textContent = '';
-    tuitionFeeElement.style.columnWidth = "40px" 
+    tuitionFeeElement.style.columnWidth = "55px" 
     tuitionFeeElement.style.textAlign =  "end";
     rowTwoElement.appendChild(cellThreeElement);
     rowTwoElement.appendChild(tuitionFeeElement);
+    tuitionFeeElement.textContent = "0";
 
     // Create third row
     const rowThreeElement = document.createElement('tr');
@@ -45,6 +48,7 @@ if (el !== null) {
     forMidElement.style.textAlign =  "end";
     rowThreeElement.appendChild(cellFiveElement);
     rowThreeElement.appendChild(forMidElement);
+    forMidElement.textContent = "0";
 
     // Append all rows to table element
     // tableElement.appendChild(rowOneElement);
@@ -53,27 +57,27 @@ if (el !== null) {
 
     // Append table element to new div element
     newDivElement.appendChild(tableElement);
-
-    parentElement.insertBefore(newDivElement, oldDivElement.nextElementSibling);
+    parentElement.insertBefore(newDivElement, oldDivElement.nextElementSibling,);
 
     // CSS
     const styleElement = document.createElement('style');
     styleElement.textContent = `
     .my-table {
         border-collapse: collapse;        
-        border-color: lightgrey;
+        border-color: #e6e6e6;
         font-family: 'Helvetica Neue','Segoe UI',Helvetica,Arial,sans-serif;
         
     }
     .my-class {
         margin-top: 10px; 
         margin-bottom: 0px; 
-        font-size: 1.2rem;       
+        margin-left: 10px;
+        font-size: 12px;       
     }
     .my-table td {
         border: 1px solid black;
-        padding: 8px 12px;
-        border-color: lightgrey;              
+        padding: 8px 2px;
+        border-color: #e6e6e6;              
     }
     `;
     document.head.appendChild(styleElement);
@@ -88,7 +92,8 @@ if (el !== null) {
     other_values_charged = 0;
     other_values_paid = 0;  
     temp = 0;
-    var table = document.getElementsByClassName("t-Report-report")[2];
+    // var table = document.getElementsByClassName("t-Report-report")[1];
+    var table = document.getElementById("report_table_R312545805814404689");
     var arr = new Array();
     for (var i = 1, row; row = table.rows[i]; i++) {    
         for (var j = 0, col; col = row.cells[j]; j++) {  
@@ -98,13 +103,14 @@ if (el !== null) {
             }
             else {
                 tuition_fee_charged.push(removing_comas/8)
-            }
-            if (row.cells[2].innerHTML == "<strong>&nbsp;</strong>" || row.cells[2].innerHTML == "&nbsp;") {                
+              
+            }                       
+            if (row.cells[2].innerHTML == "<strong></strong>" || row.cells[2].innerHTML == "&nbsp;" || row.cells[2].innerHTML == "") {                                      
             }            
             else{
                 final_session = row.cells[2].innerHTML;
             }
-            if (row.cells[7].innerHTML != "<strong>&nbsp;</strong>") {
+            if (row.cells[7].innerHTML != "<strong></strong>") {
                 removing_comas = row.cells[7].innerHTML.replace(",", "");
                 remaining_balance = parseInt(removing_comas);                                                     
             } 
@@ -124,7 +130,7 @@ if (el !== null) {
                     }                                            
                 }               
             } 
-            if (row.cells[4].innerHTML == "Tuition Fees" && row.cells[6].innerHTML != "<strong>&nbsp;</strong>" && row.cells[6].innerHTML != "&nbsp;" && row.cells[3].innerHTML != "&nbsp;") {
+            if (row.cells[4].innerHTML == "Tuition Fees" && row.cells[6].innerHTML != "<strong></strong>" && row.cells[6].innerHTML != "&nbsp;" && row.cells[3].innerHTML != "&nbsp;") {
                 posted_voucher_narration = row.cells[3].innerHTML;
                 try {
                     posted_voucher_number = posted_voucher_narration.match(/(\d+)/)[1]
@@ -141,22 +147,25 @@ if (el !== null) {
             }             
         } 
     }
+
+    console.log(final_session)
     
     if (final_session == "") {
         final_session = "No Session"
     }
 
-    // document.getElementById('R26939838904143271_heading').textContent = final_session
-    document.getElementById('R26939838904143271_heading').style.fontFamily = "'Helvetica Neue','Segoe UI',Helvetica,Arial,sans-serif";
-    document.getElementById('R26939838904143271_heading').style.color = "#A020F0";
-    document.getElementById('R26939838904143271_heading').style.fontWeight = "700";
-    document.getElementById('R26939838904143271_heading').style.fontSize = "1.2rem";
-    // document.getElementById('R26939838904143271_heading').style.textDecoration = "underline";
-    document.getElementById('R26939838904143271_heading').style.marginLeft = "52px";
+    // document.getElementById('R312550953030404706_heading').textContent = final_session
+    document.getElementById('R312550953030404706_heading').style.fontFamily = "'Helvetica Neue','Segoe UI',Helvetica,Arial,sans-serif";
+    document.getElementById('R312550953030404706_heading').style.color = "#A020F0";
+    document.getElementById('R312550953030404706_heading').style.fontWeight = "700";
+    document.getElementById('R312550953030404706_heading').style.fontSize = "inherit";
+    // document.getElementById('R312550953030404706_heading').style.textDecoration = "underline";
+    document.getElementById('R312550953030404706_heading').style.marginLeft = "45px";
     
     
     // Coloring Add Extra Lines
-    var table = document.getElementsByClassName("t-Report-report")[2];
+    // var table = document.getElementsByClassName("t-Report-report")[2];
+    var table = document.getElementById("report_table_R312545805814404689");
     for (var i = 1, row; row = table.rows[i]; i++) {    
         for (var j = 1, col; col = row.cells[j]; j++) {
             if (row.cells[1].innerHTML == "&nbsp;" && row.cells[2].innerHTML == "&nbsp;") {
@@ -175,7 +184,8 @@ if (el !== null) {
     paid = 0;
     advance_fee = 0;
     
-    var table = document.getElementsByClassName("t-Report-report")[2];
+    // var table = document.getElementsByClassName("t-Report-report")[2];
+    var table = document.getElementById("report_table_R312545805814404689");
     for (var i = 1, row; row = table.rows[i]; i++) {    
         for (var j = 0, col; col = row.cells[j]; j++) {
             if (row.cells[2].innerHTML != final_session) {
@@ -282,7 +292,7 @@ if (el !== null) {
     
     degree_provisional_cms = degree_provisional_cms_charged - degree_provisional_cms_paid
     
-    document.getElementById('R26939838904143271_heading').style.color = "#800080";
+    document.getElementById('R312550953030404706_heading').style.color = "#800080";
     
 
     // if (scholorship < 0) {
@@ -348,30 +358,30 @@ if (el !== null) {
 
 
     var required = 0;
-    if (full_scholorship == true) {
-        document.getElementById('R26939838904143271_heading').style.color = "#8F00FF";
-        document.getElementById('R26939838904143271_heading').style.marginLeft = "9px";
-        document.getElementById('R26939838904143271_heading').textContent = "Full Scholorship" + " - (For Mid: " + (remaining_balance).toLocaleString("en-US") + ")";
+    if (full_scholorship == true) {        
+        document.getElementById('R312550953030404706_heading').style.color = "#8F00FF";
+        document.getElementById('R312550953030404706_heading').style.marginLeft = "9px";
+        document.getElementById('R312550953030404706_heading').textContent = "Full Scholorship" + " - (For Mid: " + (remaining_balance).toLocaleString("en-US") + ")";
     }
     else {  
         if (result < 0){
-            if (debt < 0) {                
+            if (debt < 0) {               
                 var result = 0 - (0 - debt / total * 100)
                 required = Math.round(remaining_balance - (total / 2));
-                document.getElementById('R26939838904143271_heading').style.color = "#404040";
-                // document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
-                document.getElementById('R26939838904143271_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
+                document.getElementById('R312550953030404706_heading').style.color = "#FF0000";
+                // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
+                document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
                 // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
                 tuitionFeeElement.textContent = Math.abs(Math.round(needed)).toLocaleString("en-US");
                 forMidElement.textContent = required.toLocaleString("en-US");
                 
             }
-            else {                
+            else {           
                 var result = 0;          
                 required = Math.round(remaining_balance - needed);
-                document.getElementById('R26939838904143271_heading').style.color = "#404040";
-                // document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed + debt)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
-                document.getElementById('R26939838904143271_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
+                document.getElementById('R312550953030404706_heading').style.color = "#404040";
+                // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed + debt)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
+                document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
                 // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
                 tuitionFeeElement.textContent =Math.abs(Math.round(needed + debt)).toLocaleString("en-US");
                 forMidElement.textContent = required.toLocaleString("en-US");
@@ -379,9 +389,9 @@ if (el !== null) {
         }
         else if (result < 50){                                   
             required = Math.round(remaining_balance - (total / 2));
-            document.getElementById('R26939838904143271_heading').style.color = "#404040";
-            // document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed + debt)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
-            document.getElementById('R26939838904143271_heading').textContent =  final_session +  "(" + Math.round(result).toLocaleString("en-US") + "%)"
+            document.getElementById('R312550953030404706_heading').style.color = "#404040";
+            // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed + debt)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
+            document.getElementById('R312550953030404706_heading').textContent =  final_session +  " (" + Math.round(result).toLocaleString("en-US") + "%)"
             // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
             tuitionFeeElement.textContent =Math.abs(Math.round(needed + debt)).toLocaleString("en-US");
             forMidElement.textContent = required.toLocaleString("en-US");
@@ -394,18 +404,18 @@ if (el !== null) {
                 t_fee_required = needed + debt
                 if (t_fee_required < 0) {
                     t_fee_required = 0
-                }
-                document.getElementById('R26939838904143271_heading').style.color = "#404040";
-                // document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.round(t_fee_required).toLocaleString("en-US") + ")" + " - (For Mid: " + ((other_values_charged - other_values_paid) / 8).toLocaleString("en-US") + ")";
-                document.getElementById('R26939838904143271_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
+                }                
+                document.getElementById('R312550953030404706_heading').style.color = "#404040";
+                // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.round(t_fee_required).toLocaleString("en-US") + ")" + " - (For Mid: " + ((other_values_charged - other_values_paid) / 8).toLocaleString("en-US") + ")";
+                document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
                 // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
                 tuitionFeeElement.textContent = Math.round(t_fee_required).toLocaleString("en-US");
                 forMidElement.textContent = ((other_values_charged - other_values_paid) / 8).toLocaleString("en-US");
             }
-            else {                                
-                document.getElementById('R26939838904143271_heading').style.color = "#0000ff";
-                // document.getElementById('R26939838904143271_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%";
-                document.getElementById('R26939838904143271_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
+            else {                                              
+                document.getElementById('R312550953030404706_heading').style.color = "#0000ff";
+                // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%";
+                document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
                 // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
             }
         }
@@ -424,22 +434,22 @@ if (el !== null) {
         }        
     }
 
-    var table = document.getElementsByClassName("t-Report-report")[4];
-    for (var i = 1, row; row = table.rows[i]; i++) {    
-        for (var j = 0, col; col = row.cells[j]; j++) {
-            if (row.cells[j].tagName == "TD") {
-                var work = row.cells[j].innerHTML;
-                if (row.cells[j].innerHTML.includes("a href")) {
-                    var myArray = row.cells[j].innerHTML.split(">");
-                    var secondArray = myArray[1].split("<");
-                    var voucher_number = secondArray[0]
-                    if (posted_voucher.includes(voucher_number)) {
-                        row.cells[j].insertAdjacentText('beforebegin', ' (Posted)');
-                    }
-                }
-            }
-        }
-    }
+    // var table = document.getElementsByClassName("t-Report-report")[4];
+    // for (var i = 1, row; row = table.rows[i]; i++) {    
+    //     for (var j = 0, col; col = row.cells[j]; j++) {
+    //         if (row.cells[j].tagName == "TD") {
+    //             var work = row.cells[j].innerHTML;
+    //             if (row.cells[j].innerHTML.includes("a href")) {
+    //                 var myArray = row.cells[j].innerHTML.split(">");
+    //                 var secondArray = myArray[1].split("<");
+    //                 var voucher_number = secondArray[0]
+    //                 if (posted_voucher.includes(voucher_number)) {
+    //                     row.cells[j].insertAdjacentText('beforebegin', ' (Posted)');
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
 }
 
@@ -483,5 +493,19 @@ Changelog 3.0:
 
 Added Student Sessions on Screen (Like Fall-2021 etc.)
 Added Table (Fee Paid % row removed due to screen size shortage)
+
+Changelog 3.1:
+``````````````
+
+By Defaul the table is showing Blank Values. Set them to 0
+If balance is below 0. The Heading turns into red
+Old meta was accidently turned on showing (posted) before voucher number. Turned Off Again
+
+Changelog 3.2:
+``````````````
+
+due to oracle update all element refernce ids were chnaged
+fixed ids
+fixed styling
 
 */

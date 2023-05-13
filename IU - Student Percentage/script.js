@@ -122,7 +122,7 @@ if (el !== null) {
                 tuition_fee_charged.push(removing_comas/8)
               
             }                       
-            if (row.cells[2].innerHTML == "<strong></strong>" || row.cells[2].innerHTML == "&nbsp;" || row.cells[2].innerHTML == "") {                                      
+            if (row.cells[2].innerHTML == "<strong></strong>" || row.cells[2].innerHTML == "" || row.cells[2].innerHTML == "") {                                      
             }            
             else{
                 final_session = row.cells[2].innerHTML;
@@ -132,14 +132,14 @@ if (el !== null) {
                 remaining_balance = parseInt(removing_comas);                                                     
             } 
             if (row.cells[4].innerHTML != "Tuition Fees" && row.cells[4].innerHTML != "Degree Fees" && row.cells[4].innerHTML != "CMS Fees" && row.cells[4].innerHTML != "Provisional Certificate Fee") {
-                if (row.cells[5].innerHTML != "&nbsp;") {                                          
+                if (row.cells[5].innerHTML != "") {                                          
                     removing_comas = row.cells[5].innerHTML.replace(",", "");
                     temp = parseInt(removing_comas); 
                     if (Number.isInteger(temp)) {                                                
                         other_values_charged += temp                        
                     }                                            
                 } 
-                if (row.cells[6].innerHTML != "&nbsp;") {                       
+                if (row.cells[6].innerHTML != "") {                       
                     removing_comas = row.cells[6].innerHTML.replace(",", "");
                     temp = parseInt(removing_comas); 
                     if (Number.isInteger(temp)) {
@@ -147,7 +147,7 @@ if (el !== null) {
                     }                                            
                 }               
             } 
-            if (row.cells[4].innerHTML == "Tuition Fees" && row.cells[6].innerHTML != "<strong></strong>" && row.cells[6].innerHTML != "&nbsp;" && row.cells[3].innerHTML != "&nbsp;") {
+            if (row.cells[4].innerHTML == "Tuition Fees" && row.cells[6].innerHTML != "<strong></strong>" && row.cells[6].innerHTML != "" && row.cells[3].innerHTML != "") {
                 posted_voucher_narration = row.cells[3].innerHTML;
                 try {
                     posted_voucher_number = posted_voucher_narration.match(/(\d+)/)[1]
@@ -168,6 +168,7 @@ if (el !== null) {
     if (final_session == "") {
         final_session = "No Session"
     }
+    
 
     // document.getElementById('R312550953030404706_heading').textContent = final_session
     document.getElementById('R312550953030404706_heading').style.fontFamily = "'Helvetica Neue','Segoe UI',Helvetica,Arial,sans-serif";
@@ -202,15 +203,15 @@ if (el !== null) {
     // var table = document.getElementsByClassName("t-Report-report")[2];
     var table = document.getElementById("report_table_R312545805814404689");
     for (var i = 1, row; row = table.rows[i]; i++) {    
-        for (var j = 0, col; col = row.cells[j]; j++) {
+        for (var j = 0, col; col = row.cells[j]; j++) {             
             if (row.cells[2].innerHTML != final_session) {
                 if (row.cells[4].innerHTML == "Tuition Fees"){
-                    value = row.cells[3].innerHTML;                                 
-                    if (row.cells[5].innerHTML != "&nbsp;") {
-                        removing_comas = row.cells[5].innerHTML.replace(",", "");                        
+                    value = row.cells[3].innerHTML;                                                    
+                    if (row.cells[5].innerHTML != "") {
+                        removing_comas = row.cells[5].innerHTML.replace(",", ""); 
                         charged += parseInt(removing_comas);                        
                     }
-                    if (row.cells[6].innerHTML != "&nbsp;") {
+                    if (row.cells[6].innerHTML != "") {
                         removing_comas = row.cells[6].innerHTML.replace(",", "");                    
                         paid += parseInt(removing_comas);                       
                     }                    
@@ -291,12 +292,12 @@ if (el !== null) {
     for (var i = 1, row; row = table.rows[i]; i++) {    
         for (var j = 0, col; col = row.cells[j]; j++) {            
             if (row.cells[4].innerHTML == "Degree Fees" || row.cells[4].innerHTML == "CMS Fees" || row.cells[4].innerHTML == "Provisional Certificate Fee") {                              
-                if (row.cells[5].innerHTML != "&nbsp;") {                    
+                if (row.cells[5].innerHTML != "") {                    
                     removing_comas = row.cells[5].innerHTML.replace(",", "");
                     value = parseInt(removing_comas);
                     degree_provisional_cms_charged += value;
                 }
-                if (row.cells[6].innerHTML != "&nbsp;") {                    
+                if (row.cells[6].innerHTML != "") {                    
                     removing_comas = row.cells[6].innerHTML.replace(",", "");
                     value = parseInt(removing_comas);
                     degree_provisional_cms_paid += value;
@@ -347,7 +348,7 @@ if (el !== null) {
     
     else {  
         if (remaining_balance < total) {  // student has no previos balance. Shows percentage in positive value or 0                          
-            var result = 100 - (remaining_balance / total * 100)  
+            var result = 100 - (remaining_balance / total * 100) 
         } 
         else { // previous balance means a negative percentage will be shown on screen 
             if (debt == 0 && total == 0) {
@@ -368,9 +369,7 @@ if (el !== null) {
     // const parentElement = oldDivElement.parentNode;
     // parentElement.insertBefore(newDivElement, oldDivElement);
 
-
-
-
+    
 
     var required = 0;
     if (full_scholorship == true) {        
@@ -402,7 +401,7 @@ if (el !== null) {
                 forMidElement.textContent = required.toLocaleString("en-US");
             }
         }
-        else if (result < 50){                                   
+        else if (result < 50){                     
             required = Math.round(remaining_balance - (total / 2));
             document.getElementById('R312550953030404706_heading').style.color = "#404040";
             // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed + debt)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";

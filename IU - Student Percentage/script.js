@@ -535,11 +535,13 @@ if (auto_print_voucher) {
             const value = textField.value;
             const studentId = value;
             const voucherNo = print_voucher.innerHTML;
+            console.log(studentId)
+            console.log(voucherNo)
 
             // Replace student_id and voucher_no values in the URL
             const updatedUrl = url.replace(/v_student_id=[^&]+/, `v_student_id=${studentId}`).replace(/v_voucher_no=[^&]+/, `v_voucher_no=${voucherNo}`);
 
-            window.open('http://faculty.induscms.com:8889/reports/rwservlet?login1&destype=CACHE&desformat=PDF&report=D:/EMIS_Prg/Reports/Accounts/Accounts_710_Student_Bank_Pay_slip.rep&vtvidvu=04571D2ACAF1B26C4ACD0C47CAFFD6F2F9A66742C1005DEF0C475001BE4D7C80&v_student_id=497-2021&v_voucher_no=1386123', '_blank', 'noopener');
+            window.open(updatedUrl, '_blank', 'noopener');
             break;
         }
         }
@@ -602,5 +604,16 @@ Changelog 3.2:
 due to oracle update all element refernce ids were chnaged
 fixed ids
 fixed styling
+
+Changelog 4.0:
+``````````````
+
+Requirement: Auto open pending voucher if not expired in the next tab and retain focus on the active tab
+
+due to oracle or chrome restriction whenever I press a tag link via plugin it gives error "Voilation of Content Security Policy Directive"
+used multiple approaches but no use
+Unfortunately Now I have to supply web address with hash so that it can be reconstructed and open the voucher in new tab if available
+for this reason those who wants to use this functionality manual installation of plugin will be done there on that platform
+Need to load service worker to force browser to retain focus on active tab dont get to new tab after clicking 
 
 */

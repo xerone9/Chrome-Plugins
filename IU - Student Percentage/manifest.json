@@ -4,6 +4,7 @@
     "description": "How much fee the student has paid in percentage and also tells how much minimum fee is required to sit in Mid-Term Examination",
     "version": "4.0",    
     "permissions": [
+        "storage",
         "tabs"
     ],
     "background": {

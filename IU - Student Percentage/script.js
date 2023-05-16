@@ -1,15 +1,26 @@
 const el = document.getElementById('R312550953030404706_heading');
 const url = 'http://faculty.induscms.com:8889/reports/rwservlet?login1&destype=CACHE&desformat=PDF&report=D:/EMIS_Prg/Reports/Accounts/Accounts_710_Student_Bank_Pay_slip.rep&vtvidvu=04571D2ACAF1B26C4ACD0C47CAFFD6F2F9A66742C1005DEF0C475001BE4D7C80&v_student_id=497-2021&v_voucher_no=1386123';
-let auto_print_voucher = false;
+let auto_print_voucher = true;
 
-chrome.runtime.sendMessage({ myBoolean: auto_print_voucher });
+
+
+
+// chrome.runtime.sendMessage({ myBoolean: auto_print_voucher });
 
 function insertAfter(newNode, existingNode) {
     existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
 }
 
+let check_student_id_change = false;
 
-if (el !== null) { 
+
+if (el !== null) {
+
+
+  
+
+  const valueOnPage = document.getElementById('P0_V_DIRECT_STUDENT_ID').value;
+
     // const oldDivElement = document.querySelector('.t-Region-headerItems t-Region-headerItems--buttons');
     const oldDivElement = document.getElementById('R312550953030404706_heading');
     const parentElement = oldDivElement.parentNode;
@@ -473,7 +484,26 @@ if (el !== null) {
 
 // Very unstable below... Will auto open screen for pending vouchers
 
-if (auto_print_voucher) {
+const element = document.getElementById('P0_V_DIRECT_STUDENT_ID');
+const valueToStore = element.value;
+
+chrome.runtime.sendMessage({ type: 'storeValue', value: valueToStore }, (response) => {
+    if (response && response.success) {
+    //   console.log('Value stored successfully:', valueToStore);
+    } else {
+    //   console.log('Failed to store the value:', valueToStore);
+    }
+  });
+
+chrome.storage.local.get('storedValue', (result) => {
+const storedValue = result.storedValue;    
+    
+    // Compare the stored value with the current value
+    if (storedValue === valueToStore) {
+    //   console.log('Value matched:', storedValue);
+      auto_print_voucher = false;
+    } else {
+    //   console.log('Value not matched:', storedValue);
     const div = document.getElementById('report_table_R312567687309404769');
     const tdElements = div.getElementsByTagName('td');
     let foundAnchor = false;
@@ -534,9 +564,7 @@ if (auto_print_voucher) {
             const textField = document.getElementById('P0_V_DIRECT_STUDENT_ID');
             const value = textField.value;
             const studentId = value;
-            const voucherNo = print_voucher.innerHTML;
-            console.log(studentId)
-            console.log(voucherNo)
+            const voucherNo = print_voucher.innerHTML;            
 
             // Replace student_id and voucher_no values in the URL
             const updatedUrl = url.replace(/v_student_id=[^&]+/, `v_student_id=${studentId}`).replace(/v_voucher_no=[^&]+/, `v_voucher_no=${voucherNo}`);
@@ -546,7 +574,9 @@ if (auto_print_voucher) {
         }
         }
     }
-}
+    }
+  });
+
 
 
 // window.open('http://faculty.induscms.com:8889/reports/rwservlet?login1&destype=CACHE&desformat=PDF&report=D:/EMIS_Prg/Reports/Accounts/Accounts_710_Student_Bank_Pay_slip.rep&vtvidvu=04571D2ACAF1B26C4ACD0C47CAFFD6F2F9A66742C1005DEF0C475001BE4D7C80&v_student_id=497-2021&v_voucher_no=1386123');   

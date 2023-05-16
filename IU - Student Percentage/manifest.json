@@ -2,14 +2,21 @@
     "manifest_version": 3,
     "name": "IU - Student Fee Percentage",
     "description": "How much fee the student has paid in percentage and also tells how much minimum fee is required to sit in Mid-Term Examination",
-    "version": "3.1",    
+    "version": "4.0",    
+    "permissions": [
+        "tabs"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },     
     "icons": {
         "128": "logo.png"
-    },    
+    }, 
     "content_scripts": [
         {
             "matches": ["http://172.16.0.6:81/ords/*", "http://faculty.induscms.com:81/ords/*", "http://local.induscms.com:81/ords/*"],            
-            "js": ["script.js"]            
+            "js": ["script.js"]             
         }
     ]
+     
 }

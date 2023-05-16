@@ -1,11 +1,15 @@
 const el = document.getElementById('R312550953030404706_heading');
+const url = 'http://faculty.induscms.com:8889/reports/rwservlet?login1&destype=CACHE&desformat=PDF&report=D:/EMIS_Prg/Reports/Accounts/Accounts_710_Student_Bank_Pay_slip.rep&vtvidvu=04571D2ACAF1B26C4ACD0C47CAFFD6F2F9A66742C1005DEF0C475001BE4D7C80&v_student_id=497-2021&v_voucher_no=1386123';
+let auto_print_voucher = false;
+
+chrome.runtime.sendMessage({ myBoolean: auto_print_voucher });
 
 function insertAfter(newNode, existingNode) {
     existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
 }
 
 
-if (el !== null) {
+if (el !== null) { 
     // const oldDivElement = document.querySelector('.t-Region-headerItems t-Region-headerItems--buttons');
     const oldDivElement = document.getElementById('R312550953030404706_heading');
     const parentElement = oldDivElement.parentNode;
@@ -467,6 +471,83 @@ if (el !== null) {
 
 }
 
+// Very unstable below... Will auto open screen for pending vouchers
+
+if (auto_print_voucher) {
+    const div = document.getElementById('report_table_R312567687309404769');
+    const tdElements = div.getElementsByTagName('td');
+    let foundAnchor = false;
+    const vouchers = {};
+    let scount = 0;
+    let voucher_found = false;
+
+    for (let i = 0; i < tdElements.length; i++) {
+    const tdElement = tdElements[i];
+    const anchorElement = tdElement.querySelector('a');
+
+    if (anchorElement) {
+        if (foundAnchor) {
+        scount = i; 
+        }
+
+        const voucher_status = tdElements[scount + 3].innerHTML;
+        const voucher_expiry = tdElements[scount + 7].innerHTML;
+        const key = anchorElement.innerHTML;
+        const valueToAppend = [voucher_expiry, voucher_status];
+
+        if (!vouchers.hasOwnProperty(key)) {
+        vouchers[key] = valueToAppend;
+        }
+
+        foundAnchor = true;
+    }
+    }
+
+
+    const currentDate = new Date();
+    get_voucher = '';
+
+    for (const key in vouchers) {
+    const voucherDate = new Date(vouchers[key][0]);
+    if (voucherDate >= currentDate) {
+        get_voucher = key;
+        voucher_found = true;
+        break;
+    }
+        else {
+            
+        }
+    }
+
+    if (voucher_found) {
+        const div2 = document.getElementById('report_table_R312567687309404769');
+        const anchorElements = div2.getElementsByTagName('a');
+        const searchNumber = get_voucher;
+        
+
+        for (let i = 0; i < anchorElements.length; i++) {
+        const anchorElement = anchorElements[i];
+
+        if (anchorElement.innerHTML === searchNumber) {
+            const print_voucher = anchorElement;        
+            // print_voucher.click(); // voilates policy
+            const textField = document.getElementById('P0_V_DIRECT_STUDENT_ID');
+            const value = textField.value;
+            const studentId = value;
+            const voucherNo = print_voucher.innerHTML;
+
+            // Replace student_id and voucher_no values in the URL
+            const updatedUrl = url.replace(/v_student_id=[^&]+/, `v_student_id=${studentId}`).replace(/v_voucher_no=[^&]+/, `v_voucher_no=${voucherNo}`);
+
+            window.open('http://faculty.induscms.com:8889/reports/rwservlet?login1&destype=CACHE&desformat=PDF&report=D:/EMIS_Prg/Reports/Accounts/Accounts_710_Student_Bank_Pay_slip.rep&vtvidvu=04571D2ACAF1B26C4ACD0C47CAFFD6F2F9A66742C1005DEF0C475001BE4D7C80&v_student_id=497-2021&v_voucher_no=1386123', '_blank', 'noopener');
+            break;
+        }
+        }
+    }
+}
+
+
+// window.open('http://faculty.induscms.com:8889/reports/rwservlet?login1&destype=CACHE&desformat=PDF&report=D:/EMIS_Prg/Reports/Accounts/Accounts_710_Student_Bank_Pay_slip.rep&vtvidvu=04571D2ACAF1B26C4ACD0C47CAFFD6F2F9A66742C1005DEF0C475001BE4D7C80&v_student_id=497-2021&v_voucher_no=1386123');   
 /*
 
 Changelog 1.1:

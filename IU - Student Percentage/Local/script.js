@@ -527,7 +527,8 @@ const storedValue = result.storedValue;
 
     for (const key in vouchers) {
     const voucherDate = new Date(vouchers[key][0]);
-    if (voucherDate >= currentDate) {
+    const get_voucher_status = vouchers[key][1]
+    if (voucherDate >= currentDate && get_voucher_status == "Pending") {
         get_voucher = key;
         voucher_found = true;
         break;

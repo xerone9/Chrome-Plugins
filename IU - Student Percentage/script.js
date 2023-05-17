@@ -1,25 +1,13 @@
 const el = document.getElementById('R312550953030404706_heading');
-const url = 'http://faculty.induscms.com:8889/reports/rwservlet?login1&destype=CACHE&desformat=PDF&report=D:/EMIS_Prg/Reports/Accounts/Accounts_710_Student_Bank_Pay_slip.rep&vtvidvu=04571D2ACAF1B26C4ACD0C47CAFFD6F2F9A66742C1005DEF0C475001BE4D7C80&v_student_id=497-2021&v_voucher_no=1386123';
+const url = 'http://faculty.induscms.com:8889/reports/rwservlet?login1&destype=CACHE&desformat=PDF&report=D:/EMIS_Prg/Reports/Accounts/Accounts_710_Student_Bank_Pay_slip.rep&vtvidvu=2AD2FD1970CB8490FFE206DB707291700B741E071F5BAF0633F6D5AC53DBEECE&v_student_id=3447-2016&v_voucher_no=170423';
 let auto_print_voucher = true;
 
-
-
-
-// chrome.runtime.sendMessage({ myBoolean: auto_print_voucher });
 
 function insertAfter(newNode, existingNode) {
     existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
 }
 
-let check_student_id_change = false;
-
-
-if (el !== null) {
-
-
-  
-
-  const valueOnPage = document.getElementById('P0_V_DIRECT_STUDENT_ID').value;
+if (el !== null) { 
 
     // const oldDivElement = document.querySelector('.t-Region-headerItems t-Region-headerItems--buttons');
     const oldDivElement = document.getElementById('R312550953030404706_heading');
@@ -487,7 +475,7 @@ if (el !== null) {
 const element = document.getElementById('P0_V_DIRECT_STUDENT_ID');
 const valueToStore = element.value;
 
-chrome.runtime.sendMessage({ type: 'storeValue', value: valueToStore }, (response) => {
+chrome.runtime.sendMessage({ type: 'storeValue', value: valueToStore, status: auto_print_voucher}, (response) => {
     if (response && response.success) {
     //   console.log('Value stored successfully:', valueToStore);
     } else {

@@ -5,7 +5,8 @@
     "version": "4.0",    
     "permissions": [
         "storage",
-        "tabs"
+        "tabs",
+        "scripting"
     ],
     "background": {
         "service_worker": "background.js"
@@ -18,6 +19,10 @@
             "matches": ["http://172.16.0.6:81/ords/*", "http://faculty.induscms.com:81/ords/*", "http://local.induscms.com:81/ords/*"],            
             "js": ["script.js"]             
         }
-    ]
+    ],
+    "action": {
+        "default_title": "Print"
+    }
+    
      
 }

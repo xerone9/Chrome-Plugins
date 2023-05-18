@@ -6,7 +6,8 @@
     "permissions": [
         "storage",
         "tabs",
-        "scripting"
+        "scripting",
+        "commands"
     ],
     "background": {
         "service_worker": "background.js"
@@ -16,10 +17,20 @@
     }, 
     "content_scripts": [
         {
-            "matches": ["http://172.16.0.6:81/ords/*", "http://faculty.induscms.com:81/ords/*", "http://local.induscms.com:81/ords/*"],            
+            "matches": ["http://172.16.0.6:81/ords/*", "http://faculty.induscms.com:81/ords/*", "http://local.induscms.com:81/ords/*", "http://faculty.induscms.com:8889/reports/*"],            
             "js": ["script.js"]             
         }
-    ]
+    ],
+    "commands": {
+      "go-to-first-tab": {
+        "suggested_key": {
+          "default": "Ctrl+Shift+Z",
+          "mac": "Ctrl+Shift+Z"
+        },
+        "description": "Go to the first tab"
+      }
+    }
     
      
 }
+

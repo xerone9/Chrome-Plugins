@@ -1,5 +1,5 @@
 const el = document.getElementById('R312550953030404706_heading');
-const url = 'http://faculty.induscms.com:8889/reports/rwservlet?login1&destype=CACHE&desformat=PDF&report=D:/EMIS_Prg/Reports/Accounts/Accounts_710_Student_Bank_Pay_slip.rep&vtvidvu=2AD2FD1970CB8490FFE206DB707291700B741E071F5BAF0633F6D5AC53DBEECE&v_student_id=3447-2016&v_voucher_no=170423';
+const url = 'http://faculty.induscms.com:8889/reports/rwservlet?login1&destype=CACHE&desformat=PDF&report=D:/EMIS_Prg/Reports/Accounts/Accounts_710_Student_Bank_Pay_slip.rep&vtvidvu=01091DA6BED9E4BF50AE58668B9D05CF01BFDADE75535441BAE0765D69314945&v_student_id=647-2022&v_voucher_no=1214123';
 let auto_print_voucher = true;
 
 
@@ -7,7 +7,32 @@ function insertAfter(newNode, existingNode) {
     existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
 }
 
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    if (message.action === 'focusElement') {
+      const element = document.getElementById(message.elementId);
+      if (element) {
+        element.focus();
+      }
+    }
+  });
+  
+  
+
 if (el !== null) { 
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Control' && event.location === KeyboardEvent.DOM_KEY_LOCATION_LEFT) {
+          event.preventDefault(); // Prevent default tab behavior
+          
+          // Perform your custom logic to determine the element to focus
+          var targetElement = document.getElementById('P3310_RFID');
+          
+          if (targetElement) {
+            targetElement.focus();
+          }
+        }
+      });
+      
 
     // const oldDivElement = document.querySelector('.t-Region-headerItems t-Region-headerItems--buttons');
     const oldDivElement = document.getElementById('R312550953030404706_heading');
@@ -473,98 +498,106 @@ if (el !== null) {
 // Very unstable below... Will auto open screen for pending vouchers
 
 const element = document.getElementById('P0_V_DIRECT_STUDENT_ID');
-const valueToStore = element.value;
 
-chrome.runtime.sendMessage({ type: 'storeValue', value: valueToStore, status: auto_print_voucher}, (response) => {
-    if (response && response.success) {
-    //   console.log('Value stored successfully:', valueToStore);
-    } else {
-    //   console.log('Failed to store the value:', valueToStore);
-    }
-  });
-
-chrome.storage.local.get('storedValue', (result) => {
-const storedValue = result.storedValue;    
+try {
+    const valueToStore = element.value;
+    chrome.runtime.sendMessage({ type: 'storeValue', value: valueToStore, status: auto_print_voucher}, (response) => {
+        if (response && response.success) {
+        //   console.log('Value stored successfully:', valueToStore);
+        } else {
+        //   console.log('Failed to store the value:', valueToStore);
+        }
+      });
     
-    // Compare the stored value with the current value
-    if (storedValue === valueToStore) {
-    //   console.log('Value matched:', storedValue);
-      auto_print_voucher = false;
-    } else {
-    //   console.log('Value not matched:', storedValue);
-    const div = document.getElementById('report_table_R312567687309404769');
-    const tdElements = div.getElementsByTagName('td');
-    let foundAnchor = false;
-    const vouchers = {};
-    let scount = 0;
-    let voucher_found = false;
-
-    for (let i = 0; i < tdElements.length; i++) {
-    const tdElement = tdElements[i];
-    const anchorElement = tdElement.querySelector('a');
-
-    if (anchorElement) {
-        if (foundAnchor) {
-        scount = i; 
-        }
-
-        const voucher_status = tdElements[scount + 3].innerHTML;
-        const voucher_expiry = tdElements[scount + 7].innerHTML;
-        const key = anchorElement.innerHTML;
-        const valueToAppend = [voucher_expiry, voucher_status];
-
-        if (!vouchers.hasOwnProperty(key)) {
-        vouchers[key] = valueToAppend;
-        }
-
-        foundAnchor = true;
-    }
-    }
-
-
-    const currentDate = new Date();
-    get_voucher = '';
-
-    for (const key in vouchers) {
-    const voucherDate = new Date(vouchers[key][0]);
-    const get_voucher_status = vouchers[key][1]
-    if (voucherDate >= currentDate && get_voucher_status == "Pending") {
-        get_voucher = key;
-        voucher_found = true;
-        break;
-    }
-        else {
-            
-        }
-    }
-
-    if (voucher_found) {
-        const div2 = document.getElementById('report_table_R312567687309404769');
-        const anchorElements = div2.getElementsByTagName('a');
-        const searchNumber = get_voucher;
+    chrome.storage.local.get('storedValue', (result) => {
+    const storedValue = result.storedValue;    
         
-
-        for (let i = 0; i < anchorElements.length; i++) {
-        const anchorElement = anchorElements[i];
-
-        if (anchorElement.innerHTML === searchNumber) {
-            const print_voucher = anchorElement;        
-            // print_voucher.click(); // voilates policy
-            const textField = document.getElementById('P0_V_DIRECT_STUDENT_ID');
-            const value = textField.value;
-            const studentId = value;
-            const voucherNo = print_voucher.innerHTML;            
-
-            // Replace student_id and voucher_no values in the URL
-            const updatedUrl = url.replace(/v_student_id=[^&]+/, `v_student_id=${studentId}`).replace(/v_voucher_no=[^&]+/, `v_voucher_no=${voucherNo}`);
-
-            window.open(updatedUrl, '_blank', 'noopener');
+        // Compare the stored value with the current value
+        if (storedValue === valueToStore) {
+        //   console.log('Value matched:', storedValue);
+          auto_print_voucher = false;
+        } else {
+        //   console.log('Value not matched:', storedValue);
+        const div = document.getElementById('report_table_R312567687309404769');
+        const tdElements = div.getElementsByTagName('td');
+        let foundAnchor = false;
+        const vouchers = {};
+        let scount = 0;
+        let voucher_found = false;
+    
+        for (let i = 0; i < tdElements.length; i++) {
+        const tdElement = tdElements[i];
+        const anchorElement = tdElement.querySelector('a');
+    
+        if (anchorElement) {
+            if (foundAnchor) {
+            scount = i; 
+            }
+    
+            const voucher_status = tdElements[scount + 3].innerHTML;
+            const voucher_expiry = tdElements[scount + 7].innerHTML;
+            const key = anchorElement.innerHTML;
+            const valueToAppend = [voucher_expiry, voucher_status];
+    
+            if (!vouchers.hasOwnProperty(key)) {
+            vouchers[key] = valueToAppend;
+            }
+    
+            foundAnchor = true;
+        }
+        }
+    
+    
+        const currentDate = new Date();
+        get_voucher = '';
+    
+        for (const key in vouchers) {
+        const voucherDate = new Date(vouchers[key][0]);
+        const get_voucher_status = vouchers[key][1]
+        if (voucherDate >= currentDate && get_voucher_status == "Pending") {
+            get_voucher = key;
+            voucher_found = true;
             break;
         }
+            else {
+                
+            }
         }
-    }
-    }
-  });
+    
+        if (voucher_found) {
+            const div2 = document.getElementById('report_table_R312567687309404769');
+            const anchorElements = div2.getElementsByTagName('a');
+            const searchNumber = get_voucher;
+            
+    
+            for (let i = 0; i < anchorElements.length; i++) {
+            const anchorElement = anchorElements[i];
+    
+            if (anchorElement.innerHTML === searchNumber) {
+                const print_voucher = anchorElement;        
+                // print_voucher.click(); // voilates policy
+                const textField = document.getElementById('P0_V_DIRECT_STUDENT_ID');
+                const value = textField.value;
+                const studentId = value;
+                const voucherNo = print_voucher.innerHTML;            
+    
+                // Replace student_id and voucher_no values in the URL
+                const updatedUrl = url.replace(/v_student_id=[^&]+/, `v_student_id=${studentId}`).replace(/v_voucher_no=[^&]+/, `v_voucher_no=${voucherNo}`);
+    
+                window.open(updatedUrl, '_blank', 'noopener');
+                break;
+            }
+            }
+        }
+        }
+      });
+  }
+  catch(err) {
+    
+  }
+
+
+
 
 
 

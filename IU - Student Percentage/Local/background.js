@@ -1,4 +1,4 @@
-// let auto_print_voucher = true;
+let auto_print_voucher = true;
 
 let statusFlag = false; // Initialize the flag
 let lastActiveTabId = -1;
@@ -32,6 +32,12 @@ chrome.tabs.onCreated.addListener((tab) => {
 });
 
 
+
+
+
+
+
+
 // if (auto_print_voucher) {   
 //     let lastActiveTabId = -1;
 
@@ -45,3 +51,28 @@ chrome.tabs.onCreated.addListener((tab) => {
 //         }
 //     });
 // }
+
+
+
+
+chrome.tabs.onActivated.addListener(function(activeInfo) {
+  chrome.tabs.query({ currentWindow: true, active: true }, function(tabs) {
+    if (tabs.length > 0 && activeInfo.tabId === tabs[0].id) {
+      chrome.tabs.sendMessage(tabs[0].id, { action: 'focusElement', elementId: 'P3310_RFID' });
+    }
+  });
+});
+
+chrome.commands.onCommand.addListener(function(command) {
+  if (command === 'go-to-first-tab') {
+    chrome.tabs.query({ currentWindow: true }, function(tabs) {
+      if (tabs.length > 0) {
+        chrome.tabs.update(tabs[0].id, { active: true });
+        chrome.tabs.sendMessage(tabs[0].id, { action: 'focusElement', elementId: 'P3310_RFID' });
+      }
+    });
+  }
+});
+
+
+

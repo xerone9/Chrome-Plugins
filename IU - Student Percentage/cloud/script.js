@@ -463,9 +463,74 @@ if (el !== null) {
     //             }
     //         }
     //     }
-    // }    
+    // } 
+
+    // Auto open voucher if pending and not expired (Not Working Policy Voilation!!!!)
+    
+    const div = document.getElementById('report_table_R312567687309404769');
+    const tdElements = div.getElementsByTagName('td');
+    let foundAnchor = false;
+    const vouchers = {};
+    let scount = 0;
+    let voucher_found = false;
+
+    for (let i = 0; i < tdElements.length; i++) {
+        const tdElement = tdElements[i];
+        const anchorElement = tdElement.querySelector('a');
+
+        if (anchorElement) {
+            if (foundAnchor) {
+            scount = i; 
+            }
+
+            const voucher_status = tdElements[scount + 3].innerHTML;
+            const voucher_expiry = tdElements[scount + 7].innerHTML;
+            const key = anchorElement.innerHTML;
+            const valueToAppend = [voucher_expiry, voucher_status];
+
+            if (!vouchers.hasOwnProperty(key)) {
+            vouchers[key] = valueToAppend;
+            }
+
+            foundAnchor = true;
+        }
+    }
+
+
+    const currentDate = new Date();
+    get_voucher = '';
+
+    for (const key in vouchers) {
+    const voucherDate = new Date(vouchers[key][0]);
+    const get_voucher_status = vouchers[key][1]
+    if (voucherDate >= currentDate && get_voucher_status == "Pending") {
+            get_voucher = key;
+            voucher_found = true;
+            break;
+        }        
+    }
+
+    if (voucher_found) {
+        const div2 = document.getElementById('report_table_R312567687309404769');
+        const anchorElements = div2.getElementsByTagName('a');
+        const searchNumber = get_voucher;
+        
+
+        for (let i = 0; i < anchorElements.length; i++) {
+        const anchorElement = anchorElements[i];
+
+            if (anchorElement.innerHTML === searchNumber) {
+                const print_voucher = anchorElement;        
+                // print_voucher.click(); // voilates policy C.S.P directive, Need Hash
+                break;
+            }
+        }
+
+    }
 
 }
+
+
 
 
  
@@ -539,8 +604,10 @@ Changelog 4.0 (local only):
 Requirement: Auto open pending voucher if not expired in the next tab and retain focus on the active tab
 
 due to oracle or chrome restriction whenever I press a tag link via plugin it gives error "Voilation of Content Security Policy Directive"
-used multiple approaches but no use
-Unfortunately Now I have to supply web address with hash so that it can be reconstructed and open the voucher in new tab if available
+used multiple approaches but no use (i.e: createad a pop up form via which we can supply hash to the code _same error_.
+Uploaded hash on an API but cant fetch API _same error_)
+Unfortunately Now I have to supply web address with hash manually to source code
+so that it can be reconstructed and open the voucher in new tab if available
 for this reason those who wants to use this functionality manual installation of plugin will be done there on that platform
 Need to load service worker to force browser to retain focus on active tab dont get to new tab after clicking 
 

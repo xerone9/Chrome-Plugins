@@ -1,0 +1,33 @@
+{
+    "manifest_version": 3,
+    "name": "Logging Value",
+    "version": "1.0",
+    "description": "Your extension description",
+    "icons": {
+      "128": "logo.png"
+    },
+    "permissions": [
+      "activeTab",
+      "identity"
+    ],
+    "content_scripts": [
+      {
+        "matches": ["https://www.theweathernetwork.com/*"],
+        "js": ["script.js"]
+      }
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "oauth2": {
+      "client_id": "210593956973-lrinqv8tdj0arie296mcqf9lb62f2m63.apps.googleusercontent.com",
+      "scopes": [
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/userinfo.email"
+      ]
+    },
+    "icons": {
+      "128": "logo.png"
+    }
+  }
+  

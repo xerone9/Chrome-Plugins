@@ -1,0 +1,25 @@
+{
+  "name": "Google Sheet Reader",
+  "version": "1.0",
+  "manifest_version": 3,
+  "permissions": [
+    "identity",
+    "tabs",
+    "activeTab"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "oauth2": {
+    "client_id": "210593956973-ive2he9cnlgckifd0dtlers20u8vbnl0.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/spreadsheets.readonly"
+    ]
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {      
+      "128": "logo.png"
+    }
+  }
+}

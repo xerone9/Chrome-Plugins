@@ -254,8 +254,8 @@ if (el !== null) {
                 } 
             }        
         }  
-    }  
-   
+    }
+      
     full_scholorship = true;
     for (var i = 1, row; row = table.rows[i]; i++) {    
         for (var j = 0, col; col = row.cells[j]; j++) {
@@ -376,17 +376,17 @@ if (el !== null) {
     
     else {  
         if (remaining_balance < total) {  // student has no previos balance. Shows percentage in positive value or 0                          
-            var result = 100 - (remaining_balance / total * 100) 
+            var result = 100 - (remaining_balance / total * 100)             
         } 
         else { // previous balance means a negative percentage will be shown on screen 
             if (debt == 0 && total == 0) {
-                result = 100
+                result = 100                
             }
             else {
-                var result = 0 - (0 - debt / total * 100)
+                var result = 0 - (0 - debt / total * 100)                
             }  
         }   
-    }   
+    }  
     
     // const newDivElement = document.createElement('div');
     // newDivElement.setAttribute('class', 'my-class');
@@ -406,22 +406,22 @@ if (el !== null) {
         document.getElementById('R312550953030404706_heading').textContent = "Full Scholorship" + " - (For Mid: " + (remaining_balance).toLocaleString("en-US") + ")";
     }
     else {  
-        if (result < 0){
-            if (debt < 0) {               
-                var result = 0 - (0 - debt / total * 100)
+        if (result < 0){            
+            if (advance_fee > 0) {  // Advance Fee Paid
+                var result = 0 - (0 - advance_fee / total * 100)
                 required = Math.round(remaining_balance - (total / 2));
-                document.getElementById('R312550953030404706_heading').style.color = "#FF0000";
+                document.getElementById('R312550953030404706_heading').style.color = "#404040";
                 // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
                 document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
                 // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
-                tuitionFeeElement.textContent = Math.abs(Math.round(needed)).toLocaleString("en-US");
+                tuitionFeeElement.textContent = Math.abs(Math.round(needed - advance_fee)).toLocaleString("en-US");
                 forMidElement.textContent = required.toLocaleString("en-US");
                 
             }
-            else {           
-                var result = 0;          
+            else {    // Advance Fee Paid       
+                var result = 0 - (0 - debt / total * 100)   
                 required = Math.round(remaining_balance - needed);
-                document.getElementById('R312550953030404706_heading').style.color = "#404040";
+                document.getElementById('R312550953030404706_heading').style.color = "#FF0000";
                 // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed + debt)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
                 document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
                 // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";

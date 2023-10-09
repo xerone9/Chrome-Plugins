@@ -330,11 +330,12 @@ if (el !== null) {
         var needed = total / 2;
     }   
 
-     
+    
     
     if (advance_fee > 0) { // if advance fee is in positive means access fee has been paid in previous semester           
         debt = (0 - advance_fee)       
     }
+    
     
     
     if (remaining_balance != 0) {
@@ -370,7 +371,7 @@ if (el !== null) {
     // parentElement.insertBefore(newDivElement, oldDivElement);
 
     
-
+    
     var required = 0;
     if (full_scholorship == true) {        
         document.getElementById('R312550953030404706_heading').style.color = "#8F00FF";
@@ -379,24 +380,20 @@ if (el !== null) {
     }
     else {  
         if (result < 0){
-            if (debt < 0) {               
+            if (debt < 0) {  
                 var result = 0 - (0 - debt / total * 100)
                 required = Math.round(remaining_balance - (total / 2));
                 document.getElementById('R312550953030404706_heading').style.color = "#FF0000";
-                // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
                 document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
-                // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
-                tuitionFeeElement.textContent = Math.abs(Math.round(needed)).toLocaleString("en-US");
+                tuitionFeeElement.textContent = Math.abs(Math.round(needed + debt)).toLocaleString("en-US");
                 forMidElement.textContent = required.toLocaleString("en-US");
                 
             }
-            else {           
+            else {   
                 var result = 0;          
                 required = Math.round(remaining_balance - needed);
                 document.getElementById('R312550953030404706_heading').style.color = "#404040";
-                // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed + debt)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
                 document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
-                // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
                 tuitionFeeElement.textContent =Math.abs(Math.round(needed + debt)).toLocaleString("en-US");
                 forMidElement.textContent = required.toLocaleString("en-US");
             }
@@ -404,13 +401,11 @@ if (el !== null) {
         else if (result < 50){                     
             required = Math.round(remaining_balance - (total / 2));
             document.getElementById('R312550953030404706_heading').style.color = "#404040";
-            // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed + debt)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
             document.getElementById('R312550953030404706_heading').textContent =  final_session +  " (" + Math.round(result).toLocaleString("en-US") + "%)"
-            // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
             tuitionFeeElement.textContent =Math.abs(Math.round(needed + debt)).toLocaleString("en-US");
             forMidElement.textContent = required.toLocaleString("en-US");
         }
-        else {  
+        else {            
             if (other_values_charged - other_values_paid > 0) {                 
                 other_amount_charged = (other_values_charged - other_values_paid) / 8                                      
                 var result = 100 - ((remaining_balance + other_amount_charged) / (total) * 100)        
@@ -420,9 +415,7 @@ if (el !== null) {
                     t_fee_required = 0
                 }                
                 document.getElementById('R312550953030404706_heading').style.color = "#404040";
-                // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.round(t_fee_required).toLocaleString("en-US") + ")" + " - (For Mid: " + ((other_values_charged - other_values_paid) / 8).toLocaleString("en-US") + ")";
                 document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
-                // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
                 tuitionFeeElement.textContent = Math.round(t_fee_required).toLocaleString("en-US");
                 forMidElement.textContent = ((other_values_charged - other_values_paid) / 8).toLocaleString("en-US");
             }

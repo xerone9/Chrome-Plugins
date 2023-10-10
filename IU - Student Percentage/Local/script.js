@@ -21,17 +21,17 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 if (el !== null) { 
 
     document.addEventListener('keydown', function(event) {
-        if (event.key === 'Control' && event.location === KeyboardEvent.DOM_KEY_LOCATION_LEFT) {
-          event.preventDefault(); // Prevent default tab behavior
-          
-          // Perform your custom logic to determine the element to focus
-          var targetElement = document.getElementById('P3310_RFID');
-          
-          if (targetElement) {
-            targetElement.focus();
-          }
-        }
-      });
+	  if (event.key === '`' && event.location === KeyboardEvent.DOM_KEY_LOCATION_STANDARD) {
+		event.preventDefault(); // Prevent default behavior
+		
+		// Perform your custom logic to determine the element to focus
+		var targetElement = document.getElementById('P3310_RFID');
+		
+		if (targetElement) {
+		  targetElement.focus();
+		}
+	  }
+	});
       
 
     // const oldDivElement = document.querySelector('.t-Region-headerItems t-Region-headerItems--buttons');

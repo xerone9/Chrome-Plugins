@@ -2,7 +2,6 @@ const el = document.getElementById('R312550953030404706_heading');
 const url = 'http://faculty.induscms.com:8889/reports/rwservlet?login1&destype=CACHE&desformat=PDF&report=D:/EMIS_Prg/Reports/Accounts/Accounts_710_Student_Bank_Pay_slip.rep&vtvidvu=F0BF126F6CA6F8849C1963227C7AECEF1F222830D7C3C38F5048DCD613BE8C5F&v_student_id=3447-2016&v_voucher_no=3395123';
 let auto_print_voucher = true;
 
-
 function insertAfter(newNode, existingNode) {
     existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
 }
@@ -38,55 +37,36 @@ if (el !== null) {
         var retrievedBooleanValue2 = localStorage.getItem('print_voucher');
         var retrievedBooleanValue3 = localStorage.getItem('auto_print_hundred_percent');
 
-        // Convert the retrieved value to a boolean (it's stored as a string)
         var auto_print_fifty_percent = retrievedBooleanValue === 'true';
         var auto_print_hundred_percent = retrievedBooleanValue3 === 'true';
         var print_voucher = retrievedBooleanValue2 === 'true';
         if (auto_print_fifty_percent || auto_print_hundred_percent) {
-        // After the page is fully loaded, perform your actions, including setting the input value
             var table = document.getElementById("report_table_R312552596540404712");
 
-            // Check if the table element exists
             if (table) {
-                var tbody = table.getElementsByTagName("tbody")[0]; // Get the table body
+                var tbody = table.getElementsByTagName("tbody")[0];
 
                 if (tbody) {
-                    var rows = tbody.getElementsByTagName("tr"); // Get all rows in the table body
+                    var rows = tbody.getElementsByTagName("tr");
 
-                    // Loop through each row
                     for (var i = 0; i < rows.length; i++) {
-                        var cells = rows[i].getElementsByTagName("td"); // Get all cells in the row
-
-                        // Check if the second column contains "Tuition Fees"
-                        if (cells.length >= 2 && cells[1].textContent.trim() === "Tuition Fees") {
-                            // Access the value in the third column (cells[2])
-                            var inputElement = cells[2].querySelector("input[type='text']");
-                            
-                            var Fifty_percent_input; // Create the variable before the loop
-
-                            // Find the table element by its ID
+                        var cells = rows[i].getElementsByTagName("td");
+                        
+                        if (cells.length >= 2 && cells[1].textContent.trim() === "Tuition Fees") {                            
+                            var inputElement = cells[2].querySelector("input[type='text']");                            
+                            var Fifty_percent_input;                             
                             var table = document.getElementById("my-id");
-
-                            // Check if the table element exists
+                            
                             if (table) {
-                                var rows = table.getElementsByTagName("tr"); // Get all rows in the table
-
-                                // Loop through each row
+                                var rows = table.getElementsByTagName("tr");                                
                                 for (var i = 0; i < rows.length; i++) {
-                                    var cells = rows[i].getElementsByTagName("td"); // Get all cells in the row
-
-                                    // Access the values in the cells
+                                    var cells = rows[i].getElementsByTagName("td");                                    
                                     var firstColumnValue = cells[0].textContent.trim();
                                     var secondColumnValue = cells[1].textContent.trim();
-
-                                    // Check if the first column value is "50% Tuition Fee"
-                                    if (firstColumnValue === "50% Tuition Fee") {
-                                        // Set the second column value to the "Fifty_percent_input" variable
+                                   
+                                    if (firstColumnValue === "50% Tuition Fee") {                                        
                                         Fifty_percent_input = secondColumnValue;
                                     }
-
-                                    // Log the values (you can perform other actions here)
-                                    
                                 }
 
                                 if (auto_print_fifty_percent) {
@@ -130,24 +110,16 @@ if (el !== null) {
     var originalButton = document.getElementById("B285624227564261496");
     var referenceElement = document.getElementById("R312552596540404712_tab");
 
-    if (originalButton) {
-        // Clone the original button
-        var clonedButton = originalButton.cloneNode(true);
-
-        // Optionally, modify attributes or properties of the cloned button if needed
-        clonedButton.id = "generate_voucher_button"; // Change the ID to a new value, for example
-
-        var targetLocation = referenceElement.parentNode; // Get the parent of the reference element
-
-        // Insert the cloned button as the first child of the parent
-        targetLocation.insertBefore(clonedButton, targetLocation.firstChild);
-
-        // Find the span containing the tab text "Issuing Fee Voucher"
+    if (originalButton) {        
+        var clonedButton = originalButton.cloneNode(true);        
+        clonedButton.id = "generate_voucher_button";
+        var targetLocation = referenceElement.parentNode;        
+        targetLocation.insertBefore(clonedButton, targetLocation.firstChild);        
         var spanElements = referenceElement.getElementsByTagName("span");
         for (var i = 0; i < spanElements.length; i++) {
             if (spanElements[i].textContent === "Issuing Fee Voucher") {
                 spanElements[i].style.display = "none";
-                // Style or perform any other actions on the element here
+                
             }
         }
     } 
@@ -166,23 +138,22 @@ if (el !== null) {
             });
         }
     } catch (error) {
-        // Code to handle the exception
+        
     }
 
     var table = document.getElementById("report_table_R312550953030404706");
 
-// Check if the table element exists
-if (table) {
-    var tbody = table.getElementsByTagName("tbody")[0]; // Get the table body
+    
+    if (table) {
+    var tbody = table.getElementsByTagName("tbody")[0]; 
 
     if (tbody) {
-        var rows = tbody.getElementsByTagName("tr"); // Get all rows in the table body
+        var rows = tbody.getElementsByTagName("tr");
 
-        // Loop through each row
+        
         for (var i = 0; i < rows.length; i++) {
-            var cells = rows[i].getElementsByTagName("td"); // Get all cells in the row
-
-            // Check each cell for the value "Payable Total"
+            var cells = rows[i].getElementsByTagName("td"); 
+            
             for (var j = 0; j < cells.length; j++) {
                 if (cells[j].textContent.trim() === "Payable Total") {
                     cells[j].style.cursor = 'pointer';
@@ -201,20 +172,10 @@ if (table) {
             }
         }
     }
-} else {
-    console.log("Table not found");
-}
+    } else {
+        console.log("Table not found");
+    } 
     
-        
-    
-   
-    
-    
-
-
-
-    
-    // const oldDivElement = document.querySelector('.t-Region-headerItems t-Region-headerItems--buttons');
     const oldDivElement = document.getElementById('R312550953030404706_heading');
     const parentElement = oldDivElement.parentNode;
 
@@ -334,7 +295,25 @@ if (table) {
     cellFiveElement.style.paddingLeft = '10px'
     cellSevenElement.style.paddingLeft = '10px'
 
+    document.getElementById('R312550953030404706_heading').style.fontFamily = "'Helvetica Neue','Segoe UI',Helvetica,Arial,sans-serif";
+    document.getElementById('R312550953030404706_heading').style.color = "#A020F0";
+    document.getElementById('R312550953030404706_heading').style.fontWeight = "700";
+    document.getElementById('R312550953030404706_heading').style.fontSize = "inherit";
+    document.getElementById('R312550953030404706_heading').style.marginLeft = "45px";
 
+    elements = document.getElementsByTagName("td")
+    for (var i = elements.length; i--;) {        
+        if (elements[i].innerHTML.includes('Posted')) {
+            elements[i].style.color = "green";
+            elements[i].style.fontFamily = "Arial";
+            elements[i].style.fontWeight = "900";
+            elements[i].style.fontSize = "15px";
+        }        
+    }    
+
+
+    
+    // Main engine
     final_session = "";
     tuition_fee_charged = []
     posted_voucher = []
@@ -342,7 +321,9 @@ if (table) {
     other_values_charged = 0;
     other_values_paid = 0;  
     temp = 0;
-    // var table = document.getElementsByClassName("t-Report-report")[1];
+    degree_provisional_cms_charged = 0;
+    degree_provisional_cms_paid = 0;
+    full_scholorship = true;    
     var table = document.getElementById("report_table_R312545805814404689");
     var arr = new Array();
     for (var i = 1, row; row = table.rows[i]; i++) {    
@@ -354,7 +335,10 @@ if (table) {
             else {
                 tuition_fee_charged.push(removing_comas/8)
               
-            }                       
+            } 
+            if (row.cells[4].innerHTML == "Tuition Fees"){                
+                full_scholorship = false;                
+            }                      
             if (row.cells[2].innerHTML == "<strong></strong>" || row.cells[2].innerHTML == "" || row.cells[2].innerHTML == "") {                                      
             }            
             else{
@@ -380,6 +364,18 @@ if (table) {
                     }                                            
                 }               
             } 
+            if (row.cells[4].innerHTML == "Degree Fees" || row.cells[4].innerHTML == "CMS Fees" || row.cells[4].innerHTML == "Provisional Certificate Fee") {                              
+                if (row.cells[5].innerHTML != "") {                    
+                    removing_comas = row.cells[5].innerHTML.replace(",", "");
+                    value = parseInt(removing_comas);
+                    degree_provisional_cms_charged += value;
+                }
+                if (row.cells[6].innerHTML != "") {                    
+                    removing_comas = row.cells[6].innerHTML.replace(",", "");
+                    value = parseInt(removing_comas);
+                    degree_provisional_cms_paid += value;
+                }
+            }
             if (row.cells[4].innerHTML == "Tuition Fees" && row.cells[6].innerHTML != "<strong></strong>" && row.cells[6].innerHTML != "" && row.cells[3].innerHTML != "") {
                 posted_voucher_narration = row.cells[3].innerHTML;
                 try {
@@ -394,7 +390,17 @@ if (table) {
                   catch(error) {
                    
                   }                                          
-            }             
+            } 
+            if (row.cells[1].innerHTML == "" && row.cells[2].innerHTML == "") {
+                if (row.cells[3].innerHTML != "Package") {
+                    row.cells[3].style.color = "brown";
+                    row.cells[3].style.fontWeight = "750";
+                }
+            }
+            if (row.cells[3].innerHTML.toUpperCase().includes('WARNING')) {
+                row.cells[3].style.color = "red";
+                row.cells[3].style.fontWeight = "750";
+            }                        
         } 
     }    
     
@@ -402,38 +408,12 @@ if (table) {
         final_session = "No Session"
     }
     
-
-    // document.getElementById('R312550953030404706_heading').textContent = final_session
-    document.getElementById('R312550953030404706_heading').style.fontFamily = "'Helvetica Neue','Segoe UI',Helvetica,Arial,sans-serif";
-    document.getElementById('R312550953030404706_heading').style.color = "#A020F0";
-    document.getElementById('R312550953030404706_heading').style.fontWeight = "700";
-    document.getElementById('R312550953030404706_heading').style.fontSize = "inherit";
-    // document.getElementById('R312550953030404706_heading').style.textDecoration = "underline";
-    document.getElementById('R312550953030404706_heading').style.marginLeft = "45px";
-    
-    
-    // Coloring Add Extra Lines
-    // var table = document.getElementsByClassName("t-Report-report")[2];
-    var table = document.getElementById("report_table_R312545805814404689");
-    for (var i = 1, row; row = table.rows[i]; i++) {    
-        for (var j = 1, col; col = row.cells[j]; j++) {
-            if (row.cells[1].innerHTML == "" && row.cells[2].innerHTML == "") {
-                if (row.cells[3].innerHTML != "Package") {
-                    row.cells[3].style.color = "brown";
-                    row.cells[3].style.fontWeight = "750";
-                }
-            }            
-        }
-    }
-    
-    
     // getting total semester tuition fee
     total = 0
     charged = 0;
     paid = 0;
-    advance_fee = 0;
+    fee_status = 0;   
     
-    // var table = document.getElementsByClassName("t-Report-report")[2];
     var table = document.getElementById("report_table_R312545805814404689");
     for (var i = 1, row; row = table.rows[i]; i++) {    
         for (var j = 0, col; col = row.cells[j]; j++) {             
@@ -448,7 +428,7 @@ if (table) {
                         removing_comas = row.cells[6].innerHTML.replace(",", "");                    
                         paid += parseInt(removing_comas);                       
                     }                    
-                    advance_fee = (paid/8) - (charged/8);                    
+                    fee_status = (paid/8) - (charged/8);                    
                 }                
             }        
             else{                          
@@ -461,15 +441,7 @@ if (table) {
         }  
     }  
    
-    full_scholorship = true;
-    for (var i = 1, row; row = table.rows[i]; i++) {    
-        for (var j = 0, col; col = row.cells[j]; j++) {
-            if (row.cells[4].innerHTML == "Tuition Fees"){                
-                full_scholorship = false;
-                break;
-            }
-        }
-    }
+    
     if (full_scholorship == false) {    
         sum = tuition_fee_charged.reduce((partialSum, a) => partialSum + a, 0);
         if (sum == 0) {
@@ -478,96 +450,23 @@ if (table) {
     }
     
     
-    // sessions = [];
-    // for (var i = 1, row; row = table.rows[i]; i++) {    
-    //     for (var j = 0, col; col = row.cells[j]; j++) {
-    //         session = row.cells[2].innerHTML;
-    //         if (session != "&nbsp;"){
-    //             if (session == "<strong>&nbsp;</strong>") {
-
-    //             }
-    //             else {
-    //                 if (sessions.includes(session)){
-
-    //                 }
-    //                 else {
-    //                     sessions.push(session)
-    //                 }
-    //             }
-    //         } 
-    //     }
-    // }
-
-    // scholorship_range = 0
-    // for (var i = 1, row; row = table.rows[i]; i++) {    
-    //     for (var j = 0, col; col = row.cells[j]; j++) {
-    //         session = row.cells[2].innerHTML;
-    //         if (session == sessions[sessions.length - 2]){
-    //             scholorship_range = i
-    //         }
-    //     }
-    // }
-    // 
-    // scholorship = 0;  
-    // for (var i = scholorship_range, row; row = table.rows[i]; i++) {    
-    //     for (var j = 0, col; col = row.cells[j]; j++) {
-    //         value = row.cells[3].innerHTML.toLowerCase();
-    //         if (value.includes("scholarship")) {                
-    //             removing_comas = row.cells[5].innerHTML.replace(",", "");
-    //             value = parseInt(removing_comas);
-    //             scholorship = value;
-    //         }        
-    //     }
-    // }    
-
-    degree_provisional_cms_charged = 0;
-    degree_provisional_cms_paid = 0;
-    for (var i = 1, row; row = table.rows[i]; i++) {    
-        for (var j = 0, col; col = row.cells[j]; j++) {            
-            if (row.cells[4].innerHTML == "Degree Fees" || row.cells[4].innerHTML == "CMS Fees" || row.cells[4].innerHTML == "Provisional Certificate Fee") {                              
-                if (row.cells[5].innerHTML != "") {                    
-                    removing_comas = row.cells[5].innerHTML.replace(",", "");
-                    value = parseInt(removing_comas);
-                    degree_provisional_cms_charged += value;
-                }
-                if (row.cells[6].innerHTML != "") {                    
-                    removing_comas = row.cells[6].innerHTML.replace(",", "");
-                    value = parseInt(removing_comas);
-                    degree_provisional_cms_paid += value;
-                }
-            }
-        }
-    } 
-    
     degree_provisional_cms = degree_provisional_cms_charged - degree_provisional_cms_paid
     
-    document.getElementById('R312550953030404706_heading').style.color = "#800080";
-    
-
-    // if (scholorship < 0) {
-    //     total = total + scholorship;
-    //     advance_fee = advance_fee - scholorship;        
-    // } 
-    
+    advance_fee = 0
     debt = 0
-    if (advance_fee <= 0) { // check access amount is paid or previous balance             
-        if (total - advance_fee == 0) { // if 0 means no advance fee paid nor any previos balance
-            var needed = 0
-        }
-        else {       
-            debt = advance_fee // if advance fee is in neagtive means its a debt so adding that debt
-            var needed = (total / 2) - debt;                                    
-        }      
+    if (fee_status > 0) {
+        advance_fee = fee_status
     }
-    else { 
-        var needed = total / 2;
-    }   
-
-     
+    else if (fee_status < 0) {
+        debt = 0 - fee_status
+    }
+    else {
+        advance_fee = 0
+        debt = 0
+    }
     
-    if (advance_fee > 0) { // if advance fee is in positive means access fee has been paid in previous semester           
-        debt = (0 - advance_fee)       
-    }
+    
+    var needed = (total / 2) + debt - advance_fee
     
     
     if (remaining_balance != 0) {
@@ -582,29 +481,20 @@ if (table) {
     else {  
         if (remaining_balance < total) {  // student has no previos balance. Shows percentage in positive value or 0                          
             var result = 100 - (remaining_balance / total * 100) 
+            
         } 
         else { // previous balance means a negative percentage will be shown on screen 
-            if (debt == 0 && total == 0) {
+            if (debt == 0 && total == 0) {                
                 result = 100
             }
-            else {
-                var result = 0 - (0 - debt / total * 100)
+            else {                             
+                var result = 0 - (0 + (debt - advance_fee) / total * 100)
             }  
         }   
     } 
-    
-    
-    
-    // const newDivElement = document.createElement('div');
-    // newDivElement.setAttribute('class', 'my-class');
-    // newDivElement.setAttribute('id', 'my-id');
-    // newDivElement.textContent = 'Hello World\n\nHello World\n\nHello World\n\nHello World';
 
-    // const oldDivElement = document.querySelector('.t-Region-body');
-    // const parentElement = oldDivElement.parentNode;
-    // parentElement.insertBefore(newDivElement, oldDivElement);
-
-    fullTuitionFee.textContent = total.toLocaleString("en-US");
+    
+    fullTuitionFee.textContent = total.toLocaleString("en-US");    
 
     var required = 0;
     if (full_scholorship == true) {        
@@ -612,94 +502,19 @@ if (table) {
         document.getElementById('R312550953030404706_heading').style.marginLeft = "9px";
         document.getElementById('R312550953030404706_heading').textContent = "Full Scholorship" + " - (For Mid: " + (remaining_balance).toLocaleString("en-US") + ")";
     }
-    else {  
-        if (result < 0){
-            if (debt < 0) {     
-                var result = 0 - (0 + debt / total * 100)
-                required = Math.round(remaining_balance - (total / 2));
-                document.getElementById('R312550953030404706_heading').style.color = "#404040";
-                // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
-                document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
-                // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
-                tuitionFeeElement.textContent = Math.abs(Math.round(needed + debt)).toLocaleString("en-US");
-                forMidElement.textContent = required.toLocaleString("en-US");
-                
-            }
-            else {  
-                var result = 0;          
-                required = Math.round(remaining_balance - needed);
-                document.getElementById('R312550953030404706_heading').style.color = "#404040";
-                // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed + debt)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
-                document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
-                // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
-                tuitionFeeElement.textContent =Math.abs(Math.round(needed + debt)).toLocaleString("en-US");
-                forMidElement.textContent = required.toLocaleString("en-US");
-            }
-        }
-        else if (result < 50){                                  
-            required = Math.round(remaining_balance - (total / 2));
-            document.getElementById('R312550953030404706_heading').style.color = "#404040";
-            // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed + debt)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
-            document.getElementById('R312550953030404706_heading').textContent =  final_session +  " (" + Math.round(result).toLocaleString("en-US") + "%)"
-            // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
-            tuitionFeeElement.textContent =Math.abs(Math.round(needed + debt)).toLocaleString("en-US");
-            forMidElement.textContent = required.toLocaleString("en-US");
-        }
-        else {               
-            if (other_values_charged - other_values_paid > 0) {                 
-                other_amount_charged = (other_values_charged - other_values_paid) / 8                                      
-                var result = 100 - ((remaining_balance + other_amount_charged) / (total) * 100)        
-                required = Math.round(remaining_balance - (total / 2));
-                t_fee_required = needed + debt
-                if (t_fee_required < 0) {
-                    t_fee_required = 0
-                }                
-                document.getElementById('R312550953030404706_heading').style.color = "#404040";
-                // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.round(t_fee_required).toLocaleString("en-US") + ")" + " - (For Mid: " + ((other_values_charged - other_values_paid) / 8).toLocaleString("en-US") + ")";
-                document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
-                // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
-                tuitionFeeElement.textContent = Math.round(t_fee_required).toLocaleString("en-US");
-                forMidElement.textContent = ((other_values_charged - other_values_paid) / 8).toLocaleString("en-US");
-            }
-            else {                                              
-                document.getElementById('R312550953030404706_heading').style.color = "#0000ff";
-                // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%";
-                document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
-                // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
-            }
-        }
+    else {         
+        required = Math.round(remaining_balance - (total / 2));
+        document.getElementById('R312550953030404706_heading').style.color = "#404040";
+        document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
+        tuitionFeeElement.textContent = Math.abs(Math.round(needed)).toLocaleString("en-US");
+        forMidElement.textContent = required.toLocaleString("en-US");
+    if (result >= 50) {
+        document.getElementById('R312550953030404706_heading').style.color = "#0000FF";
     }
-    elements = document.getElementsByTagName("td")
-    for (var i = elements.length; i--;) {
-        if (elements[i].innerHTML.toUpperCase().includes('WARNING')) {
-            elements[i].style.color = "red";
-            elements[i].style.fontWeight = "750";
-        }
-        if (elements[i].innerHTML.includes('Posted')) {
-            elements[i].style.color = "green";
-            elements[i].style.fontFamily = "Arial";
-            elements[i].style.fontWeight = "900";
-            elements[i].style.fontSize = "15px";
-        }        
+    else {
+        document.getElementById('R312550953030404706_heading').style.color = "#404040";
+    }    
     }
-
-    // var table = document.getElementsByClassName("t-Report-report")[4];
-    // for (var i = 1, row; row = table.rows[i]; i++) {    
-    //     for (var j = 0, col; col = row.cells[j]; j++) {
-    //         if (row.cells[j].tagName == "TD") {
-    //             var work = row.cells[j].innerHTML;
-    //             if (row.cells[j].innerHTML.includes("a href")) {
-    //                 var myArray = row.cells[j].innerHTML.split(">");
-    //                 var secondArray = myArray[1].split("<");
-    //                 var voucher_number = secondArray[0]
-    //                 if (posted_voucher.includes(voucher_number)) {
-    //                     row.cells[j].insertAdjacentText('beforebegin', ' (Posted)');
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }    
-
 }
 
 // Very unstable below... Will auto open screen for pending vouchers

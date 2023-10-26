@@ -6,6 +6,7 @@
     "permissions": [
         "storage",
         "tabs",
+	"activeTab",
         "scripting",
         "commands"
     ],
@@ -14,18 +15,18 @@
     },     
     "icons": {
         "128": "logo.png"
-    }, 
+    },    
     "content_scripts": [
         {
-            "matches": ["http://172.16.0.6:81/ords/*", "http://faculty.induscms.com:81/ords/*", "http://local.induscms.com:81/ords/*", "http://faculty.induscms.com:8889/reports/*"],            
-            "js": ["script.js"]             
+            "matches": ["http://172.16.0.6:81/ords/*", "http://faculty.induscms.com:81/ords/*", "http://local.induscms.com:81/ords/*", "http://faculty.induscms.com:8889/reports/*"], 
+	    "js": ["script.js"]             
         }
     ],
     "commands": {
       "go-to-first-tab": {
         "suggested_key": {
-          "default": "Ctrl+Shift+Z",
-          "mac": "Ctrl+Shift+Z"
+          "default": "Ctrl+Shift+X",
+          "mac": "Ctrl+Shift+X"
         },
         "description": "Go to the first tab"
       }

@@ -1,35 +1,11 @@
 const el = document.getElementById('R312550953030404706_heading');
-const url = 'http://172.16.0.6:8889/reports/rwservlet?login1&destype=CACHE&desformat=PDF&report=D:/EMIS_Prg/Reports/Accounts/Accounts_710_Student_Bank_Pay_slip.rep&vtvidvu=F0BF126F6CA6F8841D32A575ABF484A596701A62AE0BFC82&v_student_id=54-2020&v_voucher_no=3075023';
-let auto_print_voucher = true;
-
 
 function insertAfter(newNode, existingNode) {
     existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
 }
 
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    if (message.action === 'focusElement') {
-      const element = document.getElementById(message.elementId);
-      if (element) {
-        element.focus();
-      }
-    }
-  });
-  
-  
-
 if (el !== null) { 
-    document.addEventListener('keydown', (event) => {
-        if (event.key === ',') {
-            event.preventDefault();
-          const element = document.getElementById('P3310_RFID');
-          if (element) {
-            element.focus();
-            element.value = '';
-          }
-        }
-      });
-    
+
     // const oldDivElement = document.querySelector('.t-Region-headerItems t-Region-headerItems--buttons');
     const oldDivElement = document.getElementById('R312550953030404706_heading');
     const parentElement = oldDivElement.parentNode;
@@ -354,11 +330,12 @@ if (el !== null) {
         var needed = total / 2;
     }   
 
-     
+    
     
     if (advance_fee > 0) { // if advance fee is in positive means access fee has been paid in previous semester           
         debt = (0 - advance_fee)       
     }
+    
     
     
     if (remaining_balance != 0) {
@@ -394,7 +371,7 @@ if (el !== null) {
     // parentElement.insertBefore(newDivElement, oldDivElement);
 
     
-
+    
     var required = 0;
     if (full_scholorship == true) {        
         document.getElementById('R312550953030404706_heading').style.color = "#8F00FF";
@@ -403,24 +380,20 @@ if (el !== null) {
     }
     else {  
         if (result < 0){
-            if (debt < 0) {               
+            if (debt < 0) {  
                 var result = 0 - (0 - debt / total * 100)
                 required = Math.round(remaining_balance - (total / 2));
                 document.getElementById('R312550953030404706_heading').style.color = "#FF0000";
-                // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
                 document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
-                // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
-                tuitionFeeElement.textContent = Math.abs(Math.round(needed)).toLocaleString("en-US");
+                tuitionFeeElement.textContent = Math.abs(Math.round(needed + debt)).toLocaleString("en-US");
                 forMidElement.textContent = required.toLocaleString("en-US");
                 
             }
-            else {           
+            else {   
                 var result = 0;          
                 required = Math.round(remaining_balance - needed);
                 document.getElementById('R312550953030404706_heading').style.color = "#404040";
-                // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed + debt)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
                 document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
-                // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
                 tuitionFeeElement.textContent =Math.abs(Math.round(needed + debt)).toLocaleString("en-US");
                 forMidElement.textContent = required.toLocaleString("en-US");
             }
@@ -428,13 +401,11 @@ if (el !== null) {
         else if (result < 50){                     
             required = Math.round(remaining_balance - (total / 2));
             document.getElementById('R312550953030404706_heading').style.color = "#404040";
-            // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed + debt)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
             document.getElementById('R312550953030404706_heading').textContent =  final_session +  " (" + Math.round(result).toLocaleString("en-US") + "%)"
-            // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
             tuitionFeeElement.textContent =Math.abs(Math.round(needed + debt)).toLocaleString("en-US");
             forMidElement.textContent = required.toLocaleString("en-US");
         }
-        else {  
+        else {            
             if (other_values_charged - other_values_paid > 0) {                 
                 other_amount_charged = (other_values_charged - other_values_paid) / 8                                      
                 var result = 100 - ((remaining_balance + other_amount_charged) / (total) * 100)        
@@ -444,9 +415,7 @@ if (el !== null) {
                     t_fee_required = 0
                 }                
                 document.getElementById('R312550953030404706_heading').style.color = "#404040";
-                // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.round(t_fee_required).toLocaleString("en-US") + ")" + " - (For Mid: " + ((other_values_charged - other_values_paid) / 8).toLocaleString("en-US") + ")";
                 document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
-                // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
                 tuitionFeeElement.textContent = Math.round(t_fee_required).toLocaleString("en-US");
                 forMidElement.textContent = ((other_values_charged - other_values_paid) / 8).toLocaleString("en-US");
             }
@@ -487,113 +456,77 @@ if (el !== null) {
     //             }
     //         }
     //     }
-    // }    
+    // } 
 
-}
-
-// Very unstable below... Will auto open screen for pending vouchers
-
-const element = document.getElementById('P0_V_DIRECT_STUDENT_ID');
-
-try {
-    const valueToStore = element.value;
-    chrome.runtime.sendMessage({ type: 'storeValue', value: valueToStore, status: auto_print_voucher}, (response) => {
-        if (response && response.success) {
-        //   console.log('Value stored successfully:', valueToStore);
-        } else {
-        //   console.log('Failed to store the value:', valueToStore);
-        }
-      });
+    // Auto open voucher if pending and not expired (Not Working Policy Voilation!!!!)
     
-    chrome.storage.local.get('storedValue', (result) => {
-    const storedValue = result.storedValue;    
-        
-        // Compare the stored value with the current value
-        if (storedValue === valueToStore) {
-        //   console.log('Value matched:', storedValue);
-          auto_print_voucher = false;
-        } else {
-        //   console.log('Value not matched:', storedValue);
-        const div = document.getElementById('report_table_R312567687309404769');
-        const tdElements = div.getElementsByTagName('td');
-        let foundAnchor = false;
-        const vouchers = {};
-        let scount = 0;
-        let voucher_found = false;
-    
-        for (let i = 0; i < tdElements.length; i++) {
+    const div = document.getElementById('report_table_R312567687309404769');
+    const tdElements = div.getElementsByTagName('td');
+    let foundAnchor = false;
+    const vouchers = {};
+    let scount = 0;
+    let voucher_found = false;
+
+    for (let i = 0; i < tdElements.length; i++) {
         const tdElement = tdElements[i];
         const anchorElement = tdElement.querySelector('a');
-    
+
         if (anchorElement) {
             if (foundAnchor) {
             scount = i; 
             }
-    
+
             const voucher_status = tdElements[scount + 3].innerHTML;
             const voucher_expiry = tdElements[scount + 7].innerHTML;
             const key = anchorElement.innerHTML;
             const valueToAppend = [voucher_expiry, voucher_status];
-    
+
             if (!vouchers.hasOwnProperty(key)) {
             vouchers[key] = valueToAppend;
             }
-    
+
             foundAnchor = true;
         }
-        }
-    
-    
-        const currentDate = new Date();
-        get_voucher = '';
-    
-        for (const key in vouchers) {
-        const voucherDate = new Date(vouchers[key][0]);
-        const get_voucher_status = vouchers[key][1]
-        if (voucherDate >= currentDate && get_voucher_status == "Pending") {
+    }
+
+
+    const currentDate = new Date();
+    get_voucher = '';
+
+    for (const key in vouchers) {
+    const voucherDate = new Date(vouchers[key][0]);
+    const get_voucher_status = vouchers[key][1]
+    if (voucherDate >= currentDate && get_voucher_status == "Pending") {
             get_voucher = key;
             voucher_found = true;
             break;
-        }
-            else {
-                
-            }
-        }
-    
-        if (voucher_found) {
-            const div2 = document.getElementById('report_table_R312567687309404769');
-            const anchorElements = div2.getElementsByTagName('a');
-            const searchNumber = get_voucher;
-            
-    
-            for (let i = 0; i < anchorElements.length; i++) {
-            const anchorElement = anchorElements[i];
-    
+        }        
+    }
+
+    if (voucher_found) {
+        const div2 = document.getElementById('report_table_R312567687309404769');
+        const anchorElements = div2.getElementsByTagName('a');
+        const searchNumber = get_voucher;
+        
+
+        for (let i = 0; i < anchorElements.length; i++) {
+        const anchorElement = anchorElements[i];
+
             if (anchorElement.innerHTML === searchNumber) {
                 const print_voucher = anchorElement;        
-                // print_voucher.click(); // voilates policy
-                const textField = document.getElementById('P0_V_DIRECT_STUDENT_ID');
-                const value = textField.value;
-                const studentId = value;
-                const voucherNo = print_voucher.innerHTML;            
-    
-                // Replace student_id and voucher_no values in the URL
-                const updatedUrl = url.replace(/v_student_id=[^&]+/, `v_student_id=${studentId}`).replace(/v_voucher_no=[^&]+/, `v_voucher_no=${voucherNo}`);
-    
-                window.open(updatedUrl, '_blank', 'noopener');
+                // print_voucher.click(); // voilates policy C.S.P directive, Need Hash
                 break;
             }
-            }
         }
-        }
-      });
-  }
-  catch(err) {
-    
-  }
+
+    }
+
+}
 
 
 
+
+ 
 
 
 
@@ -653,14 +586,21 @@ due to oracle update all element refernce ids were chnaged
 fixed ids
 fixed styling
 
-Changelog 4.0:
+Changelog 3.3:
 ``````````````
+
+Further fixes and resolved calcuation bugs
+
+Changelog 4.0 (local only):
+``````````````````````````
 
 Requirement: Auto open pending voucher if not expired in the next tab and retain focus on the active tab
 
 due to oracle or chrome restriction whenever I press a tag link via plugin it gives error "Voilation of Content Security Policy Directive"
-used multiple approaches but no use
-Unfortunately Now I have to supply web address with hash so that it can be reconstructed and open the voucher in new tab if available
+used multiple approaches but no use (i.e: createad a pop up form via which we can supply hash to the code _same error_.
+Uploaded hash on an API but cant fetch API _same error_)
+Unfortunately Now I have to supply web address with hash manually to source code
+so that it can be reconstructed and open the voucher in new tab if available
 for this reason those who wants to use this functionality manual installation of plugin will be done there on that platform
 Need to load service worker to force browser to retain focus on active tab dont get to new tab after clicking 
 

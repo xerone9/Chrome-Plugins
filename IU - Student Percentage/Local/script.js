@@ -1,5 +1,5 @@
 const el = document.getElementById('R312550953030404706_heading');
-const url = 'http://faculty.induscms.com:8889/reports/rwservlet?login1&destype=CACHE&desformat=PDF&report=D:/EMIS_Prg/Reports/Accounts/Accounts_710_Student_Bank_Pay_slip.rep&vtvidvu=01091DA6BED9E4BF50AE58668B9D05CF01BFDADE75535441BAE0765D69314945&v_student_id=647-2022&v_voucher_no=1214123';
+const url = 'http://faculty.induscms.com:8889/reports/rwservlet?login1&destype=CACHE&desformat=PDF&report=D:/EMIS_Prg/Reports/Accounts/Accounts_710_Student_Bank_Pay_slip.rep&vtvidvu=F0BF126F6CA6F8849C1963227C7AECEF1F222830D7C3C38F5048DCD613BE8C5F&v_student_id=3447-2016&v_voucher_no=3395123';
 let auto_print_voucher = true;
 
 
@@ -19,21 +19,201 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   
 
 if (el !== null) { 
+    document.addEventListener('keydown', (event) => {
+        if (event.key === ',') {
+            event.preventDefault();
+          const element = document.getElementById('P3310_RFID');
+          if (element) {
+            element.focus();
+            element.value = '';
+          }
+        }
+      });
 
-    document.addEventListener('keydown', function(event) {
-	  if (event.key === '`' && event.location === KeyboardEvent.DOM_KEY_LOCATION_STANDARD) {
-		event.preventDefault(); // Prevent default behavior
-		
-		// Perform your custom logic to determine the element to focus
-		var targetElement = document.getElementById('P3310_RFID');
-		
-		if (targetElement) {
-		  targetElement.focus();
-		}
-	  }
-	});
-      
 
+    
+    // Wait for the page to fully load
+    window.onload = function() {
+        var retrievedBooleanValue = localStorage.getItem('auto_print_fifty_percent');
+        var retrievedBooleanValue2 = localStorage.getItem('print_voucher');
+        var retrievedBooleanValue3 = localStorage.getItem('auto_print_hundred_percent');
+
+        // Convert the retrieved value to a boolean (it's stored as a string)
+        var auto_print_fifty_percent = retrievedBooleanValue === 'true';
+        var auto_print_hundred_percent = retrievedBooleanValue3 === 'true';
+        var print_voucher = retrievedBooleanValue2 === 'true';
+        if (auto_print_fifty_percent || auto_print_hundred_percent) {
+        // After the page is fully loaded, perform your actions, including setting the input value
+            var table = document.getElementById("report_table_R312552596540404712");
+
+            // Check if the table element exists
+            if (table) {
+                var tbody = table.getElementsByTagName("tbody")[0]; // Get the table body
+
+                if (tbody) {
+                    var rows = tbody.getElementsByTagName("tr"); // Get all rows in the table body
+
+                    // Loop through each row
+                    for (var i = 0; i < rows.length; i++) {
+                        var cells = rows[i].getElementsByTagName("td"); // Get all cells in the row
+
+                        // Check if the second column contains "Tuition Fees"
+                        if (cells.length >= 2 && cells[1].textContent.trim() === "Tuition Fees") {
+                            // Access the value in the third column (cells[2])
+                            var inputElement = cells[2].querySelector("input[type='text']");
+                            
+                            var Fifty_percent_input; // Create the variable before the loop
+
+                            // Find the table element by its ID
+                            var table = document.getElementById("my-id");
+
+                            // Check if the table element exists
+                            if (table) {
+                                var rows = table.getElementsByTagName("tr"); // Get all rows in the table
+
+                                // Loop through each row
+                                for (var i = 0; i < rows.length; i++) {
+                                    var cells = rows[i].getElementsByTagName("td"); // Get all cells in the row
+
+                                    // Access the values in the cells
+                                    var firstColumnValue = cells[0].textContent.trim();
+                                    var secondColumnValue = cells[1].textContent.trim();
+
+                                    // Check if the first column value is "50% Tuition Fee"
+                                    if (firstColumnValue === "50% Tuition Fee") {
+                                        // Set the second column value to the "Fifty_percent_input" variable
+                                        Fifty_percent_input = secondColumnValue;
+                                    }
+
+                                    // Log the values (you can perform other actions here)
+                                    
+                                }
+
+                                if (auto_print_fifty_percent) {
+                                    inputElement.value = Fifty_percent_input;
+                                }
+                                var applyChangesElement = document.getElementById("B285624613739261496");
+                                var printVoucherElement = document.getElementById("B285625038691261498");
+                                
+
+                                if (applyChangesElement) {
+                                    applyChangesElement.click();
+                                    localStorage.setItem('auto_print_fifty_percent', false);
+                                    localStorage.setItem('auto_print_hundred_percent', false);
+                                    localStorage.setItem('print_voucher', true);
+                                }                                
+                                
+                            } else {
+                                console.log("Table not found");
+                            }
+                                            
+                                            
+                        }
+                    }
+                }
+            } else {
+                console.log("Table not found");
+            }
+        }
+        if (print_voucher){
+            var printVoucherElement = document.getElementById("B285625038691261498");
+            if (printVoucherElement) {
+                printVoucherElement.click();
+                localStorage.setItem('print_voucher', false);
+            }     
+        }
+        
+       
+    };
+
+
+    var originalButton = document.getElementById("B285624227564261496");
+    var referenceElement = document.getElementById("R312552596540404712_tab");
+
+    if (originalButton) {
+        // Clone the original button
+        var clonedButton = originalButton.cloneNode(true);
+
+        // Optionally, modify attributes or properties of the cloned button if needed
+        clonedButton.id = "generate_voucher_button"; // Change the ID to a new value, for example
+
+        var targetLocation = referenceElement.parentNode; // Get the parent of the reference element
+
+        // Insert the cloned button as the first child of the parent
+        targetLocation.insertBefore(clonedButton, targetLocation.firstChild);
+
+        // Find the span containing the tab text "Issuing Fee Voucher"
+        var spanElements = referenceElement.getElementsByTagName("span");
+        for (var i = 0; i < spanElements.length; i++) {
+            if (spanElements[i].textContent === "Issuing Fee Voucher") {
+                spanElements[i].style.display = "none";
+                // Style or perform any other actions on the element here
+            }
+        }
+    } 
+
+
+    var isButtonPressed = false;
+
+    try {
+        if (clonedButton) {
+            clonedButton.addEventListener("click", function() {
+                isButtonPressed = true;
+                var tabLink = document.querySelector("a[href='#R312552596540404712']");
+                if (tabLink) {
+                    tabLink.click();
+                }
+            });
+        }
+    } catch (error) {
+        // Code to handle the exception
+    }
+
+    var table = document.getElementById("report_table_R312550953030404706");
+
+// Check if the table element exists
+if (table) {
+    var tbody = table.getElementsByTagName("tbody")[0]; // Get the table body
+
+    if (tbody) {
+        var rows = tbody.getElementsByTagName("tr"); // Get all rows in the table body
+
+        // Loop through each row
+        for (var i = 0; i < rows.length; i++) {
+            var cells = rows[i].getElementsByTagName("td"); // Get all cells in the row
+
+            // Check each cell for the value "Payable Total"
+            for (var j = 0; j < cells.length; j++) {
+                if (cells[j].textContent.trim() === "Payable Total") {
+                    cells[j].style.cursor = 'pointer';
+                    cells[j].addEventListener('click', function() {
+                        localStorage.setItem('auto_print_hundred_percent', true);
+                        localStorage.setItem('print_voucher', false);
+                        var generateVoucherButton = document.getElementById("generate_voucher_button");
+                        if (generateVoucherButton) {
+                            generateVoucherButton.click();
+                        } else {
+                            console.log("generate_voucher_button not found");
+                        }
+                    }); 
+                    break;
+                }
+            }
+        }
+    }
+} else {
+    console.log("Table not found");
+}
+    
+        
+    
+   
+    
+    
+
+
+
+    
     // const oldDivElement = document.querySelector('.t-Region-headerItems t-Region-headerItems--buttons');
     const oldDivElement = document.getElementById('R312550953030404706_heading');
     const parentElement = oldDivElement.parentNode;
@@ -61,7 +241,18 @@ if (el !== null) {
     const rowTwoElement = document.createElement('tr');
     const cellThreeElement = document.createElement('td');
     cellThreeElement.textContent = '50% Tuition Fee'; 
-    cellThreeElement.style.columnWidth = "132px"      
+    cellThreeElement.style.columnWidth = "132px" 
+    cellThreeElement.style.cursor = 'pointer'; // Change cursor to pointer
+    cellThreeElement.addEventListener('click', function() {
+        localStorage.setItem('auto_print_fifty_percent', true);
+        localStorage.setItem('print_voucher', false);
+        var generateVoucherButton = document.getElementById("generate_voucher_button");
+        if (generateVoucherButton) {
+            generateVoucherButton.click();
+        } else {
+            console.log("generate_voucher_button not found");
+        }
+    });     
     const tuitionFeeElement = document.createElement('td');
     tuitionFeeElement.textContent = '';
     tuitionFeeElement.style.columnWidth = "78px" 
@@ -73,18 +264,31 @@ if (el !== null) {
     // Create third row
     const rowThreeElement = document.createElement('tr');
     const cellFiveElement = document.createElement('td');
-    cellFiveElement.textContent = 'For Midterm';    
+    cellFiveElement.textContent = '100% Fee';  
+    const fullTuitionFee = document.createElement('td');
+    fullTuitionFee.textContent = '';
+    fullTuitionFee.style.textAlign =  "end";
+    rowThreeElement.appendChild(cellFiveElement);
+    rowThreeElement.appendChild(fullTuitionFee);
+    fullTuitionFee.textContent = "10,000";
+
+    // Create fourth row
+    const rowFourElement = document.createElement('tr');
+    const cellSevenElement = document.createElement('td');
+    cellSevenElement.textContent = 'For Midterm';   
+    cellSevenElement.style.textAlign =  "start"; 
     const forMidElement = document.createElement('td');
     forMidElement.textContent = '';
     forMidElement.style.textAlign =  "end";
-    rowThreeElement.appendChild(cellFiveElement);
-    rowThreeElement.appendChild(forMidElement);
+    rowFourElement.appendChild(cellSevenElement);
+    rowFourElement.appendChild(forMidElement);
     forMidElement.textContent = "0";
 
     // Append all rows to table element
     // tableElement.appendChild(rowOneElement);
     tableElement.appendChild(rowTwoElement);
     tableElement.appendChild(rowThreeElement);
+    tableElement.appendChild(rowFourElement);
 
     // Append table element to new div element
     newDivElement.appendChild(tableElement);
@@ -128,6 +332,7 @@ if (el !== null) {
 
     cellThreeElement.style.paddingLeft = '10px'
     cellFiveElement.style.paddingLeft = '10px'
+    cellSevenElement.style.paddingLeft = '10px'
 
 
     final_session = "";
@@ -254,8 +459,8 @@ if (el !== null) {
                 } 
             }        
         }  
-    }
-      
+    }  
+   
     full_scholorship = true;
     for (var i = 1, row; row = table.rows[i]; i++) {    
         for (var j = 0, col; col = row.cells[j]; j++) {
@@ -376,17 +581,19 @@ if (el !== null) {
     
     else {  
         if (remaining_balance < total) {  // student has no previos balance. Shows percentage in positive value or 0                          
-            var result = 100 - (remaining_balance / total * 100)             
+            var result = 100 - (remaining_balance / total * 100) 
         } 
         else { // previous balance means a negative percentage will be shown on screen 
             if (debt == 0 && total == 0) {
-                result = 100                
+                result = 100
             }
             else {
-                var result = 0 - (0 - debt / total * 100)                
+                var result = 0 - (0 - debt / total * 100)
             }  
         }   
-    }  
+    } 
+    
+    
     
     // const newDivElement = document.createElement('div');
     // newDivElement.setAttribute('class', 'my-class');
@@ -397,7 +604,7 @@ if (el !== null) {
     // const parentElement = oldDivElement.parentNode;
     // parentElement.insertBefore(newDivElement, oldDivElement);
 
-    
+    fullTuitionFee.textContent = total.toLocaleString("en-US");
 
     var required = 0;
     if (full_scholorship == true) {        
@@ -406,22 +613,22 @@ if (el !== null) {
         document.getElementById('R312550953030404706_heading').textContent = "Full Scholorship" + " - (For Mid: " + (remaining_balance).toLocaleString("en-US") + ")";
     }
     else {  
-        if (result < 0){            
-            if (advance_fee > 0) {  // Advance Fee Paid
-                var result = 0 - (0 - advance_fee / total * 100)
+        if (result < 0){
+            if (debt < 0) {     
+                var result = 0 - (0 + debt / total * 100)
                 required = Math.round(remaining_balance - (total / 2));
                 document.getElementById('R312550953030404706_heading').style.color = "#404040";
                 // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
                 document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
                 // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
-                tuitionFeeElement.textContent = Math.abs(Math.round(needed - advance_fee)).toLocaleString("en-US");
+                tuitionFeeElement.textContent = Math.abs(Math.round(needed + debt)).toLocaleString("en-US");
                 forMidElement.textContent = required.toLocaleString("en-US");
                 
             }
-            else {    // Advance Fee Paid       
-                var result = 0 - (0 - debt / total * 100)   
+            else {  
+                var result = 0;          
                 required = Math.round(remaining_balance - needed);
-                document.getElementById('R312550953030404706_heading').style.color = "#FF0000";
+                document.getElementById('R312550953030404706_heading').style.color = "#404040";
                 // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed + debt)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
                 document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
                 // feePaidElement.textContent = Math.round(result).toLocaleString("en-US") + "%";
@@ -429,7 +636,7 @@ if (el !== null) {
                 forMidElement.textContent = required.toLocaleString("en-US");
             }
         }
-        else if (result < 50){                     
+        else if (result < 50){                                  
             required = Math.round(remaining_balance - (total / 2));
             document.getElementById('R312550953030404706_heading').style.color = "#404040";
             // document.getElementById('R312550953030404706_heading').textContent = "Fee Paid: " + Math.round(result).toLocaleString("en-US") + "%" + " - (T. Fee: " + Math.abs(Math.round(needed + debt)).toLocaleString("en-US") + ")" + " - (For Mid: " + required.toLocaleString("en-US") + ")";
@@ -438,7 +645,7 @@ if (el !== null) {
             tuitionFeeElement.textContent =Math.abs(Math.round(needed + debt)).toLocaleString("en-US");
             forMidElement.textContent = required.toLocaleString("en-US");
         }
-        else {  
+        else {               
             if (other_values_charged - other_values_paid > 0) {                 
                 other_amount_charged = (other_values_charged - other_values_paid) / 8                                      
                 var result = 100 - ((remaining_balance + other_amount_charged) / (total) * 100)        
@@ -574,14 +781,15 @@ try {
             const anchorElement = anchorElements[i];
     
             if (anchorElement.innerHTML === searchNumber) {
-                const print_voucher = anchorElement;        
+                const print_voucher = anchorElement; 
+                  
                 // print_voucher.click(); // voilates policy
                 const textField = document.getElementById('P0_V_DIRECT_STUDENT_ID');
                 const value = textField.value;
                 const studentId = value;
                 const voucherNo = print_voucher.innerHTML;            
     
-                // Replace student_id and voucher_no values in the URL
+                // // Replace student_id and voucher_no values in the URL
                 const updatedUrl = url.replace(/v_student_id=[^&]+/, `v_student_id=${studentId}`).replace(/v_voucher_no=[^&]+/, `v_voucher_no=${voucherNo}`);
     
                 window.open(updatedUrl, '_blank', 'noopener');

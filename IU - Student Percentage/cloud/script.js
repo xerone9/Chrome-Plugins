@@ -199,7 +199,7 @@ if (el !== null) {
     const rowOneElement = document.createElement('tr');
     const cellOneElement = document.createElement('td');
     cellOneElement.textContent = 'Tuition Fee'; 
-    cellOneElement.style.columnWidth = "140px"
+    cellOneElement.style.columnWidth = "170px"
     cellOneElement.style.backgroundColor = "#F6F6F6";   
     cellOneElement.style.fontWeight = "bold";
     const feePaidElement = document.createElement('td');
@@ -207,7 +207,8 @@ if (el !== null) {
     feePaidElement.style.columnWidth = "5px"
     feePaidElement.style.backgroundColor = "#F6F6F6";
     feePaidElement.style.fontWeight = "bold";
-    feePaidElement.style.textAlign =  "end";   
+    feePaidElement.style.textAlign =  "end"; 
+    feePaidElement.style.marginRight =  "50px";  
     rowOneElement.appendChild(cellOneElement);
     rowOneElement.appendChild(feePaidElement); 
     
@@ -270,6 +271,7 @@ if (el !== null) {
         border-color: #262626;
         font-family: 'Helvetica Neue','Segoe UI',Helvetica,Arial,sans-serif;
         font-weight: lighter;
+        WIDTH: 105%;
         
     }
     .my-class {
@@ -280,7 +282,7 @@ if (el !== null) {
     }
     .my-table td {
         border: 1px solid black;
-        padding: 8px 12px;
+        padding: 4.5px 12px;
         border-color: #e6e6e6;              
     }
     `;
@@ -294,7 +296,7 @@ if (el !== null) {
     
     document.querySelectorAll('.t-Region-headerItems--title').forEach(function(element) {
         element.style.display = 'block';
-        element.style.marginRight = '-15px';
+        
     });
 
     cellThreeElement.style.paddingLeft = '10px'
@@ -485,7 +487,7 @@ if (el !== null) {
             } 
             if (row.cells[1].innerHTML == "" && row.cells[2].innerHTML == "") {
                 if (row.cells[3].innerHTML != "Package") {
-                    row.cells[3].style.color = "brown";
+                    row.cells[3].style.color = "#00008B";
                     row.cells[3].style.fontWeight = "750";
                 }
             }
@@ -569,6 +571,9 @@ if (el !== null) {
 
 
     var needed = (total / 2) + debt - advance_fee // tuition fee needed
+    if (needed <= remaining_balance) {
+        needed = 0;
+    }
     var required = Math.round(remaining_balance - (total / 2)); // for mid (tuition fee + others if charged) needed
 
     
@@ -702,9 +707,15 @@ if (el !== null) {
             const anchorElement = anchorElements[i];
                 if (anchorElement.innerHTML === searchNumber) {
                     const print_voucher = anchorElement; 
-                        
-                    print_voucher.click();                
-                    break;
+                    try{    
+                        print_voucher.click();  
+                        break;
+                    }
+                    catch {
+                        console.log("Auto Print Peding Voucher Not Working")
+                        alert(searchNumber + " in Pending Vouchers");
+                        break;
+                    }
                 }
             }
         }

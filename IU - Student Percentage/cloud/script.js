@@ -362,6 +362,9 @@ if (el !== null) {
                 if (generateVoucherButton) {
                     generateVoucherButton.click();
                 }
+            }
+            else {
+                alert("Invalid Amount")
             }            
         }
     });

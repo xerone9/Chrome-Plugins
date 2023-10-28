@@ -1,0 +1,28 @@
+{
+    "manifest_version": 3,
+    "name": "Tab Shifter",
+    "description": "Automating Chrome Tabs Foucs",
+    "version": "1.0",    
+    "permissions": [
+        "tabs",
+	      "activeTab",
+        "scripting",
+        "commands"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },     
+    "icons": {
+        "128": "logo.png"
+    },
+    "commands": {
+      "go-to-first-tab": {
+        "suggested_key": {
+          "default": "Ctrl+Shift+X",
+          "mac": "Ctrl+Shift+X"
+        },
+        "description": "Go to the first tab"
+      }
+    }
+}
+

@@ -511,6 +511,9 @@ if (el !== null) {
     if (result >= 50) {
         document.getElementById('R312550953030404706_heading').style.color = "#0000FF";
     }
+    else if (result < 0) {
+        document.getElementById('R312550953030404706_heading').style.color = "#FF0000";
+    }
     else {
         document.getElementById('R312550953030404706_heading').style.color = "#404040";
     }    

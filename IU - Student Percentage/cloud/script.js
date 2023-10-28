@@ -625,7 +625,6 @@ if (el !== null) {
 
     
 
-    console.log(required)
     fullTuitionFee.textContent = total.toLocaleString("en-US");    
 
     if (full_scholorship == true) {        

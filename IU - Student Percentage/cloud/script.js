@@ -20,7 +20,7 @@ function styledRow(rowNo) {
     var otherFeePaidCell = newRow.insertCell(4); // Changed index to 2
     otherFeePaidCell.colSpan = 1;
   
-    var cellStyle = "text-align: center; background-color: black; padding: 5px; color: white;";
+    var cellStyle = "text-align: center; background-color: #E6E6E6; padding: 5px; color: black; font-weight: bold; border: 2px solid black;";
   
     tuitionChargedCell.innerHTML = "Tuition DB";
     tuitionChargedCell.setAttribute("style", cellStyle);
@@ -57,7 +57,7 @@ function styledRow(rowNo) {
     var otherFeePaidCell = newRow.insertCell(4); // Changed index to 2
     otherFeePaidCell.colSpan = 1;
   
-    var cellStyle = "text-align: center; background-color: white; padding: 5px; color: black;";
+    var cellStyle = "text-align: center; background-color: white; padding: 5px; color: black; border: 2px solid black;";
   
     
     tuitionChargedCell.innerHTML = data['Tuition Fee Charged'] + "/-";
@@ -797,11 +797,12 @@ if (el !== null) {
 
     newCell.innerHTML = current_session;
     newCell.style.textAlign = "center";
-    newCell.style.backgroundColor = "#922D2D";
-    newCell.style.text = "#922D2D";
+    newCell.style.backgroundColor = "white";
     newCell.style.padding = "5px";
-    newCell.style.color = "white";
+    newCell.style.color = "black";
     newCell.style.fontWeight = "bold";
+    newCell.style.border = "0.2px solid grey";
+    
     
     }
 
@@ -814,10 +815,12 @@ if (el !== null) {
 
         newCell.innerHTML = session;
         newCell.style.textAlign = "center";
-        newCell.style.backgroundColor = "#922D2D";
+        newCell.style.backgroundColor = "white";
         newCell.style.padding = "5px";
-        newCell.style.color = "white";
+        newCell.style.color = "black";
         newCell.style.fontWeight = "bold";
+        newCell.style.border = "0.2px solid grey";
+        
     }
     
     all_seession_details = new Map();
@@ -1076,5 +1079,19 @@ Unfortunately Now I have to supply web address with hash manually to source code
 so that it can be reconstructed and open the voucher in new tab if available
 for this reason those who wants to use this functionality manual installation of plugin will be done there on that platform
 Need to load service worker to force browser to retain focus on active tab dont get to new tab after clicking 
+
+Changelog 5.0:
+``````````````
+
+Implemented auto open voucher print tab if there is a voucher not expired and pending (only working in the most updated version of chrome
+Not Working in Windows 7)
+Genrate Voucher Button is now set on the front. First it was like you have to click on "Issue Bank Voucher" then click the button
+Quick Voucher Box Added. Just enter amount and press enter key it will set the amount to sections automatically save voucher and open
+print voucher tab
+For Midterm value is changed to Payable half
+Payable half and payable total (payable total table is by sharafat) is hyperlinked just click if value is not 0 and it will create and
+save voucher and also open print voucher tab
+Students that dont have per semester package fee system will now have headers with session name and footers with total and paid fee
+breakups
 
 */

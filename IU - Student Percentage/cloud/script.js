@@ -574,7 +574,7 @@ if (el !== null) {
 
 
     var needed = (total / 2) + debt - advance_fee // tuition fee needed
-    if (needed <= remaining_balance) {
+    if (remaining_balance <= needed) {
         needed = 0;
     }
     var required = Math.round(remaining_balance - (total / 2)); // for mid (tuition fee + others if charged) needed

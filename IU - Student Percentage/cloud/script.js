@@ -4,6 +4,79 @@ function insertAfter(newNode, existingNode) {
     existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
 }
 
+function styledRow(rowNo) {
+    var newRow = table.insertRow(rowNo);
+    
+    var tuitionChargedCell = newRow.insertCell(0);
+    tuitionChargedCell.colSpan = 1;
+    var tuitionPaidCell = newRow.insertCell(1);
+    tuitionPaidCell.colSpan = 1;
+  
+    var balanceCell = newRow.insertCell(2);
+    balanceCell.colSpan = 4;
+  
+    var otherFeeChargedCell = newRow.insertCell(3); // Changed index to 2
+    otherFeeChargedCell.colSpan = 1;
+    var otherFeePaidCell = newRow.insertCell(4); // Changed index to 2
+    otherFeePaidCell.colSpan = 1;
+  
+    var cellStyle = "text-align: center; background-color: black; padding: 5px; color: white;";
+  
+    tuitionChargedCell.innerHTML = "Tuition DB";
+    tuitionChargedCell.setAttribute("style", cellStyle);
+    tuitionPaidCell.innerHTML = "Tuiti CR";
+    tuitionPaidCell.setAttribute("style", cellStyle);
+    
+  
+    balanceCell.innerHTML = "Remaining Balance";
+    balanceCell.setAttribute("style", cellStyle);
+    
+  
+    otherFeeChargedCell.innerHTML = "Other DB";
+    otherFeeChargedCell.setAttribute("style", cellStyle);
+    otherFeePaidCell.innerHTML = "Other CR";
+    otherFeePaidCell.setAttribute("style", cellStyle);
+    
+  }
+
+  function styledRow2(rowNo, key, sessionData) {
+    var data = sessionData.get(key);
+    
+    var newRow = table.insertRow(rowNo);
+    
+    var tuitionChargedCell = newRow.insertCell(0);
+    tuitionChargedCell.colSpan = 1;
+    var tuitionPaidCell = newRow.insertCell(1);
+    tuitionPaidCell.colSpan = 1;
+  
+    var balanceCell = newRow.insertCell(2);
+    balanceCell.colSpan = 4;
+  
+    var otherFeeChargedCell = newRow.insertCell(3); // Changed index to 2
+    otherFeeChargedCell.colSpan = 1;
+    var otherFeePaidCell = newRow.insertCell(4); // Changed index to 2
+    otherFeePaidCell.colSpan = 1;
+  
+    var cellStyle = "text-align: center; background-color: white; padding: 5px; color: black;";
+  
+    
+    tuitionChargedCell.innerHTML = data['Tuition Fee Charged'] + "/-";
+    tuitionChargedCell.setAttribute("style", cellStyle);
+    tuitionPaidCell.innerHTML = data['Tuition Fee Paid'] + "/-";
+    tuitionPaidCell.setAttribute("style", cellStyle);
+    
+
+    otherFeeChargedCell.innerHTML = data['Other Fee Charged'] + "/-";
+    otherFeeChargedCell.setAttribute("style", cellStyle);
+    otherFeePaidCell.innerHTML = data['Other Fee Paid'] + "/-";
+    otherFeePaidCell.setAttribute("style", cellStyle);
+
+    balance_caluclation = (parseInt(data['Tuition Fee Charged']) + parseInt(data['Other Fee Charged'])) - (parseInt(data['Tuition Fee Paid']) + parseInt(data['Other Fee Paid']));
+    balanceCell.innerHTML = balance_caluclation;
+    balanceCell.setAttribute("style", cellStyle);
+    
+  }
+
 if (el !== null) { 
     document.addEventListener('keydown', (event) => {
         if (event.key === ',') {
@@ -577,6 +650,9 @@ if (el !== null) {
     if (remaining_balance <= Math.abs(Math.round(needed))) {
         needed = 0;
     }
+    else if (needed <= 0) {
+        needed = 0
+    }
     var required = Math.round(remaining_balance - (total / 2)); // for mid (tuition fee + others if charged) needed
 
     
@@ -647,6 +723,197 @@ if (el !== null) {
         document.getElementById('R312550953030404706_heading').style.color = "#404040";
     }    
     }
+
+
+
+    package_type = false
+    var table = document.getElementById("report_table_R312545805814404689");
+    for (var i = 1, row; row = table.rows[i]; i++) {    
+        for (var j = 0, col; col = row.cells[j]; j++) { 
+            if (row.cells[3].innerHTML == 'Package') {                
+                if (row.cells[4].innerHTML != 'Admission Fees' && row.cells[4].innerHTML != 'Verification of Eligibility Document  Fees') {   
+                    package_type = true
+                }
+            } 
+        }
+    }
+
+    // Set headers as per session (Fall-2023 etc)
+    headers =  new Map();
+    package_row_found = false
+    course_row_found = false
+    course_row_adjustment = false
+    summer_row_found = false
+    session = "none"
+    var table = document.getElementById("report_table_R312545805814404689");
+    for (var i = table.rows.length - 1; i > 0; i--) {
+        var row = table.rows[i];
+        for (var j = row.cells.length - 1; j >= 0; j--) {
+            var col = row.cells[j];
+            if (row.cells[2].innerHTML != ''){
+                if (row.cells[2].innerHTML.includes('</strong>')){}
+                else{
+                    session = row.cells[2].innerHTML
+                }
+            }
+            if (package_type) {
+                
+            }
+            else {
+                if (row.cells[2].innerHTML == session) {
+                    var key = session;
+                    var value = i - 1;                    
+                    headers.set(key, value);                             
+                }
+                else {
+                    if (row.cells[3].innerHTML == 'Package') {
+                        course_row_adjustment = true
+                        break
+                    }           
+                } 
+
+            }
+        }
+    }
+
+    if (course_row_adjustment) {
+        var keysArray = Array.from(headers.keys());
+        if (keysArray.length > 0) {
+            var lastKey = keysArray[keysArray.length - 1];
+            headers.delete(lastKey);                            
+        }
+    }
+
+    
+    for (let [key, value] of headers.entries()) {
+    var current_session = key; // Get the value associated with the key
+    var rowIndex = parseInt(value);
+
+    var newRow = table.insertRow(rowIndex + 1);
+    // styledRow2(rowIndex + 1);
+    // styledRow(rowIndex + 1); 
+    var newCell = newRow.insertCell(0);
+    newCell.colSpan = table.rows[0].cells.length;
+
+    newCell.innerHTML = current_session;
+    newCell.style.textAlign = "center";
+    newCell.style.backgroundColor = "#922D2D";
+    newCell.style.text = "#922D2D";
+    newCell.style.padding = "5px";
+    newCell.style.color = "white";
+    newCell.style.fontWeight = "bold";
+    
+    }
+
+    // first row
+    if (!package_type) {
+        var newRow = table.insertRow(1);
+        var newCell = newRow.insertCell(0);
+        newCell.colSpan = table.rows[0].cells.length;
+    
+
+        newCell.innerHTML = session;
+        newCell.style.textAlign = "center";
+        newCell.style.backgroundColor = "#922D2D";
+        newCell.style.padding = "5px";
+        newCell.style.color = "white";
+        newCell.style.fontWeight = "bold";
+    }
+    
+    all_seession_details = new Map();
+    current_semester_details = {}
+    current_semester = "None"
+    current_semester_details['Tuition Fee Charged'] = 0
+    current_semester_details['Tuition Fee Paid'] = 0
+    current_semester_details['Other Fee Charged'] = 0
+    current_semester_details['Other Fee Paid'] = 0
+
+    for (var i = 1, row; row = table.rows[i]; i++) { 
+        try{  
+            for (var j = 0, col; col = row.cells[j]; j++) { 
+                if (row.cells[4].innerHTML.includes('</strong>')) {}
+                else {
+                    if (row.cells[4].innerHTML != "") {
+                        if (row.cells[5].innerHTML != "") {
+                            if (row.cells[4].innerHTML == "Tuition Fees") {                                  
+                                removing_comas = row.cells[5].innerHTML.replace(",", "");  
+                                current_semester_details['Tuition Fee Charged'] += parseInt(removing_comas) / 8                             
+                            }
+                            else {
+                                removing_comas = row.cells[5].innerHTML.replace(",", "");  
+                                current_semester_details['Other Fee Charged'] += parseInt(removing_comas) / 8   
+                            }                          
+                        }
+                        if (row.cells[6].innerHTML != "") {
+                            if (row.cells[4].innerHTML == "Tuition Fees") {
+                                removing_comas = row.cells[6].innerHTML.replace(",", "");   
+                                current_semester_details['Tuition Fee Paid'] += parseInt(removing_comas) / 8
+                            }
+                            else {
+                                removing_comas = row.cells[6].innerHTML.replace(",", "");   
+                                current_semester_details['Other Fee Paid'] += parseInt(removing_comas) / 8
+                            }                            
+                        }
+                    }
+                }
+            }
+        }
+    
+        catch (error) {
+            if (current_semester != "None") {
+                var key = current_semester;
+                var value = current_semester_details; 
+                all_seession_details.set(current_semester, value);                
+                
+                current_semester_details = {}
+                current_semester_details['Tuition Fee Charged'] = 0
+                current_semester_details['Tuition Fee Paid'] = 0
+                current_semester_details['Other Fee Charged'] = 0
+                current_semester_details['Other Fee Paid'] = 0
+                
+            }
+            
+            current_semester = row.cells[0].innerHTML;            
+              
+        }
+    }
+
+    
+   // Last row
+    if (!package_type) {
+        var key = current_semester;
+        var value = current_semester_details; 
+        all_seession_details.set(current_semester, value);
+        styledRow(table.rows.length - 1); 
+        styledRow2(table.rows.length - 1, key, all_seession_details);
+    }
+
+
+    for (var i = table.rows.length - 1; i > 0; i--) {
+        var row = table.rows[i];
+        for (var j = row.cells.length - 1; j >= 0; j--) {
+            var col = row.cells[j];
+            var numberOfCellsInRow = row.cells.length;
+            if (numberOfCellsInRow == 1) {                
+                current_session = row.cells[0].innerHTML
+                let previousKey = null;
+                for (let key of all_seession_details.keys()) {
+                    if (key === current_session) {            
+                        break;
+                    }
+                    previousKey = key;
+                }
+                try {                        
+                    styledRow2(i, previousKey, all_seession_details); 
+                    styledRow(i); 
+                } catch (error) {}                   
+                                    
+            }
+        }
+    }
+
+
+
 
     
     

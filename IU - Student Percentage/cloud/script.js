@@ -20,7 +20,7 @@ function styledRow(rowNo) {
     var otherFeePaidCell = newRow.insertCell(4); // Changed index to 2
     otherFeePaidCell.colSpan = 1;
   
-    var cellStyle = "text-align: center; background-color: #E6E6E6; padding: 5px; color: black; font-weight: bold; border: 2px solid black;";
+    var cellStyle = "text-align: center; background-color: #E6E6E6; padding: 5px; color: black; font-weight: bold;";
   
     tuitionChargedCell.innerHTML = "Tuition DB";
     tuitionChargedCell.setAttribute("style", cellStyle);
@@ -57,7 +57,7 @@ function styledRow(rowNo) {
     var otherFeePaidCell = newRow.insertCell(4); // Changed index to 2
     otherFeePaidCell.colSpan = 1;
   
-    var cellStyle = "text-align: center; background-color: white; padding: 5px; color: black; border: 2px solid black;";
+    var cellStyle = "text-align: center; background-color: white; padding: 5px; color: black; border: 1px solid grey;";
   
     
     tuitionChargedCell.innerHTML = data['Tuition Fee Charged'] + "/-";

@@ -801,9 +801,8 @@ if (el !== null) {
     newCell.style.padding = "5px";
     newCell.style.color = "black";
     newCell.style.fontWeight = "bold";
-    newCell.style.border = "0.2px solid grey";
-    
-    
+    newCell.style.border = "1px solid #e6e6e6";
+
     }
 
     // first row
@@ -819,7 +818,7 @@ if (el !== null) {
         newCell.style.padding = "5px";
         newCell.style.color = "black";
         newCell.style.fontWeight = "bold";
-        newCell.style.border = "0.2px solid grey";
+        newCell.style.border = "1px solid #e6e6e6";
         
     }
     

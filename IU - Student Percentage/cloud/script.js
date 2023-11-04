@@ -973,16 +973,24 @@ if (el !== null) {
             for (let i = 0; i < anchorElements.length; i++) {
             const anchorElement = anchorElements[i];
                 if (anchorElement.innerHTML === searchNumber) {
-                    const print_voucher = anchorElement; 
-                    try{    
+                    const print_voucher = anchorElement;
+
+                    // Get Chrome Version as it only works in most updated chrome browser
+                    var inputString = navigator.appVersion.match(/.*Chrome\/([0-9\.]+)/)[1];
+                    var parts = inputString.split('.');
+                    var firstPortion = parts[0];
+                    var intValue = parseInt(firstPortion, 10);
+
+                    if (intValue >= 118) {
                         print_voucher.click();  
-                        break;
+                        break; 
                     }
-                    catch {
+                    else{
                         console.log("Auto Print Peding Voucher Not Working")
                         alert(searchNumber + " in Pending Vouchers");
                         break;
                     }
+                    
                 }
             }
         }

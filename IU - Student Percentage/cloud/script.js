@@ -493,11 +493,19 @@ if (el !== null) {
     temp = 0;
     degree_provisional_cms_charged = 0;
     degree_provisional_cms_paid = 0;
-    full_scholorship = true;    
+    full_scholorship = true;
+    package_type = false  
+    
+    
     var table = document.getElementById("report_table_R312545805814404689");
     var arr = new Array();
     for (var i = 1, row; row = table.rows[i]; i++) {    
-        for (var j = 0, col; col = row.cells[j]; j++) {  
+        for (var j = 0, col; col = row.cells[j]; j++) {
+            if (row.cells[3].innerHTML == 'Package') {                
+                if (row.cells[4].innerHTML != 'Admission Fees' && row.cells[4].innerHTML != 'Verification of Eligibility Document  Fees') {   
+                    package_type = true
+                }
+            }   
             removing_comas = row.cells[5].innerHTML.replace(",", "");
             if (tuition_fee_charged.includes(removing_comas)) {
 
@@ -725,19 +733,6 @@ if (el !== null) {
     }
 
 
-
-    package_type = false
-    var table = document.getElementById("report_table_R312545805814404689");
-    for (var i = 1, row; row = table.rows[i]; i++) {    
-        for (var j = 0, col; col = row.cells[j]; j++) { 
-            if (row.cells[3].innerHTML == 'Package') {                
-                if (row.cells[4].innerHTML != 'Admission Fees' && row.cells[4].innerHTML != 'Verification of Eligibility Document  Fees') {   
-                    package_type = true
-                }
-            } 
-        }
-    }
-
     // Set headers as per session (Fall-2023 etc)
     headers =  new Map();
     package_row_found = false
@@ -957,6 +952,7 @@ if (el !== null) {
 
         for (const key in vouchers) {
         const voucherDate = new Date(vouchers[key][0]);
+	voucherDate.setHours(23, 59, 59);
         const get_voucher_status = vouchers[key][1]
         if (voucherDate >= currentDate && get_voucher_status == "Pending") {
             get_voucher = key;

@@ -1,27 +1,26 @@
 {
     "manifest_version": 3,
-    "name": "Tab Shifter",
+    "name": "Umaid - Tab Shifter",
     "description": "Automating Chrome Tabs Foucs",
     "version": "1.0",    
     "permissions": [
         "tabs",
-	 "activeTab",
+	      "activeTab",
         "scripting",
-        "commands",
-        "storage"
+        "commands"
     ],
     "background": {
         "service_worker": "background.js"
-    },
-    "content_scripts": [
-        {
-            "matches": ["http://172.16.0.6:81/ords/*", "http://faculty.induscms.com:81/ords/*", "http://local.induscms.com:81/ords/*", 	                            "http://faculty.induscms.com:8889/reports/*"], 
-	    "js": ["script.js"]             
-        }
-    ],     
+    },     
     "icons": {
         "128": "logo.png"
     },
+    "content_scripts": [
+      {
+          "matches": ["http://172.16.0.6:81/ords/*", "http://faculty.induscms.com:81/ords/*", "http://local.induscms.com:81/ords/*", "http://faculty.induscms.com:8889/reports/*"], 
+          "js": ["script.js"]             
+      }
+    ],
     "commands": {
       "go-to-first-tab": {
         "suggested_key": {

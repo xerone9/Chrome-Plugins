@@ -909,88 +909,86 @@ if (el !== null) {
         }
     }
 
-
-
-
     
-    
-    var get_student_id = localStorage.getItem('student_id');
-    if (get_student_id != student_id.value) {
-        localStorage.setItem('student_id', student_id.value);
-        const div = document.getElementById('report_table_R312567687309404769');
-        const tdElements = div.getElementsByTagName('td');
-        let foundAnchor = false;
-        const vouchers = {};
-        let scount = 0;
-        let voucher_found = false;
+    const div = document.getElementById('report_table_R312567687309404769');
+    if (div && remaining_balance > 0) {
+        var get_student_id = localStorage.getItem('student_id');
+        if (get_student_id != student_id.value) {
+            localStorage.setItem('student_id', student_id.value);
+            const tdElements = div.getElementsByTagName('td');
+            let foundAnchor = false;
+            const vouchers = {};
+            let scount = 0;
+            let voucher_found = false;
 
-        for (let i = 0; i < tdElements.length; i++) {
-        const tdElement = tdElements[i];
-        const anchorElement = tdElement.querySelector('a');
+            for (let i = 0; i < tdElements.length; i++) {
+            const tdElement = tdElements[i];
+            const anchorElement = tdElement.querySelector('a');
 
-        if (anchorElement) {
-            if (foundAnchor) {
-            scount = i; 
+            if (anchorElement) {
+                if (foundAnchor) {
+                scount = i; 
+                }
+
+                const voucher_status = tdElements[scount + 3].innerHTML;
+                const voucher_expiry = tdElements[scount + 7].innerHTML;
+                const key = anchorElement.innerHTML;
+                const valueToAppend = [voucher_expiry, voucher_status];
+
+                if (!vouchers.hasOwnProperty(key)) {
+                vouchers[key] = valueToAppend;
+                }
+
+                foundAnchor = true;
+            }
             }
 
-            const voucher_status = tdElements[scount + 3].innerHTML;
-            const voucher_expiry = tdElements[scount + 7].innerHTML;
-            const key = anchorElement.innerHTML;
-            const valueToAppend = [voucher_expiry, voucher_status];
 
-            if (!vouchers.hasOwnProperty(key)) {
-            vouchers[key] = valueToAppend;
+            const currentDate = new Date();
+            get_voucher = '';
+
+            for (const key in vouchers) {
+            const voucherDate = new Date(vouchers[key][0]);
+            voucherDate.setHours(23, 59, 59);
+            const get_voucher_status = vouchers[key][1]
+            if (voucherDate >= currentDate && get_voucher_status == "Pending") {
+                get_voucher = key;
+                voucher_found = true;
+                break;
             }
-
-            foundAnchor = true;
-        }
-        }
-
-
-        const currentDate = new Date();
-        get_voucher = '';
-
-        for (const key in vouchers) {
-        const voucherDate = new Date(vouchers[key][0]);
-	voucherDate.setHours(23, 59, 59);
-        const get_voucher_status = vouchers[key][1]
-        if (voucherDate >= currentDate && get_voucher_status == "Pending") {
-            get_voucher = key;
-            voucher_found = true;
-            break;
-        }
-            else {
-                
-            }
-        }
-
-        if (voucher_found) {
-            const div2 = document.getElementById('report_table_R312567687309404769');
-            const anchorElements = div2.getElementsByTagName('a');
-            const searchNumber = get_voucher;
-            
-
-            for (let i = 0; i < anchorElements.length; i++) {
-            const anchorElement = anchorElements[i];
-                if (anchorElement.innerHTML === searchNumber) {
-                    const print_voucher = anchorElement;
-
-                    // Get Chrome Version as it only works in most updated chrome browser
-                    var inputString = navigator.appVersion.match(/.*Chrome\/([0-9\.]+)/)[1];
-                    var parts = inputString.split('.');
-                    var firstPortion = parts[0];
-                    var intValue = parseInt(firstPortion, 10);
-
-                    if (intValue >= 118) {
-                        print_voucher.click();  
-                        break; 
-                    }
-                    else{
-                        console.log("Auto Print Peding Voucher Not Working")
-                        alert(searchNumber + " in Pending Vouchers");
-                        break;
-                    }
+                else {
                     
+                }
+            }
+
+            if (voucher_found) {
+                const div2 = document.getElementById('report_table_R312567687309404769');
+                const anchorElements = div2.getElementsByTagName('a');
+                const searchNumber = get_voucher;
+                
+
+                for (let i = 0; i < anchorElements.length; i++) {
+                const anchorElement = anchorElements[i];
+                    if (anchorElement.innerHTML === searchNumber) {
+                        const print_voucher = anchorElement;
+
+                        // Get Chrome Version as it only works in most updated chrome browser
+                        var inputString = navigator.appVersion.match(/.*Chrome\/([0-9\.]+)/)[1];
+                        var parts = inputString.split('.');
+                        var firstPortion = parts[0];
+                        var intValue = parseInt(firstPortion, 10);
+
+                        if (intValue >= 118) {
+                            print_voucher.click();  
+                            break; 
+                        }
+                        else{
+                            console.log("Auto Print Peding Voucher Not Working")
+                            alert(searchNumber + " in Pending Vouchers");
+                            break;
+                        }
+                        
+                    }
                 }
             }
         }

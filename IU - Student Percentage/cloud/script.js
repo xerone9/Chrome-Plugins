@@ -77,7 +77,7 @@ function styledRow(rowNo) {
     
   }
 
-if (el !== null) { 
+if (el !== null) {     
     document.addEventListener('keydown', (event) => {
         if (event.key === ',') {
             event.preventDefault();
@@ -971,6 +971,7 @@ if (el !== null) {
                 const anchorElement = anchorElements[i];
                     if (anchorElement.innerHTML === searchNumber) {
                         const print_voucher = anchorElement;
+                        
 
                         // Get Chrome Version as it only works in most updated chrome browser
                         var inputString = navigator.appVersion.match(/.*Chrome\/([0-9\.]+)/)[1];
@@ -984,18 +985,7 @@ if (el !== null) {
                         }
                         else{
                             console.log("Auto Print Peding Voucher Not Working")
-                            // alert(searchNumber + " in Pending Vouchers");
-                            const newAnchor = document.createElement('a');
-
-                            // Set its properties (e.g., href, text, etc.) to match the existing anchor
-                            newAnchor.href = anchorElement.href;
-                            newAnchor.innerHTML = "New Anchor Text"; // Change this to your desired text
-
-                            // Add the new anchor to the top of the page (before any other content)
-                            document.body.insertBefore(newAnchor, document.body.firstChild);
-
-                            // Simulate a click event on the new anchor element
-                            newAnchor.click();
+                            alert(searchNumber + " in Pending Vouchers");
                             break;
                         }
                         
@@ -1101,6 +1091,7 @@ Genrate Voucher Button is now set on the front. First it was like you have to cl
 Quick Voucher Box Added. Just enter amount and press enter key it will set the amount to sections automatically save voucher and open
 print voucher tab
 For Midterm value is changed to Payable half
+Brown Color Add Extra Lines are now changed to Navy Blue Color
 Payable half and payable total (payable total table is by sharafat) is hyperlinked just click if value is not 0 and it will create and
 save voucher and also open print voucher tab
 Students that dont have per semester package fee system will now have headers with session name and footers with total and paid fee

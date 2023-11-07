@@ -1,12 +1,12 @@
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === 'storeValue') {
-    chrome.storage.local.set({ storedValue: message.value }, () => {
+// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+//   if (message.type === 'storeValue') {
+//     chrome.storage.local.set({ storedValue: message.value }, () => {
      
-    });
+//     });
 
-    return true; // Indicates that the response will be sent asynchronously
-  }
-});
+//     return true; // Indicates that the response will be sent asynchronously
+//   }
+// });
 
 
 chrome.commands.onCommand.addListener(function(command) {

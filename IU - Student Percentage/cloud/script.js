@@ -984,7 +984,18 @@ if (el !== null) {
                         }
                         else{
                             console.log("Auto Print Peding Voucher Not Working")
-                            alert(searchNumber + " in Pending Vouchers");
+                            // alert(searchNumber + " in Pending Vouchers");
+                            const newAnchor = document.createElement('a');
+
+                            // Set its properties (e.g., href, text, etc.) to match the existing anchor
+                            newAnchor.href = anchorElement.href;
+                            newAnchor.innerHTML = "New Anchor Text"; // Change this to your desired text
+
+                            // Add the new anchor to the top of the page (before any other content)
+                            document.body.insertBefore(newAnchor, document.body.firstChild);
+
+                            // Simulate a click event on the new anchor element
+                            newAnchor.click();
                             break;
                         }
                         

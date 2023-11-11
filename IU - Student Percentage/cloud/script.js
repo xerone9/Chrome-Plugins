@@ -911,9 +911,9 @@ if (el !== null) {
 
     
     const div = document.getElementById('report_table_R312567687309404769');
-    if (div && remaining_balance > 0) {
-        var get_student_id = localStorage.getItem('student_id');
-        if (get_student_id != student_id.value) {
+    var get_student_id = localStorage.getItem('student_id');
+    if (get_student_id != student_id.value) {
+        if (div && remaining_balance > 0) {
             localStorage.setItem('student_id', student_id.value);
             const tdElements = div.getElementsByTagName('td');
             let foundAnchor = false;

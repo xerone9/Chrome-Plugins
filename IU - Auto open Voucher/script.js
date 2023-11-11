@@ -4,9 +4,10 @@ const url = 'http://faculty.induscms.com:8889/reports/rwservlet?login1&destype=C
 
 if (el !== null) { 
     const student_id = document.querySelector("input[name='P0_V_DIRECT_STUDENT_ID']");
-    var get_student_id = localStorage.getItem('student_id');
+    var get_student_id = localStorage.getItem('student_id2');
     if (get_student_id != student_id.value) {
-        localStorage.setItem('student_id', student_id.value);
+        localStorage.setItem('student_id2', student_id.value);
+        console.log("hi")
         const div = document.getElementById('report_table_R312567687309404769');
         const tdElements = div.getElementsByTagName('td');
         let foundAnchor = false;

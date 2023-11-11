@@ -7,7 +7,7 @@ INSURANCE_SHEET_NAME_ID_TRANSLATION = {
     'EFU Life - FT0000606': 698956289,
     'EFU Life Paycon - FT0000668': 1009552247,
     'Deductions': 613767189,
-  };
+};
 const SPREADSHEETID = '1pOJ_8cSDvF6wVeIQqBND_8i3RcRwTBBEPVkqZhyGtpw';
 
 
@@ -29,12 +29,12 @@ function rowFontColor(insurance_name, rowToUpdate, columnToUpdate, token){
         const requests = [
             {
             "updateCells": {
-                "range": {
-                "sheetId": sheetName,
-                "startRowIndex": rowToUpdate - 1,
-                "endRowIndex": rowToUpdate, // Updated to include the row below for better compatibility
-                "startColumnIndex": i - 1,
-                "endColumnIndex": i // Updated to include the column next to the specified one
+                    "range": {
+                    "sheetId": sheetName,
+                    "startRowIndex": rowToUpdate - 1,
+                    "endRowIndex": rowToUpdate, // Updated to include the row below for better compatibility
+                    "startColumnIndex": i - 1,
+                    "endColumnIndex": i // Updated to include the column next to the specified one
                 },
                 "rows": [
                 {
@@ -59,19 +59,19 @@ function rowFontColor(insurance_name, rowToUpdate, columnToUpdate, token){
         };
 
         fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEETID}:batchUpdate`, {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(batchUpdateRequest),
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(batchUpdateRequest),
         })
-            .then(response => response.json())       
-            .catch(error => {
-                console.error('Error updating font color in Google Sheets:', error);
-            });
-        }
+        .then(response => response.json())       
+        .catch(error => {
+            console.error('Error updating font color in Google Sheets:', error);
+        });
     }
+}
 
 
 function make_entry_in_google_sheets() {

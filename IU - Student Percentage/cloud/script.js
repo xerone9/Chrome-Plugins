@@ -985,7 +985,6 @@ if (el !== null) {
                         }
                         else{
                             console.log("Auto Print Peding Voucher Not Working")
-                            alert(searchNumber + " in Pending Vouchers");
                             break;
                         }
                         

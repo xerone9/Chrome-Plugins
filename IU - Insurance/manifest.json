@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "IU - Insurance",
+  "version": "1.0",
+  "description": "Delete Insurance Registered Employee with ID",
+  "icons": {
+    "128": "logo.png"
+  },
+  "permissions": [
+    "activeTab",
+    "identity"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*.google.com/*"],
+      "js": ["script.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"    
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "oauth2": {
+    "client_id": "777525635481-o91pnqpuf292auibi0jn3c4jr5fb5sog.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/spreadsheets",
+      "https://www.googleapis.com/auth/userinfo.email"
+    ]
+  },
+  "icons": {
+    "128": "logo.png"
+  }
+}

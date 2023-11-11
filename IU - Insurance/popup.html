@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <button id="additionButton">Addition</button>
+    <button id="deletionButton">Deletion</button>
+
+    <div id="additionSection" class="hidden">
+        <label for="emp_id">Employee ID:</label>
+        <input type="text" id="emp_id"><br>
+
+        <label for="emp_name">Name:</label>
+        <input type="text" id="emp_name"><br>
+
+        <label for="father_name">Father Name:</label>
+        <input type="text" id="father_name"><br>
+
+        <label for="cnic">CNIC:</label>
+        <input type="text" id="cnic"><br>
+
+        <label for="dob">Date Of Birth:</label>
+        <input type="text" id="dob"><br>
+
+        <button id="insertButton">Insert</button>
+    </div>
+
+    <div id="deletionLabelSection" class="hidden">
+        <label for="search_employee">Employee ID:</label>
+        <input type="text" id="search_employee"><br>
+        <button id="searchButton">Search</button>
+    </div>
+
+    <div id="deletionTableSection" class="hidden">
+        <label for="searchResultLabel">Search Result:</label>
+        <table id="data_table">
+            <tr>
+                <th>Insuarance</th>
+                <th>Employee ID</th>
+                <th>Employee Name</th>
+                <th>NIC</th>
+            </tr>
+        </table>
+        <button id="deleteButton">Delete</button>
+    </div>   
+    
+    <div id="deletionEmployeeNotFound" class="hidden">
+        <label>Search Result:</label>
+        <label id="EmployeeNotFound">Employee Not Found</label>        
+    </div>     
+
+    <script src="popup.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

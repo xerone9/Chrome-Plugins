@@ -1,5 +1,12 @@
 // popup.js
 
+function searchEmployee() {
+    var searchInput = document.getElementById("search_employee");
+    if (searchInput.value === "") {
+        return; // Prevent further execution if the input is empty
+    }
+}
+
 const additionButton = document.getElementById('additionButton');
 const deletionButton = document.getElementById('deletionButton');
 const additionSection = document.getElementById('additionSection');

@@ -6,16 +6,19 @@
     "permissions": [
         "storage",
         "tabs",
-	"activeTab",
+	    "activeTab",
         "scripting"       
-    ],    
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },    
     "icons": {
         "128": "logo.png"
     },    
     "content_scripts": [
         {
             "matches": ["http://172.16.0.6:81/ords/*", "http://faculty.induscms.com:81/ords/*", "http://local.induscms.com:81/ords/*", "http://faculty.induscms.com:8889/reports/*"], 
-	    "js": ["script.js"]             
+	        "js": ["script.js"]             
         }
     ]
 }

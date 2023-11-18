@@ -36,7 +36,15 @@
 
     <div id="additionSection" class="hidden">
         <label for="emp_id">Employee ID:</label>
-        <input type="text" id="emp_id"><br>
+        <input type="number" id="emp_id"><br>
+
+        <label for="emp_plan">Insurance:</label>
+        <select id="emp_plan">
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D" selected>D</option>
+        </select>
 
         <label for="emp_name">Name:</label>
         <input type="text" id="emp_name"><br>
@@ -48,15 +56,26 @@
         <input type="text" id="cnic"><br>
 
         <label for="dob">Date Of Birth:</label>
-        <input type="text" id="dob"><br>
+        <input type="text" id="dob" placeholder="01-Jan-90"><br>
 
-        <button id="insertButton">Insert</button>
+        <label for="relationship">Relation:</label>
+        <input type="text" id="relationship" value="Employee"><br>
+
+        <label for="which_insurance">Insurance:</label>
+        <select id="which_insurance">
+        <option value="standard" selected>Standard</option>
+        <option value="Paycon">Paycon</option>
+        <option value="All">All</option>
+        </select>
+
+        <button id="add">Add</button>
     </div>
 
     <div id="deletionLabelSection" class="hidden">
         <label for="search_employee">Employee ID:</label>
-        <input type="text" id="search_employee"><br>
-        <button id="searchButton">Search</button>
+        <input type="number" id="search_employee"><br>
+        <label id="enter_employee_id"></label><br>
+        <button id="searchButton" onclick="searchEmployee()">Search</button>
     </div>
 
     <div id="deletionTableSection" class="hidden">
@@ -69,6 +88,8 @@
                 <th>NIC</th>
             </tr>
         </table>
+        <label id="excel_entry"></label><br>
+        <label id="sending_email"></label><br>
         <button id="deleteButton">Delete</button>
     </div>   
     

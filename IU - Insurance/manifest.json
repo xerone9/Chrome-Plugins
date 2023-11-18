@@ -26,7 +26,8 @@
     "client_id": "777525635481-o91pnqpuf292auibi0jn3c4jr5fb5sog.apps.googleusercontent.com",
     "scopes": [
       "https://www.googleapis.com/auth/spreadsheets",
-      "https://www.googleapis.com/auth/userinfo.email"
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/gmail.send"
     ]
   },
   "icons": {

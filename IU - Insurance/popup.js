@@ -1,11 +1,6 @@
 // popup.js
 
-function searchEmployee() {
-    var searchInput = document.getElementById("search_employee");
-    if (searchInput.value === "") {
-        return; // Prevent further execution if the input is empty
-    }
-}
+
 
 const additionButton = document.getElementById('additionButton');
 const deletionButton = document.getElementById('deletionButton');
@@ -20,16 +15,19 @@ additionButton.addEventListener('click', () => {
     additionSection.classList.remove('hidden');
     deletionLabelSection.classList.add('hidden');
     deletionTableSection.classList.add('hidden');
-    deletionEmployeeNotFound.classList.add('hidden');
+    deletionEmployeeNotFound.classList.add('hidden');  
+    document.getElementById("add").classList.remove('hidden');  
 });
 
 deletionButton.addEventListener('click', () => {
     deletionButton.style.display = 'none';
     additionButton.style.display = 'none';
     additionSection.classList.add('hidden');
-    deletionLabelSection.classList.remove('hidden');
+    deletionLabelSection.classList.remove('hidden');    
     deletionTableSection.classList.add('hidden');
     deletionEmployeeNotFound.classList.add('hidden');
+    document.getElementById("searchButton").classList.remove('hidden');
+    document.getElementById('deleteButton').style.width = "20%";
 });
         
 

@@ -1,4 +1,12 @@
-const el = document.getElementById('R312550953030404706_heading');
+const PENDING_BALANCE_DETAIL_HEADING = document.getElementById('R316390252032604579_heading');
+const STUDENT_LEDGER = document.getElementById('report_table_R316385104816604562');
+const PENDING_VOUCHER_TABLE = document.getElementById('report_table_R316406986311604642');
+const PENDING_BALANCE_DETAIL_TABLE = document.getElementById('report_table_R316390252032604579');
+const STUDENT_ID = document.getElementById('P0_V_DIRECT_STUDENT_ID');
+const GENERATE_VOUCHER_BUTTON = document.getElementById('B289463526566461369');
+const GENERATE_VOUCHER_TABLE = document.getElementById('report_table_R316391895542604585');
+const APPLY_CHANGES_BUTTON = document.getElementById("B289463912741461369");
+const PRINT_VOUCHER_BUTTON = document.getElementById("B289464337693461371");
 
 function insertAfter(newNode, existingNode) {
     existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
@@ -77,7 +85,7 @@ function styledRow(rowNo) {
     
   }
 
-if (el !== null) {     
+if (PENDING_BALANCE_DETAIL_HEADING !== null) {     
     document.addEventListener('keydown', (event) => {
         if (event.key === ',') {
             event.preventDefault();
@@ -90,9 +98,7 @@ if (el !== null) {
       });
 
 
-    const student_id = document.querySelector("input[name='P0_V_DIRECT_STUDENT_ID']");
-
-    var table = document.getElementById("report_table_R312550953030404706");
+    var table = PENDING_BALANCE_DETAIL_TABLE;
     var negate_value = 0
 
     if (table) {        
@@ -124,7 +130,7 @@ if (el !== null) {
         var auto_print_manual_fee = retrievedBooleanValue4 === 'true';
         var print_voucher = retrievedBooleanValue2 === 'true';
         if (auto_print_fifty_percent || auto_print_hundred_percent || auto_print_manual_fee) {
-            var table = document.getElementById("report_table_R312552596540404712");
+            var table = GENERATE_VOUCHER_TABLE;
 
             if (table) {
                 var tbody = table.getElementsByTagName("tbody")[0];
@@ -157,7 +163,7 @@ if (el !== null) {
                                 }
 
                                 if (auto_print_manual_fee) {
-                                    var table = document.getElementById("report_table_R312552596540404712");
+                                    var table = GENERATE_VOUCHER_TABLE;
                                     for (var i = 1, row; row = table.rows[i]; i++) {
                                         var type_fee = row.cells[1].textContent; // Access content of column 2
                                         var inputField = row.cells[2].querySelector("input");                                                                                
@@ -183,12 +189,8 @@ if (el !== null) {
                                     
                                 }
 
-                                var applyChangesElement = document.getElementById("B285624613739261496");
-                                var printVoucherElement = document.getElementById("B285625038691261498");
-                                
-
-                                if (applyChangesElement) {
-                                    applyChangesElement.click();
+                                if (APPLY_CHANGES_BUTTON) {
+                                    APPLY_CHANGES_BUTTON.click();
                                     localStorage.setItem('auto_print_fifty_percent', false);
                                     localStorage.setItem('auto_print_hundred_percent', false);
                                     localStorage.setItem('auto_print_manual_fee', false);
@@ -208,9 +210,8 @@ if (el !== null) {
             }
         }
         if (print_voucher){
-            var printVoucherElement = document.getElementById("B285625038691261498");
-            if (printVoucherElement) {
-                printVoucherElement.click();
+            if (PRINT_VOUCHER_BUTTON) {
+                PRINT_VOUCHER_BUTTON.click();
                 localStorage.setItem('print_voucher', false);
                 localStorage.setItem('manual_fee_amount', null);
                 quickVoucher.value = null;
@@ -221,7 +222,7 @@ if (el !== null) {
     };
 
 
-    var table = document.getElementById("report_table_R312550953030404706");
+    var table = PENDING_BALANCE_DETAIL_TABLE;
 
     
     if (table) {
@@ -258,7 +259,7 @@ if (el !== null) {
 
 
     // const oldDivElement = document.querySelector('.t-Region-headerItems t-Region-headerItems--buttons');
-    const oldDivElement = document.getElementById('R312550953030404706_heading');
+    const oldDivElement = PENDING_BALANCE_DETAIL_HEADING;
     const parentElement = oldDivElement.parentNode;
 
     const newDivElement = document.createElement('div');
@@ -378,11 +379,11 @@ if (el !== null) {
 
 
 
-    document.getElementById('R312550953030404706_heading').style.fontFamily = "'Helvetica Neue','Segoe UI',Helvetica,Arial,sans-serif";
-    document.getElementById('R312550953030404706_heading').style.color = "#A020F0";
-    document.getElementById('R312550953030404706_heading').style.fontWeight = "700";
-    document.getElementById('R312550953030404706_heading').style.fontSize = "inherit";
-    document.getElementById('R312550953030404706_heading').style.marginLeft = "45px";
+    PENDING_BALANCE_DETAIL_HEADING.style.fontFamily = "'Helvetica Neue','Segoe UI',Helvetica,Arial,sans-serif";
+    PENDING_BALANCE_DETAIL_HEADING.style.color = "#A020F0";
+    PENDING_BALANCE_DETAIL_HEADING.style.fontWeight = "700";
+    PENDING_BALANCE_DETAIL_HEADING.style.fontSize = "inherit";
+    PENDING_BALANCE_DETAIL_HEADING.style.marginLeft = "45px";
 
     elements = document.getElementsByTagName("td")
     for (var i = elements.length; i--;) {        
@@ -394,8 +395,8 @@ if (el !== null) {
         }        
     }    
 
-    var originalButton = document.getElementById("B285624227564261496");
-    var referenceElement = document.getElementById("R312550953030404706_heading")
+    var originalButton = GENERATE_VOUCHER_BUTTON;
+    var referenceElement = PENDING_BALANCE_DETAIL_HEADING
 
     if (originalButton) {        
         var clonedButton = originalButton.cloneNode(true);        
@@ -497,7 +498,7 @@ if (el !== null) {
     package_type = false  
     
     
-    var table = document.getElementById("report_table_R312545805814404689");
+    var table = STUDENT_LEDGER;
     var arr = new Array();
     for (var i = 1, row; row = table.rows[i]; i++) {    
         for (var j = 0, col; col = row.cells[j]; j++) {
@@ -592,7 +593,7 @@ if (el !== null) {
     paid = 0;
     fee_status = 0;   
     
-    var table = document.getElementById("report_table_R312545805814404689");
+    var table = STUDENT_LEDGER;
     for (var i = 1, row; row = table.rows[i]; i++) {    
         for (var j = 0, col; col = row.cells[j]; j++) {             
             if (row.cells[2].innerHTML != final_session) {
@@ -712,23 +713,23 @@ if (el !== null) {
     fullTuitionFee.textContent = total.toLocaleString("en-US");    
 
     if (full_scholorship == true) {        
-        document.getElementById('R312550953030404706_heading').style.color = "#8F00FF";
-        document.getElementById('R312550953030404706_heading').style.marginLeft = "9px";
-        document.getElementById('R312550953030404706_heading').textContent = "Full Scholorship" + " - (For Mid: " + (remaining_balance).toLocaleString("en-US") + ")";
+        PENDING_BALANCE_DETAIL_HEADING.style.color = "#8F00FF";
+        PENDING_BALANCE_DETAIL_HEADING.style.marginLeft = "9px";
+        PENDING_BALANCE_DETAIL_HEADING.textContent = "Full Scholorship" + " - (For Mid: " + (remaining_balance).toLocaleString("en-US") + ")";
     }
     else {         
-        document.getElementById('R312550953030404706_heading').style.color = "#404040";
-        document.getElementById('R312550953030404706_heading').textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
+        PENDING_BALANCE_DETAIL_HEADING.style.color = "#404040";
+        PENDING_BALANCE_DETAIL_HEADING.textContent =  final_session + " (" + Math.round(result).toLocaleString("en-US") + "%)"
         tuitionFeeElement.textContent = Math.abs(Math.round(needed)).toLocaleString("en-US");
         forMidElement.textContent = required.toLocaleString("en-US");
     if (result >= 50) {
-        document.getElementById('R312550953030404706_heading').style.color = "#0000FF";
+        PENDING_BALANCE_DETAIL_HEADING.style.color = "#0000FF";
     }
     else if (result < 0) {
-        document.getElementById('R312550953030404706_heading').style.color = "#FF0000";
+        PENDING_BALANCE_DETAIL_HEADING.style.color = "#FF0000";
     }
     else {
-        document.getElementById('R312550953030404706_heading').style.color = "#404040";
+        PENDING_BALANCE_DETAIL_HEADING.style.color = "#404040";
     }    
     }
 
@@ -740,7 +741,7 @@ if (el !== null) {
     course_row_adjustment = false
     summer_row_found = false
     session = "none"
-    var table = document.getElementById("report_table_R312545805814404689");
+    var table = STUDENT_LEDGER;
     for (var i = table.rows.length - 1; i > 0; i--) {
         var row = table.rows[i];
         for (var j = row.cells.length - 1; j >= 0; j--) {
@@ -910,11 +911,11 @@ if (el !== null) {
     }
 
     
-    const div = document.getElementById('report_table_R312567687309404769');
+    const div = PENDING_VOUCHER_TABLE;
     var get_student_id = localStorage.getItem('student_id');
-    if (get_student_id != student_id.value) {
+    if (get_student_id != STUDENT_ID.value) {
         if (div && remaining_balance > 0) {
-            localStorage.setItem('student_id', student_id.value);
+            localStorage.setItem('student_id', STUDENT_ID.value);
             const tdElements = div.getElementsByTagName('td');
             let foundAnchor = false;
             const vouchers = {};
@@ -962,7 +963,7 @@ if (el !== null) {
             }
 
             if (voucher_found) {
-                const div2 = document.getElementById('report_table_R312567687309404769');
+                const div2 = PENDING_VOUCHER_TABLE;
                 const anchorElements = div2.getElementsByTagName('a');
                 const searchNumber = get_voucher;
                 
@@ -995,7 +996,9 @@ if (el !== null) {
     }
 
 }
-
+else {
+    console.log('Elements Reference May Have Changed')
+}
 
    
       
@@ -1095,5 +1098,12 @@ Payable half and payable total (payable total table is by sharafat) is hyperlink
 save voucher and also open print voucher tab
 Students that dont have per semester package fee system will now have headers with session name and footers with total and paid fee
 breakups
+
+Changelog 5.1:
+``````````````
+
+due to oracle update all element refernce ids were chnaged
+fixed ids
+declared constants that will be set when the update is done rest of the logic will remain the same
 
 */

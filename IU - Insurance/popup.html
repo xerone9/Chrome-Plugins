@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+
+        body {
+            width: 350px; /* Set your preferred width */
+            height: 400px; /* Set your preferred height */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
         .hidden {
             display: none;
         }
@@ -25,62 +33,266 @@
 
         button {
             padding: 10px 20px;
-            font-size: 16px;
+            margin: 2px;
+            font-size: 16px;            
         }
+
+        .addition_button {
+            width: 60%;
+            background-color: rgb(37, 120, 207);
+            border-color: rgb(37, 120, 207);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            border: 1px solid rgb(37, 120, 207);
+            margin-bottom: 10px;
+        }
+
+        .addition_button:hover {
+            background-color: white;
+            border-color: rgb(37, 120, 207);
+            color: rgb(37, 120, 207);
+        }
+
+        .deletion_button {
+            width: 60%;
+            background-color: rgb(187, 45, 45);
+            border-color: rgb(187, 45, 45);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            border: 1px solid rgb(187, 45, 45);
+        }
+
+        .deletion_button:hover {
+            background-color: white;
+            border-color: rgb(187, 45, 45);
+            color: rgb(187, 45, 45);
+        }
+
+        .standard_button {
+            background-color: blueviolet;
+            border-color: blueviolet;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            border: 1px solid blueviolet;
+        }
+
+        .standard_button:hover {
+            background-color: white;
+            border-color: blueviolet;
+            color: blueviolet;
+        }
+
+        .action_button {
+            background-color: darkgoldenrod;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            border: 1px solid orange;
+        }
+
+        .action_button:hover {
+            background-color: rgb(187, 45, 45);
+            border-color: rgb(187, 28, 28);
+        }
+
+        .action_button:active {
+            background-color: white;
+            color: rgb(187, 45, 45);
+        }
+
+        .action_button.blue {
+            background-color: orange;
+            color: white;
+            border: 1px solid orange;
+        }
+
+        .action_button.blue:hover {
+            background-color: rgb(37, 120, 207);
+            border-color: rgb(37, 120, 207);
+        }
+
+        .action_button.blue:active {
+            background-color: white;
+            color: blue;
+        }
+        .row_direction{
+            display: flex;
+            flex-direction: row;
+            align-self: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .column_direction {
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .table-styled {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .table-styled th, .table-styled td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        .table-styled th {
+            background-color: navy;
+            color: white;
+            font-weight: bold;
+        }
+
+        .table-styled tr {
+            background-color: white;
+            color: black;
+        }
+
+        .table-styled tr:nth-child(odd) {
+            background-color: #f9f9f9; /* Odd rows have a light background color */
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            margin-right: 10px;
+            width: 120px; /* Adjust the width of the label as needed */
+            font-size: 16px; /* Adjust the font size of the label */
+            font-weight: bold; /* Make the label bold */
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group select {
+            flex: 1;
+            padding: 8px;
+            box-sizing: border-box;
+            background-color: lightblue;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px; /* Adjust the font size of the input/select */
+        }
+
+        .form-group select {
+            appearance: none; /* Remove default dropdown arrow in some browsers */
+        }
+
+        .form-group label[for="emp_plan"] {
+            margin-top: 0; /* Adjust the margin for the Insurance label */
+        }
+
+        /* Define the blinking-text class styles here */
+        .blinking-text {
+            background-color: lightblue;
+            font-size: medium;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            color: red;
+            padding: 10px;
+            border-radius: 8px; /* Rounded edges */
+            font-weight: bold; /* Bold text */
+            animation: blink 1s infinite; /* Use the 'blink' animation for infinite times */
+        }
+
+            @keyframes blink {
+            0%, 100% {
+                color: red; /* Start and end with red text */
+            }
+            50% {
+                color: transparent; /* Blinking, set to transparent text at the midpoint */
+            }
+        }
+
+
+
     </style>
     <title>Document</title>
 </head>
-<body>
-    <button id="additionButton">Addition</button>
-    <button id="deletionButton">Deletion</button>
+<body>    
+         
+    <img src="iu_logo2.png" alt="EFU Logo" style="max-width: 300px; max-height: 200px;">
+    <img src="insurance_logo.png" alt="EFU Logo" style="max-width: 300px; max-height: 200px; margin-bottom: 20px;">
+
+    <button id="additionButton" class="addition_button">Addition</button>
+    <button id="deletionButton" class="deletion_button">Deletion</button> 
 
     <div id="additionSection" class="hidden">
-        <label for="emp_id">Employee ID:</label>
-        <input type="number" id="emp_id"><br>
-
+        <div class="form-group">
+            <label for="emp_id">Employee ID:</label>
+            <input type="number" id="emp_id"> 
+        </div>
+        
+        <div class="form-group">
         <label for="emp_plan">Insurance:</label>
         <select id="emp_plan">
-        <option value="A">A</option>
-        <option value="B">B</option>
-        <option value="C">C</option>
-        <option value="D" selected>D</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D" selected>D</option>
         </select>
-
+        </div>
+        
+        <div class="form-group">
         <label for="emp_name">Name:</label>
-        <input type="text" id="emp_name"><br>
-
+        <input type="text" id="emp_name">
+        </div>
+        
+        <div class="form-group">
         <label for="father_name">Father Name:</label>
-        <input type="text" id="father_name"><br>
-
+        <input type="text" id="father_name">
+        </div>
+        
+        <div class="form-group">
         <label for="cnic">CNIC:</label>
-        <input type="text" id="cnic"><br>
-
+        <input type="text" id="cnic">
+        </div>
+        
+        <div class="form-group">
         <label for="dob">Date Of Birth:</label>
-        <input type="text" id="dob" placeholder="01-Jan-90"><br>
-
+        <input type="text" id="dob" placeholder="01-Jan-90">
+        </div>
+        
+        <div class="form-group">
         <label for="relationship">Relation:</label>
-        <input type="text" id="relationship" value="Employee"><br>
-
+        <input type="text" id="relationship" value="Employee">
+        </div>
+        
+        <div class="form-group">
         <label for="which_insurance">Insurance:</label>
         <select id="which_insurance">
-        <option value="standard" selected>Standard</option>
-        <option value="Paycon">Paycon</option>
-        <option value="All">All</option>
+            <option value="Standard" selected>Standard</option>
+            <option value="Paycon">Paycon</option>
+            <option value="All">All</option>
         </select>
-
-        <button id="add">Add</button>
+        </div>
+        <label id="addition_excel_entry" style="font-size: 20px; font-weight: 300;"></label><br>
+        <label id="addition_sending_email" style="font-size: 20px; font-weight: 300;"></label><br>        
     </div>
+    <button id="add" class="addition_button hidden">Add</button>
 
     <div id="deletionLabelSection" class="hidden">
-        <label for="search_employee">Employee ID:</label>
-        <input type="number" id="search_employee"><br>
-        <label id="enter_employee_id"></label><br>
-        <button id="searchButton" onclick="searchEmployee()">Search</button>
+        <div class="form-group" style="margin-left: 120px; margin-bottom: 20px;">
+            <label for="search_employee">Employee ID:</label>
+            <input type="number" id="search_employee"><br>
+            <label id="enter_employee_id"></label><br>
+        </div>
+        
     </div>
+    <button id="searchButton" class="standard_button hidden" onclick="searchEmployee()">Search</button>
 
     <div id="deletionTableSection" class="hidden">
-        <label for="searchResultLabel">Search Result:</label>
-        <table id="data_table">
+        <table id="data_table" class="table-styled">
             <tr>
                 <th>Insuarance</th>
                 <th>Employee ID</th>
@@ -88,16 +300,33 @@
                 <th>NIC</th>
             </tr>
         </table>
-        <label id="excel_entry"></label><br>
-        <label id="sending_email"></label><br>
-        <button id="deleteButton">Delete</button>
+        <label id="deletion_excel_entry" style="font-size: 20px; font-weight: 300;"></label><br>
+        <label id="deletion_sending_email" style="font-size: 20px; font-weight: 300;"></label><br>
     </div>   
+    <button id="deleteButton" class="deletion_button hidden">Delete</button>
     
     <div id="deletionEmployeeNotFound" class="hidden">
-        <label>Search Result:</label>
         <label id="EmployeeNotFound">Employee Not Found</label>        
     </div>     
 
+    <div class="row_direction">
+        <a href="https://github.com/xerone9" style="text-decoration: none; color: #000000;">
+            <img src="git_logo.png" alt="GitHub Icon" style="width: 30px; height: 30px; vertical-align: middle; margin-left: 10px; margin-right: 10px;">                
+        </a>
+        <a href="https://www.linkedin.com/in/usman-mustafa-khawar-41374a234/" style="text-decoration: none; color: #000000;">
+            <img src="linkedin_logo.png" alt="Linkedin Icon" style="width: 30px; height: 30px; vertical-align: middle;  margin-left: 10px; margin-right: 10px;">                
+        </a>
+        <a href="https://softwares.rubick.org/" style="text-decoration: none; color: #000000;">
+            <img src="web_logo.png" alt="Web Icon" style="width: 30px; height: 30px; vertical-align: middle;  margin-left: 10px; margin-right: 10px;">                
+        </a>
+        <a href="https://www.upwork.com/freelancers/~01e2b4984cd54db890" style="text-decoration: none; color: #000000;">
+            <img src="upwork_logo.png" alt="Upwork Icon" style="width: 30px; height: 30px; vertical-align: middle; margin-left: 10px; margin-right: 10px;">                
+        </a>
+        <a href="https://www.youtube.com/channel/UCbczhEOorBjQUwFbkUG9AGg" style="text-decoration: none; color: #000000;">
+            <img src="youtube_logo.png" alt="YouTube Icon" style="width: 30px; height: 30px; vertical-align: middle; margin-left: 10px; margin-right: 10px;">                
+        </a>
+    </div>
+    <img src="Signature.gif" alt="EFU Logo" style="max-width: 200px; max-height: 100px; margin-top: 10px;">
     <script src="popup.js"></script>
     <script src="script.js"></script>
 </body>

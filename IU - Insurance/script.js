@@ -23,7 +23,7 @@ PAYCON_CHARGES = 3571
 
 const ALL_INSURANCE = [
     "Jubilee Insurance - 104755",
-    "Jubilee Insurance - 104962",
+    // "Jubilee Insurance - 104962", No Fix Charges Defined....
     "EFU Life - FT0000606",
     "EFU Life Paycon - FT0000668",
     "Deductions"
@@ -91,10 +91,10 @@ INSURANCE_DATA_COLUMNS_FOR_EMAIL = {
     }
 };
 INSURANCE_EMAIL_CREDENTIALS = {
-    'Jubilee Insurance - 104755': ['Usman', 'xerone.9@gmail.com'],
-    'Jubilee Insurance - 104962': ['Usman', 'xerone.9@gmail.com'],
-    'EFU Life - FT0000606': ['Arif', 'muhammad.arif@indus.edu.pk'],
-    'EFU Life Paycon - FT0000668': ['Arif', 'muhammad.arif@indus.edu.pk'],
+    'Jubilee Insurance - 104755': ['Noman', 'Noman.Siddiq@jubileelife.com'],
+    'Jubilee Insurance - 104962': ['Noman', 'Noman.Siddiq@jubileelife.com'],
+    'EFU Life - FT0000606': ['Mohsin', 'mohsinumer@efulife.com'],
+    'EFU Life Paycon - FT0000668': ['Mohsin', 'mohsinumer@efulife.com'],
     'Deductions': ['Kamran Sir', 'accountant@indus.edu.pk']
 };
 
@@ -119,8 +119,8 @@ GOOGLE_SHEET_NEW_EMPLOYEE_ADDITION_COLUMNS = {
 CHARGES_ADD_COLUMNS = {
   'Standard' : [1, 2, 3, 4, 5, 10, 11, 16, 17],
   'All' : [1, 2, 3, 4, 5, 10, 11, 13, 14, 16, 17],
-  'Old Age' : [1, 2, 3, 7, 8],
-  'Paycon' : [1, 2, 3, 13, 14],
+  'Old Age' : [1, 2, 3, 7, 8, 16, 17],
+  'Paycon' : [1, 2, 3, 13, 14, 16, 17],
 
 }
 
@@ -134,8 +134,11 @@ MAKE_ENTRY_IN_WHICH_SHEET = {
 const SPREADSHEETID = '1pOJ_8cSDvF6wVeIQqBND_8i3RcRwTBBEPVkqZhyGtpw';
 
 ENTER_ID_LABEL = document.getElementById('enter_employee_id');
-EMAIL_LABEL = document.getElementById('sending_email');
-GOOGLE_SHEET_LABEL = document.getElementById('excel_entry');
+DELETION_EMAIL_LABEL = document.getElementById('deletion_sending_email');
+DELETION_GOOGLE_SHEET_LABEL = document.getElementById('deletion_excel_entry');
+
+ADDITION_EMAIL_LABEL = document.getElementById('addition_sending_email');
+ADDITION_GOOGLE_SHEET_LABEL = document.getElementById('addition_excel_entry');
 
 
 
@@ -152,6 +155,24 @@ function create_charged_amount_array (data) {
     values = null
     if (type == 'All') {
         values = [JUBILE_104755_CHARGES[data[2]] / 2, JUBILE_104755_CHARGES[data[2]] / 2, EFU_FT0000606[data[2]] / 2, EFU_FT0000606[data[2]] / 2, PAYCON_CHARGES / 2, PAYCON_CHARGES / 2 ]
+        var sum = values.reduce(function (accumulator, currentValue) {
+            return accumulator + currentValue;
+        }, 0);
+        values.push(sum / 2);
+        values.push(sum / 2);
+        values = [data[0], data[1], data[3], ...values]        
+    }
+    else if (type == 'Standard') {
+        values = [JUBILE_104755_CHARGES[data[2]] / 2, JUBILE_104755_CHARGES[data[2]] / 2, EFU_FT0000606[data[2]] / 2, EFU_FT0000606[data[2]] / 2]
+        var sum = values.reduce(function (accumulator, currentValue) {
+            return accumulator + currentValue;
+        }, 0);
+        values.push(sum / 2);
+        values.push(sum / 2);
+        values = [data[0], data[1], data[3], ...values]        
+    }
+    if (type == 'Paycon') {
+        values = [PAYCON_CHARGES / 2, PAYCON_CHARGES / 2 ]
         var sum = values.reduce(function (accumulator, currentValue) {
             return accumulator + currentValue;
         }, 0);
@@ -206,13 +227,16 @@ function make_new_person_entry_in_google_sheets_and_send_emails(sheetName, last_
                 
                 update_data_with_serail_column_value = [last_serial, ...data];
                 if (sheetName != 'Deductions') {
+                    if (sheetName == 'EFU Life Paycon - FT0000668') {
+                        update_data_with_serail_column_value[2] = 'D' 
+                    }
                     columns = GOOGLE_SHEET_NEW_EMPLOYEE_ADDITION_COLUMNS[sheetName];
                     values = update_data_with_serail_column_value.slice(0, -1);
                 }
                 else {
                     type = update_data_with_serail_column_value[update_data_with_serail_column_value.length - 1]  
                     columns = CHARGES_ADD_COLUMNS[type];
-                    values = create_charged_amount_array(update_data_with_serail_column_value)
+                    values = create_charged_amount_array(update_data_with_serail_column_value)                    
                 }
                 
                 
@@ -242,13 +266,13 @@ function make_new_person_entry_in_google_sheets_and_send_emails(sheetName, last_
                 })
                     .then(response => response.json())
                     .then(data => {
-                        console.log('Row updated successfully:', data);
+                         console.log('Row updated successfully:', data);
                     })
                     .catch(error => {
                         console.error('Error updating row:', error);
                     });
                     rowFontColor(sheetName, last_row, GOOGLE_SHEET_NEW_EMPLOYEE_ADDITION_COLUMNS[sheetName][GOOGLE_SHEET_NEW_EMPLOYEE_ADDITION_COLUMNS[sheetName].length - 1], response.token)
-            }
+            }            
             send_email()            
         }
     }); 
@@ -257,44 +281,55 @@ function make_new_person_entry_in_google_sheets_and_send_emails(sheetName, last_
 
 function new_person_registration_in_insurance() {
     ADDITION_IN_G_SHEETS = true
-    // var valuesArray = [];
+    var valuesArray = [];
 
-    // for (var i = 0; i < PERSON_ADDITION_FORM_COLUMN_IDS.length; i++) {
-    //     var element = document.getElementById(PERSON_ADDITION_FORM_COLUMN_IDS[i]);
-    //     if (element) {
-    //         valuesArray.push(element.value);
-    //     } else {
-    //         console.error("Element with ID " + PERSON_ADDITION_FORM_COLUMN_IDS[i] + " not found");
-    //     }
-    // }
-    // // Add today's date to the end of the valuesArray
-    // valuesArray.push(TODAY_DATE);
-
-    get_last_row_and_new_person_data = ['800', 'A', 'Usman Mustafa Khawar', 'KhawarRasheed', '42401-0482284-9', '22-Nov-90', 'Employee', TODAY_DATE, 'All'];
-    // addition_data = {
-    //     'Emp_ID': get_last_row_and_new_person_data[0],
-    //     'Employee_Name': get_last_row_and_new_person_data[2],
-    //     'Father_Name': get_last_row_and_new_person_data[3],
-    //     'DOB': get_last_row_and_new_person_data[5],
-    //     'NIC': get_last_row_and_new_person_data[4],
-    //     'Plan': get_last_row_and_new_person_data[1]
-    // }
-    // if (!INSURANCE_DATA_CONTAINER.hasOwnProperty('Deductions')) {
-    //     INSURANCE_DATA_CONTAINER['Deductions'] = {};
-    // }
-    // INSURANCE_DATA_CONTAINER['Deductions'] = addition_data
-
-    sendMessageToBackground("authenticate", function (response) {
-        if (response.error) {
-            console.error(response.error);
-            return;
-        }
-        const token = response.token;
-        for (let sheetName of ALL_INSURANCE) {
-            get_employee_insurance_data(sheetName, token, get_last_row_and_new_person_data);            
-        }
+    for (const elementId of PERSON_ADDITION_FORM_COLUMN_IDS) {
+        const element = document.getElementById(elementId);
         
-    });
+        if (element && element.value.trim() === '') {
+            ADDITION_GOOGLE_SHEET_LABEL.textContent = `Value Missing: ${elementId}`;
+            ADDITION_IN_G_SHEETS = false
+            break
+        }
+    }
+    ADDITION_GOOGLE_SHEET_LABEL.textContent = `Please Wait...`;
+    if (ADDITION_IN_G_SHEETS) {
+        for (var i = 0; i < PERSON_ADDITION_FORM_COLUMN_IDS.length; i++) {
+            var element = document.getElementById(PERSON_ADDITION_FORM_COLUMN_IDS[i]);
+            if (element) {
+                valuesArray.push(element.value);
+            } else {
+                console.error("Element with ID " + PERSON_ADDITION_FORM_COLUMN_IDS[i] + " not found");
+            }
+        }
+        valuesArray.splice(valuesArray.length - 1, 0, TODAY_DATE)    
+
+        get_last_row_and_new_person_data = valuesArray;
+        addition_data = {
+            'Emp_ID': get_last_row_and_new_person_data[0],
+            'Employee_Name': get_last_row_and_new_person_data[2],
+            'Father_Name': get_last_row_and_new_person_data[3],
+            'DOB': get_last_row_and_new_person_data[5],
+            'NIC': get_last_row_and_new_person_data[4],
+            'Plan': get_last_row_and_new_person_data[1]
+        }
+        if (!INSURANCE_DATA_CONTAINER.hasOwnProperty('Deductions')) {
+            INSURANCE_DATA_CONTAINER['Deductions'] = {};
+        }
+        INSURANCE_DATA_CONTAINER['Deductions'] = addition_data
+
+        sendMessageToBackground("authenticate", function (response) {
+            if (response.error) {
+                console.error(response.error);
+                return;
+            }
+            const token = response.token;
+            for (let sheetName of ALL_INSURANCE) {
+                get_employee_insurance_data(sheetName, token, get_last_row_and_new_person_data);            
+            }
+            
+        });
+    }
 }
 
 
@@ -336,14 +371,32 @@ function generateTableHtml(data) {
 
 }
 
-function send_email() {
-    chrome.runtime.sendMessage({ action: 'authenticate' }, function (response) {
+async function send_email() {
+    chrome.runtime.sendMessage({ action: 'authenticate' }, async function (response) {
         if (response.token) {
-            if (ADDITION_IN_G_SHEETS) {
+            if (ADDITION_IN_G_SHEETS) { 
+                ADDITION_GOOGLE_SHEET_LABEL.textContent = "Entry Done In Google Sheets";
+                ADDITION_GOOGLE_SHEET_LABEL.style.color = "green";
+                ADDITION_EMAIL_LABEL.textContent = "Please Wait...";
+                ADDITION_EMAIL_LABEL.style.colort = "black";
                 for ([sheetName, data] of Object.entries(INSURANCE_DATA_CONTAINER)) {
                     key = sheetName
                     val = data                                        
-                } 
+                }
+                if (key == 'Deductions') {
+                    type = update_data_with_serail_column_value[update_data_with_serail_column_value.length - 1]  
+                    columns = CHARGES_ADD_COLUMNS[type];
+                    values = create_charged_amount_array(update_data_with_serail_column_value)                    
+
+                    INSURANCE_DATA_CONTAINER['Deductions']['Amount'] = INSURANCE_DATA_CONTAINER['Deductions']['DOB'];
+                    delete INSURANCE_DATA_CONTAINER['Deductions']['DOB'];
+                    INSURANCE_DATA_CONTAINER['Deductions']['Amount'] = [values[values.length - 1]];
+
+                    for ([sheetName, data] of Object.entries(INSURANCE_DATA_CONTAINER)) {
+                        key = sheetName
+                        val = data                                        
+                    }   
+                }             
                 const tableHtml = generateTableHtml(val);
                 concerned_name = INSURANCE_EMAIL_CREDENTIALS[key][0]
                 if (key != 'Deductions') {
@@ -352,37 +405,41 @@ function send_email() {
                     body = `<p>Dear ${concerned_name},</p><p>It is requested that kindly Add below mentioned emoployee</p>${tableHtml}<p>Regards,</p><p>Usman Mustafa Khawar<br>Senior Accountant<br>Indus University<br>UAN:111-400-300 (EXT: 114, 184)</p>`;
                 }
                 else {
-                    console.log(val.Emp_ID[0])
+                    amount = val.Amount[0] * 2
                     subject = 'Kindly Add Insurance Charges Of Employee ID (' +  val.Emp_ID[0] + ')';
-                    body = `<p>Dear ${concerned_name},</p><p>It is requested that kindly add insurance charges to below mentioned employee. Total Insuracne Charges are ${val.Amount[0]} so add half amount accordingly</p>${tableHtml}<p>Regards,</p><p>Usman Mustafa Khawar<br>Senior Accountant<br>Indus University<br>UAN:111-400-300 (EXT: 114, 184)</p>`;
+                    body = `<p>Dear ${concerned_name},</p><p>It is requested that kindly add insurance charges to below mentioned employee. Total Insuracne Charges are ${amount.toLocaleString()} so add half amount accordingly</p>${tableHtml}<p>Regards,</p><p>Usman Mustafa Khawar<br>Senior Accountant<br>Indus University<br>UAN:111-400-300 (EXT: 114, 184)</p>`;
                 }
                 
-                toEmail = 'xerone.9@gmail.com';
+                toEmail = INSURANCE_EMAIL_CREDENTIALS[key][1];
                 const ccEmail = 'muhammad.arif@indus.edu.pk';
                 
-                // sendEmail(response.token, toEmail, ccEmail, subject, body);                             
+                await sendEmail(response.token, toEmail, ccEmail, subject, body);                             
             }
             else {
+                DELETION_GOOGLE_SHEET_LABEL.textContent = "Entry Done In Google Sheets";
+                DELETION_GOOGLE_SHEET_LABEL.style.color = "green";
+                DELETION_EMAIL_LABEL.textContent = "Please Wait...";
+                DELETION_EMAIL_LABEL.style.colort = "black";
                 for ([key, val] of Object.entries(INSURANCE_DATA_CONTAINER)) {
                     const tableHtml = generateTableHtml(val);
 
                     policy_number = key.split(' - ')[1];
                     concerned_name = INSURANCE_EMAIL_CREDENTIALS[key][0]
                     // const toEmail = INSURANCE_EMAIL_CREDENTIALS[key][1];
-                    toEmail = 'xerone.9@gmail.com';
+                    toEmail = INSURANCE_EMAIL_CREDENTIALS[key][1];
                     const ccEmail = 'muhammad.arif@indus.edu.pk';
                     subject = 'Kindly Remove Employee Under Policy No. ' + policy_number;
                     const body = `<p>Dear ${concerned_name},</p><p>It is requested that kindly delete below mentioned emoployee</p>${tableHtml}<p>Regards,</p><p>Usman Mustafa Khawar<br>Senior Accountant<br>Indus University<br>UAN:111-400-300 (EXT: 114, 184)</p>`;
 
-                    sendEmail(response.token, toEmail, ccEmail, subject, body);
+                    await sendEmail(response.token, toEmail, ccEmail, subject, body);
                 }
             }
         }
         else {
             console.error('Authentication failed:', response.error);
-            if (EMAIL_LABEL) {
-                EMAIL_LABEL.textContent = "Unauthorized Email Account";
-                EMAIL_LABEL.style.color = "red"
+            if (DELETION_EMAIL_LABEL) {
+                DELETION_EMAIL_LABEL.textContent = "Unauthorized Email Account";
+                DELETION_EMAIL_LABEL.style.color = "red"
             }
 
         }
@@ -390,7 +447,8 @@ function send_email() {
 
 
 
-        function sendEmail(token, to, cc, subject, body) {
+        async function sendEmail(token, to, cc, subject, body) {
+            const delay = ms => new Promise(res => setTimeout(res, ms));
             const message = [
                 'Content-Type: text/html; charset="UTF-8"',
                 'MIME-Version: 1.0',
@@ -417,18 +475,27 @@ function send_email() {
             })
                 .then(response => response.json())
                 .then(data => {
-                    if (EMAIL_LABEL) {
-                        EMAIL_LABEL.textContent = "Email Sent Successfully";
-                        EMAIL_LABEL.style.color = "blue"
+                    if (DELETION_EMAIL_LABEL) {
+                        DELETION_EMAIL_LABEL.textContent = "Email Sent Successfully";
+                        DELETION_EMAIL_LABEL.style.color = "blue"
+                    }
+                    if (ADDITION_EMAIL_LABEL) {
+                        ADDITION_EMAIL_LABEL.textContent = "Email Sent Successfully";
+                        ADDITION_EMAIL_LABEL.style.color = "blue"
                     }
                 })
                 .catch(error => {
                     console.error('Error sending email:', error);
-                    if (EMAIL_LABEL) {
-                        EMAIL_LABEL.textContent = "Error sending email";
-                        EMAIL_LABEL.style.color = "red"
+                    if (DELETION_EMAIL_LABEL) {
+                        DELETION_EMAIL_LABEL.textContent = "Error sending email";
+                        DELETION_EMAIL_LABEL.style.color = "red"
+                    }
+                    if (ADDITION_EMAIL_LABEL) {
+                        ADDITION_EMAIL_LABEL.textContent = "Error sending email";                        
+                        ADDITION_EMAIL_LABEL.style.color = "red"
                     }
                 });
+                await delay(1000); 
         }
     });
 }
@@ -489,17 +556,24 @@ function rowFontColor(insurance_name, rowToUpdate, columnToUpdate, token) {
         .then(response => response.json())
         .catch(error => {
             console.error('Error updating font color in Google Sheets:', error);
-            if (GOOGLE_SHEET_LABEL) {
-                GOOGLE_SHEET_LABEL.textContent = "Error updating font color in Google Sheets";
-                GOOGLE_SHEET_LABEL.style.color = "red"
+            if (DELETION_GOOGLE_SHEET_LABEL) {
+                DELETION_GOOGLE_SHEET_LABEL.textContent = "Error updating font color in Google Sheets";
+                DELETION_GOOGLE_SHEET_LABEL.style.color = "red"
             }
+            if (ADDITION_GOOGLE_SHEET_LABEL) {
+                ADDITION_GOOGLE_SHEET_LABEL.textContent = "Error updating font color in Google Sheets";
+                ADDITION_GOOGLE_SHEET_LABEL.style.color = "red"
+            }
+            
         });
 
 }
 
 
-function note_deletion_date_in_google_sheets_and_send_emails() {
-    sendMessageToBackground("authenticate", function (response) {
+async function note_deletion_date_in_google_sheets_and_send_emails() {
+    sendMessageToBackground("authenticate", async function (response) {
+        const delay = ms => new Promise(res => setTimeout(res, ms));
+
         if (response.error) {
             console.error(response.error);
             return;
@@ -532,9 +606,9 @@ function note_deletion_date_in_google_sheets_and_send_emails() {
                                     .then(response => response.json())
                                     .catch(error => {
                                         console.error('Error updating date in Google Sheets:', error);
-                                        if (GOOGLE_SHEET_LABEL) {
-                                            GOOGLE_SHEET_LABEL.textContent = "Error updating date in Google Sheets";
-                                            GOOGLE_SHEET_LABEL.style.color = "red"
+                                        if (DELETION_GOOGLE_SHEET_LABEL) {
+                                            DELETION_GOOGLE_SHEET_LABEL.textContent = "Error updating date in Google Sheets";
+                                            DELETION_GOOGLE_SHEET_LABEL.style.color = "red"
                                         }
                                     });
                             }
@@ -542,24 +616,18 @@ function note_deletion_date_in_google_sheets_and_send_emails() {
                         }
                     }
                 }
+                await delay(1000); 
             }
         }
     });
     send_email()
 
-    if (GOOGLE_SHEET_LABEL) {
-        GOOGLE_SHEET_LABEL.textContent = "Entry Done In Google Sheets";
-        GOOGLE_SHEET_LABEL.style.color = "green";
-    }
-
-    if (EMAIL_LABEL) {
-        EMAIL_LABEL.textContent = "Please Wait...";
-        EMAIL_LABEL.style.colort = "black";
-    }
+    
 }
 
 
 function get_employee_insurance_data(sheetName, token, get_last_row_and_new_person_data) {
+
 
     fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEETID}/values/${sheetName}?valueRenderOption=FORMATTED_VALUE`, {
         method: 'GET',
@@ -597,17 +665,14 @@ function get_employee_insurance_data(sheetName, token, get_last_row_and_new_pers
                         }
                         else {
                             if (sheetName == 'Deductions') {
-                                values = create_charged_amount_array(get_last_row_and_new_person_data)
-                                charged_amount = values[values.length - 1]
-                                console.log(values) // check here is the error
                                 addition_data = {
                                     'Emp_ID': [get_last_row_and_new_person_data[0]],
                                     'Employee_Name': [get_last_row_and_new_person_data[2]],
-                                    'Father_Name': [get_last_row_and_new_person_data[3]],
+                                    'Father_Name': [get_last_row_and_new_person_data[3]],                                    
                                     'NIC': [get_last_row_and_new_person_data[4]],
                                     'Plan': [get_last_row_and_new_person_data[1]],
-                                    'Amount': [charged_amount]
-                                }
+                                    'DOB': [get_last_row_and_new_person_data[5]],
+                                } 
                             }
                             else {
                                 addition_data = {
@@ -617,8 +682,9 @@ function get_employee_insurance_data(sheetName, token, get_last_row_and_new_pers
                                     'DOB': [get_last_row_and_new_person_data[5]],
                                     'NIC': [get_last_row_and_new_person_data[4]],
                                     'Plan': [get_last_row_and_new_person_data[1]]
-                                }
-                            }
+                                } 
+                            }  
+                        
                             const employee_plan_values = data.values.map(row => row[1]);
                             for (let i = 0; i < employee_plan_values.length; i++) {
                                 if (employee_plan_values[i] !== undefined) {
@@ -650,7 +716,11 @@ function get_employee_insurance_data(sheetName, token, get_last_row_and_new_pers
                                     document.getElementById('deletionLabelSection').classList.add('hidden');
                                     document.getElementById('deletionEmployeeNotFound').classList.remove('hidden');
                                     const employeeNotFoundLabel = document.getElementById('EmployeeNotFound');
+                                    employeeNotFoundLabel.classList.add('blinking-text');
                                     employeeNotFoundLabel.textContent = 'Insurance terminated at ' + matchedRow[check_deletion_row];
+                                    document.getElementById("searchButton").style.display = "none";
+                                    document.body.style.width = "300px"; 
+                                    document.body.style.height = "230px"; 
                                     break;
                                 }
                                 else if (!matchedRow[check_deletion_row]) {
@@ -702,10 +772,13 @@ function get_employee_insurance_data(sheetName, token, get_last_row_and_new_pers
                                         }
 
                                         INSURANCE_DATA_CONTAINER[sheetName][key].push(value);
+                                        document.getElementById("searchButton").style.display = "none";
+                                        document.getElementById("deleteButton").classList.remove('hidden');
+                                        document.body.style.width = "700px"; 
                                     }
                                 }
 
-
+                                
 
                             }
                             else if (sheetName == "Deductions") {
@@ -726,7 +799,11 @@ function get_employee_insurance_data(sheetName, token, get_last_row_and_new_pers
                             }
                         }
                         else {
-                            ENTER_ID_LABEL.textContent = employee_id + " Not Found";
+                            ENTER_ID_LABEL.textContent = employee_id + " Not Found"; 
+                            if (INSURANCE_DATA_CONTAINER.length < 1) {
+                                document.getElementById("searchButton").style.display = "block";
+                            }                           
+                            
                             ENTER_ID_LABEL.style.color = "red";
                         }
                     }
@@ -741,7 +818,8 @@ function get_employee_insurance_data(sheetName, token, get_last_row_and_new_pers
         });
 }
 
-function delete_employee() {
+function delete_employee() {    
+    document.body.style.width = "700px";    
     employee_id = document.getElementById('search_employee').value;
     if (employee_id !== '') {
         ENTER_ID_LABEL.textContent = "Please Wait...";

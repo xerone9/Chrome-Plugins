@@ -1,0 +1,169 @@
+p{
+    margin: 0;
+    padding: 0;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 20px;
+}
+
+.ask{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    align-items: center;
+    justify-content: left;
+    text-align: right;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+
+.setter{
+    display: flex;
+    flex-direction: row;    
+}
+
+.credit{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;    
+}
+
+.amount-label, .percentage-label{
+    font-size: 25px;
+    font-family: 'Georgia';
+}
+
+.amount-label{
+    margin-right: 7px;
+}
+
+.percentage-label, .years-label{
+    margin-right: 7px;
+}
+
+.amount{   
+    max-width: 120px; 
+    font-size: 20px;
+    font-family: Lucida;   
+}
+
+.percentage{ 
+    max-width: 50px; 
+    font-size: 20px;
+    font-family: Lucida;   
+}
+
+.years{ 
+    max-width: 65px; 
+    font-size: 20px;
+    font-family: Lucida;   
+}
+
+.set-form{    
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    align-items: center;
+    justify-content: center;  
+    margin-bottom: 15px;  
+}
+
+.set-result{    
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    align-items: left;
+    justify-content: center;
+    text-align: left;    
+    margin-bottom: 7px;     
+}
+
+.calculate{
+    display: flex;
+    flex-direction: row;    
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 6px;
+    font-size: 20px;
+    padding: 3px 8px;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+}
+
+.calculate:hover{    
+    background-color: black;
+    color: white;
+    font-weight: bold;
+}
+
+.result{
+    margin: 0;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    font-size: 25px;
+}
+
+.link{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    padding-right: 20px;
+    font-size: 30px;
+}
+
+.follow{   
+    margin-top: 12px; 
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    align-items: center;
+    justify-content: center;  
+    
+}
+
+.tag{
+    border-top: 2px solid black;
+    margin: 0;
+    width: 420px;
+    font-family: Lucida Handwriting;
+    display: grid;
+    place-items: center
+}
+.linkedin, .github, .discord {
+    font-family: Michroma;
+    font-size: 22px;
+    margin-right: 0px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: color 0.15s;
+    color: inherit;
+    text-decoration: none;    
+  }
+
+.linkedin {
+    background-color: white;
+    color: rgb(10, 102, 194);
+  }
+
+.linkedin:hover {
+    color: black;
+}
+
+.linkedin:active {
+    background-color: white;
+    color: rgb(10, 102, 194);
+  }
+
+.value_label{
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+

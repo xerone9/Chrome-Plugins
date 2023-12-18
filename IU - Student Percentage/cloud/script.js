@@ -444,7 +444,7 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
     });
 
     // Get the table element by its ID
-    var table = document.getElementById("report_table_R312550953030404706");
+    var table = PENDING_BALANCE_DETAIL_TABLE;
     var negate_value = 0
 
     if (table) {        

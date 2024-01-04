@@ -919,6 +919,7 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
             const tdElements = div.getElementsByTagName('td');
             let foundAnchor = false;
             const vouchers = {};
+            let orderOfKeys = [];
             let scount = 0;
             let voucher_found = false;
 
@@ -936,6 +937,10 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
                 const key = anchorElement.innerHTML;
                 const valueToAppend = [voucher_expiry, voucher_status];
 
+                if (!orderOfKeys.includes(key)) {
+                    orderOfKeys.push(key);
+                }
+                
                 if (!vouchers.hasOwnProperty(key)) {
                 vouchers[key] = valueToAppend;
                 }
@@ -943,24 +948,43 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
                 foundAnchor = true;
             }
             }
+            // for (let key of orderOfKeys) {
+            //     console.log(key);
+            //     console.log(vouchers[key]);
+            // }
 
+            
 
             const currentDate = new Date();
             get_voucher = '';
 
-            for (const key in vouchers) {
-            const voucherDate = new Date(vouchers[key][0]);
-            voucherDate.setHours(23, 59, 59);
-            const get_voucher_status = vouchers[key][1]
-            if (voucherDate >= currentDate && get_voucher_status == "Pending") {
-                get_voucher = key;
-                voucher_found = true;
-                break;
-            }
-                else {
+            // for (const key in vouchers) {
+            // const voucherDate = new Date(vouchers[key][0]);
+            // voucherDate.setHours(23, 59, 59);
+            // const get_voucher_status = vouchers[key][1]
+            // if (voucherDate >= currentDate && get_voucher_status == "Pending") {
+            //     get_voucher = key;
+            //     voucher_found = true;
+            //     break;
+            // }
+            //     else {
                     
+            //     }
+            // }
+
+            for (let key of orderOfKeys) {
+                const voucherDate = new Date(vouchers[key][0]);
+                voucherDate.setHours(23, 59, 59);
+                const get_voucher_status = vouchers[key][1]
+                if (voucherDate >= currentDate && get_voucher_status == "Pending") {
+                    get_voucher = key;
+                    voucher_found = true;
+                    break;
                 }
-            }
+                    else {
+                        
+                    }
+                }
 
             if (voucher_found) {
                 const div2 = PENDING_VOUCHER_TABLE;

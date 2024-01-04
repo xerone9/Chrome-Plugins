@@ -910,7 +910,37 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
         }
     }
 
-    
+    if (PRINT_VOUCHER_BUTTON) {
+        let url = 'https://kuickpay.rubick.org/kuickpay_sms/?stu_id=Student_ID&stu_name=Studnet_Name&stu_voucher=Student_Voucher&stu_amount=Amount&stu_due_date=Due_Date&stu_cell_number=03009293477';
+        let studnet_name_for_sms;
+        let amount_for_sms;
+        const boldTags = document.querySelectorAll('b');
+        boldTags.forEach(boldTag => {
+            studnet_name_for_sms = boldTag.textContent;
+        });
+        let fullName = studnet_name_for_sms;
+        let parts = fullName.split(" S/O ");
+        let firstName = parts[0];
+        const spanElement = document.getElementById('P3310_VOUCHER_NO_DISPLAY');
+        voucher_for_sms = spanElement.textContent;
+        const inputElement = document.getElementById('P3310_DUE_DATE');
+        due_date_of_voucher = inputElement.value;
+        const tableElement = document.getElementById('report_table_R316391895542604585');
+        const cellsWithStrong = tableElement.querySelectorAll('td strong');
+        cellsWithStrong.forEach(cell => 
+           amount_for_sms = cell.textContent
+    );
+        
+        
+        let updated_url = url.replace('Student_ID', STUDENT_ID.value).replace('Studnet_Name', firstName).replace('Student_Voucher', voucher_for_sms).replace('Due_Date', due_date_of_voucher).replace('Amount', amount_for_sms);
+        PRINT_VOUCHER_BUTTON.addEventListener('click', function() {
+          fetch(updated_url)
+            .then(response => response.json())
+            .then(data => console.log('API Response:', data))
+            .catch(error => console.error('Error:', error));
+        });
+    } 
+
     const div = PENDING_VOUCHER_TABLE;
     var get_student_id = localStorage.getItem('student_id');
     if (get_student_id != STUDENT_ID.value) {

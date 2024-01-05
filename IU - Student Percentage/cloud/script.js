@@ -7,6 +7,11 @@ const GENERATE_VOUCHER_BUTTON = document.getElementById('B289463526566461369');
 const GENERATE_VOUCHER_TABLE = document.getElementById('report_table_R316391895542604585');
 const APPLY_CHANGES_BUTTON = document.getElementById("B289463912741461369");
 const PRINT_VOUCHER_BUTTON = document.getElementById("B289464337693461371");
+const VOUCHER_NO_FOR_SMS = document.getElementById('P3310_VOUCHER_NO_DISPLAY');
+const VOUCHER_DUE_DATE_FOR_SMS = document.getElementById('P3310_DUE_DATE');
+const CELL_NUMBER_SMS = document.getElementById('P3310_STUDENT_CELL_NO_DISPLAY');
+let URL = 'https://kuickpay.rubick.org/kuickpay_sms/?stu_id=Student_ID&stu_name=Studnet_Name&stu_voucher=Student_Voucher&stu_amount=Amount&stu_due_date=Due_Date&stu_cell_number=Cell_Number';
+        
 
 function insertAfter(newNode, existingNode) {
     existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
@@ -910,36 +915,38 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
         }
     }
 
+    let studnet_name_for_sms;
+    let amount_for_sms;
+    let cell_number_for_sms;
+    let voucher_for_sms;
+
+    const boldTags = document.querySelectorAll('b');
+    boldTags.forEach(boldTag => {
+        studnet_name_for_sms = boldTag.textContent;
+    });
+    let fullName = studnet_name_for_sms;
+    let split_name;
+    if (fullName.includes(" S/O ")) {
+        split_name = fullName.split(" S/O ");
+    } else if (fullName.includes(" D/O ")) {
+        split_name = fullName.split(" D/O ");
+    }
+    let firstName = split_name[0];
+    cell_number_for_sms = CELL_NUMBER_SMS.textContent
+
     if (PRINT_VOUCHER_BUTTON) {
-        let url = 'https://kuickpay.rubick.org/kuickpay_sms/?stu_id=Student_ID&stu_name=Studnet_Name&stu_voucher=Student_Voucher&stu_amount=Amount&stu_due_date=Due_Date&stu_cell_number=Cell_Number';
-        let studnet_name_for_sms;
-        let amount_for_sms;
-        const cellNumberElement = document.getElementById('P3310_STUDENT_CELL_NO_DISPLAY');
-        cell_number_for_sms = cellNumberElement.textContent
-        const boldTags = document.querySelectorAll('b');
-        boldTags.forEach(boldTag => {
-            studnet_name_for_sms = boldTag.textContent;
-        });
-            let fullName = studnet_name_for_sms;
-            let parts = fullName.split(" S/O ");
-            let firstName = parts[0];
-            const spanElement = document.getElementById('P3310_VOUCHER_NO_DISPLAY');
-            voucher_for_sms = spanElement.textContent;
-            const inputElement = document.getElementById('P3310_DUE_DATE');
-            due_date_of_voucher = inputElement.value;
-            const tableElement = document.getElementById('report_table_R316391895542604585');
-            const cellsWithStrong = tableElement.querySelectorAll('td strong');
-            cellsWithStrong.forEach(cell => 
+        voucher_for_sms = VOUCHER_NO_FOR_SMS.textContent;
+        due_date_of_voucher = VOUCHER_DUE_DATE_FOR_SMS.value;
+        const tableElement = document.getElementById('report_table_R316391895542604585');
+        const cellsWithStrong = tableElement.querySelectorAll('td strong');
+        cellsWithStrong.forEach(cell => 
             amount_for_sms = cell.textContent
         );
         
         
-        let updated_url = url.replace('Student_ID', STUDENT_ID.value).replace('Studnet_Name', firstName).replace('Student_Voucher', voucher_for_sms).replace('Due_Date', due_date_of_voucher).replace('Amount', amount_for_sms).replace('Cell_Number', cell_number_for_sms);
+        let updated_url = URL.replace('Student_ID', STUDENT_ID.value).replace('Studnet_Name', firstName).replace('Student_Voucher', voucher_for_sms).replace('Due_Date', due_date_of_voucher).replace('Amount', amount_for_sms).replace('Cell_Number', cell_number_for_sms);
         PRINT_VOUCHER_BUTTON.addEventListener('click', function() {
-          fetch(updated_url)
-            .then(response => response.json())
-            .then(data => console.log('API Response:', data))
-            .catch(error => console.error('Error:', error));
+          fetch(updated_url);
         });
     } 
 
@@ -966,8 +973,9 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
 
                 const voucher_status = tdElements[scount + 3].innerHTML;
                 const voucher_expiry = tdElements[scount + 7].innerHTML;
+                const voucher_amount = tdElements[scount + 9].innerHTML;
                 const key = anchorElement.innerHTML;
-                const valueToAppend = [voucher_expiry, voucher_status];
+                const valueToAppend = [voucher_expiry, voucher_status, voucher_amount];
 
                 if (!orderOfKeys.includes(key)) {
                     orderOfKeys.push(key);
@@ -1006,11 +1014,19 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
 
             for (let key of orderOfKeys) {
                 const voucherDate = new Date(vouchers[key][0]);
+                const voucherAmount = vouchers[key][2];
                 voucherDate.setHours(23, 59, 59);
+                let day = String(voucherDate.getDate()).padStart(2, '0');
+                let month = voucherDate.toLocaleString('default', { month: 'short' }).toUpperCase();
+                let year = String(voucherDate.getFullYear()).slice(-2);
+                let due_date_for_sms = `${day}-${month}-${year}`;
                 const get_voucher_status = vouchers[key][1]
                 if (voucherDate >= currentDate && get_voucher_status == "Pending") {
                     get_voucher = key;
                     voucher_found = true;
+
+                    let updated_url = URL.replace('Student_ID', STUDENT_ID.value).replace('Studnet_Name', firstName).replace('Student_Voucher', key).replace('Due_Date', due_date_for_sms).replace('Amount', voucherAmount).replace('Cell_Number', cell_number_for_sms);
+                    fetch(updated_url);
                     break;
                 }
                     else {

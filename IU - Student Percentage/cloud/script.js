@@ -584,6 +584,10 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
             if (row.cells[3].innerHTML.toUpperCase().includes('WARNING')) {
                 row.cells[3].style.color = "red";
                 row.cells[3].style.fontWeight = "750";
+            }     
+            if (row.cells[3].innerHTML.toUpperCase().includes('BY KUICKPAY')) {
+                row.cells[3].style.color = 'rgb(0, 180, 0)';
+                row.cells[3].style.fontWeight = "750";
             }                        
         } 
     }    
@@ -946,11 +950,15 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
         
         let updated_url = URL.replace('Student_ID', STUDENT_ID.value).replace('Studnet_Name', firstName).replace('Student_Voucher', voucher_for_sms).replace('Due_Date', due_date_of_voucher).replace('Amount', amount_for_sms).replace('Cell_Number', cell_number_for_sms);
         PRINT_VOUCHER_BUTTON.addEventListener('click', function() {
-          fetch(updated_url);
+            try {
+                fetch(updated_url);
+            } catch (error) {
+
+            }
         });
     } 
-
     const div = PENDING_VOUCHER_TABLE;
+    let getting_total_amount = false;
     var get_student_id = localStorage.getItem('student_id');
     if (get_student_id != STUDENT_ID.value) {
         if (div && remaining_balance > 0) {
@@ -960,35 +968,51 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
             const vouchers = {};
             let orderOfKeys = [];
             let scount = 0;
+            let voucher_status;
+            let voucher_expiry;
+            let key;
+            let voucher_total_amount = 0
             let voucher_found = false;
 
             for (let i = 0; i < tdElements.length; i++) {
-            const tdElement = tdElements[i];
-            const anchorElement = tdElement.querySelector('a');
+                const tdElement = tdElements[i];
+                const anchorElement = tdElement.querySelector('a');
 
-            if (anchorElement) {
-                if (foundAnchor) {
-                scount = i; 
+                if (anchorElement) {
+                    dcount = 0
+                    if (foundAnchor) {
+                        scount = i; 
+                    }
+
+                    key = anchorElement.innerHTML;
+                    
+
+                    foundAnchor = true;
+                    getting_total_amount = true;
                 }
 
-                const voucher_status = tdElements[scount + 3].innerHTML;
-                const voucher_expiry = tdElements[scount + 7].innerHTML;
-                const voucher_amount = tdElements[scount + 9].innerHTML;
-                const key = anchorElement.innerHTML;
-                const valueToAppend = [voucher_expiry, voucher_status, voucher_amount];
+                else {
+                    voucher_total_amount = tdElements[i].innerText
+                    const hasBoldText = tdElements[i].querySelector('strong') && tdElements[i].innerText != "";
 
-                if (!orderOfKeys.includes(key)) {
-                    orderOfKeys.push(key);
-                }
-                
-                if (!vouchers.hasOwnProperty(key)) {
-                vouchers[key] = valueToAppend;
-                }
+                    if (hasBoldText) {
+                        voucher_status = tdElements[scount + 3].innerHTML;
+                        voucher_expiry = tdElements[scount + 7].innerHTML;
+                        const valueToAppend = [voucher_expiry, voucher_status, voucher_total_amount];
+                        
 
-                foundAnchor = true;
+                        if (!orderOfKeys.includes(key)) {
+                            orderOfKeys.push(key);
+                        }
+                        
+                        if (!vouchers.hasOwnProperty(key)) {
+                            vouchers[key] = valueToAppend;
+                        }
+                    }
+                    
+                }
             }
-            }
-            // for (let key of orderOfKeys) {
+            c// for (let key of orderOfKeys) {
             //     console.log(key);
             //     console.log(vouchers[key]);
             // }
@@ -1026,7 +1050,12 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
                     voucher_found = true;
 
                     let updated_url = URL.replace('Student_ID', STUDENT_ID.value).replace('Studnet_Name', firstName).replace('Student_Voucher', key).replace('Due_Date', due_date_for_sms).replace('Amount', voucherAmount).replace('Cell_Number', cell_number_for_sms);
-                    fetch(updated_url);
+                    try {
+                        fetch(updated_url);
+                    } catch (error) {
+
+                    }
+                    
                     break;
                 }
                     else {

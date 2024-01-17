@@ -110,7 +110,7 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
         for (var i = 1, row; row = table.rows[i]; i++) {    
             for (var j = 0, col; col = row.cells[j]; j++) {
                 if (!row.cells[0].innerHTML.includes("strong")){
-                    if (row.cells[0].innerHTML != "Tuition Fees") {
+                    if (row.cells[0].innerHTML != "Tuition Fees" && row.cells[0].innerHTML != "Degree Fees" && row.cells[0].innerHTML != "Provisional Certificate Fee" && row.cells[0].innerHTML != "CMS Fees") {
                         if (!row.cells[1].innerHTML.includes("-")) {
                             removing_comas = row.cells[1].innerHTML.replace(",", "");
                             negate_value += parseInt(removing_comas) / 2; 
@@ -120,7 +120,6 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
             }
         }
     }
-
     
 
     // Wait for the page to fully load
@@ -145,6 +144,7 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
 
                     for (var i = 0; i < rows.length; i++) {
                         var cells = rows[i].getElementsByTagName("td");
+                        console.log(cells[1].textContent)
                         
                         if (cells.length >= 2 && cells[1].textContent.trim() === "Tuition Fees") {                            
                             var inputElement = cells[2].querySelector("input[type='text']");                            
@@ -189,6 +189,9 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
                                                 }
                                                 
                                             }
+                                            if (type_fee == "Degree Fees" || type_fee == "Provisional Certificate Fee" || type_fee == "CMS Fees"){
+                                                inputField.value = "0"
+                                            }
                                         } 
                                     }
                                     
@@ -208,6 +211,21 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
                                             
                                             
                         }
+                    }
+                    if (i === rows.length) {
+                        if (table) {
+                            if (APPLY_CHANGES_BUTTON) {
+                                APPLY_CHANGES_BUTTON.click();
+                                localStorage.setItem('auto_print_fifty_percent', false);
+                                localStorage.setItem('auto_print_hundred_percent', false);
+                                localStorage.setItem('auto_print_manual_fee', false);
+                                localStorage.setItem('print_voucher', true);
+                            }
+                        }
+                        else {
+                            console.log('Table not Found');
+                        }
+                        
                     }
                 }
             } else {
@@ -231,32 +249,32 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
 
     
     if (table) {
-    var tbody = table.getElementsByTagName("tbody")[0]; 
+        var tbody = table.getElementsByTagName("tbody")[0]; 
 
-    if (tbody) {
-        var rows = tbody.getElementsByTagName("tr");
+        if (tbody) {
+            var rows = tbody.getElementsByTagName("tr");
 
-        
-        for (var i = 0; i < rows.length; i++) {
-            var cells = rows[i].getElementsByTagName("td"); 
-            for (var j = 0; j < cells.length; j++) {
-                if (cells[j].textContent.trim() === "Payable Total") {
-                    cells[j].style.cursor = 'pointer';
-                    cells[j].addEventListener('click', function() {
-                        localStorage.setItem('auto_print_hundred_percent', true);
-                        localStorage.setItem('print_voucher', false);
-                        var generateVoucherButton = document.getElementById("generate_voucher_button");
-                        if (generateVoucherButton) {
-                            generateVoucherButton.click();
-                        } else {
-                            console.log("generate_voucher_button not found");
-                        }
-                    }); 
-                    break;
+            
+            for (var i = 0; i < rows.length; i++) {
+                var cells = rows[i].getElementsByTagName("td"); 
+                for (var j = 0; j < cells.length; j++) {
+                    if (cells[j].textContent.trim() === "Payable Total") {
+                        cells[j].style.cursor = 'pointer';
+                        cells[j].addEventListener('click', function() {
+                            localStorage.setItem('auto_print_hundred_percent', true);
+                            localStorage.setItem('print_voucher', false);
+                            var generateVoucherButton = document.getElementById("generate_voucher_button");
+                            if (generateVoucherButton) {
+                                generateVoucherButton.click();
+                            } else {
+                                console.log("generate_voucher_button not found");
+                            }
+                        }); 
+                        break;
+                    }
                 }
             }
         }
-    }
     } else {
         console.log("Table not found");
     } 
@@ -443,30 +461,11 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
                 }
             }
             else {
+                console.log(negate_value)
                 alert("Invalid Amount")
             }            
         }
     });
-
-    // Get the table element by its ID
-    var table = PENDING_BALANCE_DETAIL_TABLE;
-    var negate_value = 0
-
-    if (table) {        
-        for (var i = 1, row; row = table.rows[i]; i++) {    
-            for (var j = 0, col; col = row.cells[j]; j++) {
-                if (!row.cells[0].innerHTML.includes("strong")){
-                    if (row.cells[0].innerHTML != "Tuition Fees") {
-                        removing_comas = row.cells[1].innerHTML.replace(",", "");
-                        negate_value += parseInt(removing_comas) / 2; 
-                    }
-                }
-            }
-        }
-    }
-
-    
-
 
     // Insert the new number field as a sibling above the reference element
     
@@ -948,7 +947,7 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
         );
         
         
-        let updated_url = URL.replace('Student_ID', STUDENT_ID.value).replace('Studnet_Name', firstName).replace('Student_Voucher', voucher_for_sms).replace('Due_Date', due_date_of_voucher).replace('Amount', amount_for_sms).replace('Cell_Number', cell_number_for_sms);
+        // let updated_url = URL.replace('Student_ID', STUDENT_ID.value).replace('Studnet_Name', firstName).replace('Student_Voucher', voucher_for_sms).replace('Due_Date', due_date_of_voucher).replace('Amount', amount_for_sms).replace('Cell_Number', cell_number_for_sms);
         PRINT_VOUCHER_BUTTON.addEventListener('click', function() {
             try {
                 fetch(updated_url);
@@ -1049,7 +1048,7 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
                     get_voucher = key;
                     voucher_found = true;
 
-                    let updated_url = URL.replace('Student_ID', STUDENT_ID.value).replace('Studnet_Name', firstName).replace('Student_Voucher', key).replace('Due_Date', due_date_for_sms).replace('Amount', voucherAmount).replace('Cell_Number', cell_number_for_sms);
+                    // let updated_url = URL.replace('Student_ID', STUDENT_ID.value).replace('Studnet_Name', firstName).replace('Student_Voucher', key).replace('Due_Date', due_date_for_sms).replace('Amount', voucherAmount).replace('Cell_Number', cell_number_for_sms);
                     try {
                         fetch(updated_url);
                     } catch (error) {

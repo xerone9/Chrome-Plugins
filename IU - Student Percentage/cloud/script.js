@@ -160,6 +160,16 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
                                    
                                     if (firstColumnValue === "50% Tuition Fee") {                                        
                                         Fifty_percent_input = secondColumnValue;
+                                        var table = GENERATE_VOUCHER_TABLE;
+                                        for (var i = 1, row; row = table.rows[i]; i++) {
+                                            var type_fee = row.cells[1].textContent;
+                                            var inputField = row.cells[2].querySelector("input"); 
+                                            if (inputField) { 
+                                                if (type_fee == "Degree Fees" || type_fee == "Provisional Certificate Fee" || type_fee == "CMS Fees"){
+                                                    inputField.value = "0"
+                                                }
+                                            }
+                                        }
                                     }
                                 }
 
@@ -947,7 +957,7 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
         );
         
         
-        // let updated_url = URL.replace('Student_ID', STUDENT_ID.value).replace('Studnet_Name', firstName).replace('Student_Voucher', voucher_for_sms).replace('Due_Date', due_date_of_voucher).replace('Amount', amount_for_sms).replace('Cell_Number', cell_number_for_sms);
+        let updated_url = URL.replace('Student_ID', STUDENT_ID.value).replace('Studnet_Name', firstName).replace('Student_Voucher', voucher_for_sms).replace('Due_Date', due_date_of_voucher).replace('Amount', amount_for_sms).replace('Cell_Number', cell_number_for_sms);
         PRINT_VOUCHER_BUTTON.addEventListener('click', function() {
             try {
                 fetch(updated_url);
@@ -1048,7 +1058,7 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
                     get_voucher = key;
                     voucher_found = true;
 
-                    // let updated_url = URL.replace('Student_ID', STUDENT_ID.value).replace('Studnet_Name', firstName).replace('Student_Voucher', key).replace('Due_Date', due_date_for_sms).replace('Amount', voucherAmount).replace('Cell_Number', cell_number_for_sms);
+                    let updated_url = URL.replace('Student_ID', STUDENT_ID.value).replace('Studnet_Name', firstName).replace('Student_Voucher', key).replace('Due_Date', due_date_for_sms).replace('Amount', voucherAmount).replace('Cell_Number', cell_number_for_sms);
                     try {
                         fetch(updated_url);
                     } catch (error) {

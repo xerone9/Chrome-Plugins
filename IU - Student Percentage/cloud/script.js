@@ -144,7 +144,6 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
 
                     for (var i = 0; i < rows.length; i++) {
                         var cells = rows[i].getElementsByTagName("td");
-                        console.log(cells[1].textContent)
                         
                         if (cells.length >= 2 && cells[1].textContent.trim() === "Tuition Fees") {                            
                             var inputElement = cells[2].querySelector("input[type='text']");                            
@@ -471,7 +470,6 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
                 }
             }
             else {
-                console.log(negate_value)
                 alert("Invalid Amount")
             }            
         }

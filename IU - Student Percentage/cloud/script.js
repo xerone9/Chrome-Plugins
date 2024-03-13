@@ -290,7 +290,6 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
 
 
 
-    // const oldDivElement = document.querySelector('.t-Region-headerItems t-Region-headerItems--buttons');
     const oldDivElement = PENDING_BALANCE_DETAIL_HEADING;
     const parentElement = oldDivElement.parentNode;
 
@@ -301,7 +300,6 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
     const tableElement = document.createElement('table');
     tableElement.setAttribute('class', 'my-table'); // Add class to table element
 
-    // Create first row
     const rowOneElement = document.createElement('tr');
     const cellOneElement = document.createElement('td');
     cellOneElement.textContent = 'Tuition Fee'; 
@@ -661,11 +659,6 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
     }
     
     
-   
-
-    
-    
-    
     if (remaining_balance != 0) {
         remaining_balance = remaining_balance - (degree_provisional_cms/8)
     }          
@@ -947,7 +940,11 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
 
     if (PRINT_VOUCHER_BUTTON) {
         voucher_for_sms = VOUCHER_NO_FOR_SMS.textContent;
-        due_date_of_voucher = VOUCHER_DUE_DATE_FOR_SMS.value;
+        due_date_of_voucher = VOUCHER_DUE_DATE_FOR_SMS.value.split('-');
+        day = due_date_of_voucher[0];
+        month = due_date_of_voucher[1];
+        year = '20' + due_date_of_voucher[2];
+        due_date_of_voucher = day + '-' + month + '-' + year;
         const tableElement = document.getElementById('report_table_R316391895542604585');
         const cellsWithStrong = tableElement.querySelectorAll('td strong');
         cellsWithStrong.forEach(cell => 
@@ -1138,10 +1135,10 @@ Changelog 2.0:
 ``````````````
 
 As adviced that degree fee and provisional fee charged will be ignored for the clearance of Mid-Term Examinaitons but if the student has 
-alrady paid that degree provisional fee causes that amount to be deducted from tution fee that leads to showing percentage 100% paid evethoug
+already paid that degree provisional fee causes that amount to be deducted from tution fee that leads to showing percentage 100% paid evethoug
 tuition fee has remaining balance - Fixed
 
-Old mechanics were if tuition fee charged - tuition fee paid = 0. It will show studnet with full scholorship. That is done because we exclude
+Old mechanics were if tuition fee charged - tuition fee paid = 0. It will show student with full scholorship. That is done because we exclude
 current semester and used above technique to see that is there any previous dues or any advance fee paid. That caused the error showing some
 students 100% scholorship if there tuition fee balance is 0 eventhough they are not full scholorship students - Fixed
 
@@ -1213,5 +1210,18 @@ Changelog 5.1:
 due to oracle update all element refernce ids were chnaged
 fixed ids
 declared constants that will be set when the update is done rest of the logic will remain the same
+
+
+Changelog 6.0:
+``````````````
+
+50% Auto print voucher hyperlink was considering Degree, provisional and CMS fee in calculation which is fixed
+manual fee auto print had also the above problem also fixed
+
+Kuickpay message API is integrated
+``````````````````````````````````
+Auto open last pending unexpired voucher will also send text sms to student
+Whenever a manual voucher is generated and print voucher button is pressed will take all the required values present on the page and send
+sms to the student
 
 */

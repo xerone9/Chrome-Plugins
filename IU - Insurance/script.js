@@ -1,4 +1,5 @@
 TODAY_DATE = new Date().toISOString().split('T')[0];
+EXPIRY_DATE = new Date('2024-06-30');
 
 ID_FOUND = false
 ADDITION_IN_G_SHEETS = false
@@ -90,6 +91,7 @@ INSURANCE_DATA_COLUMNS_FOR_EMAIL = {
         'Plan': 13
     }
 };
+
 INSURANCE_EMAIL_CREDENTIALS = {
     'Jubilee Insurance - 104755': ['Noman', 'Noman.Siddiq@jubileelife.com'],
     'Jubilee Insurance - 104962': ['Noman', 'Noman.Siddiq@jubileelife.com'],
@@ -151,6 +153,7 @@ function sendMessageToBackground(action, callback) {
 
 
 function create_charged_amount_array (data) {
+    var diffMonths = (EXPIRY_DATE.getFullYear() - new Date().getFullYear()) * 12 + (EXPIRY_DATE.getMonth() - new Date().getMonth());
     type = data[data.length - 1]
     values = null
     if (type == 'All') {
@@ -180,6 +183,13 @@ function create_charged_amount_array (data) {
         values.push(sum / 2);
         values = [data[0], data[1], data[3], ...values]        
     }
+
+    for (var i = 0; i < values.length; i++) {
+        if (typeof values[i] === 'number') {  // Check if the element is a number
+            values[i] = Math.floor((values[i] / 12) * diffMonths);  // Divide the value by 5
+        }
+    }
+
     return values
 }
 
@@ -289,6 +299,7 @@ function new_person_registration_in_insurance() {
         if (element && element.value.trim() === '') {
             ADDITION_GOOGLE_SHEET_LABEL.textContent = `Value Missing: ${elementId}`;
             ADDITION_IN_G_SHEETS = false
+            console.log('bye')
             break
         }
     }
@@ -414,7 +425,7 @@ async function send_email() {
                 }
                 
                 toEmail = INSURANCE_EMAIL_CREDENTIALS[key][1];
-                const ccEmail = 'muhammad.arif@indus.edu.pk';
+                const ccEmail = 'muhammad.arif@indus.edu.pk, dir.finance-admin@indus.edu.pk';
                 
                 await sendEmail(response.token, toEmail, ccEmail, subject, body);                             
             }

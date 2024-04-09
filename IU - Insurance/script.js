@@ -441,7 +441,7 @@ async function send_email() {
                     concerned_name = INSURANCE_EMAIL_CREDENTIALS[key][0]
                     // const toEmail = INSURANCE_EMAIL_CREDENTIALS[key][1];
                     toEmail = INSURANCE_EMAIL_CREDENTIALS[key][1];
-                    const ccEmail = 'muhammad.arif@indus.edu.pk';
+                    const ccEmail = 'muhammad.arif@indus.edu.pk, dir.finance-admin@indus.edu.pk';
                     subject = 'Kindly Remove Employee Under Policy No. ' + policy_number;
                     const body = `<p>Dear ${concerned_name},</p><p>It is requested that kindly delete below mentioned employee</p>${tableHtml}<p>Regards,</p><p>Usman Mustafa Khawar<br>Senior Accountant<br>Indus University<br>UAN:111-400-300 (EXT: 114, 184)</p>`;
 

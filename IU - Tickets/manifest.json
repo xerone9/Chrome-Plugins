@@ -1,0 +1,20 @@
+{
+    "manifest_version": 3,
+    "name": "IU - Tickets",
+    "description": "Will color tickets as per thier priority and mark unseen tickets as NEW",
+    "version": "1.0",    
+    "permissions": [
+        "activeTab",
+        "scripting"       
+    ],
+    "icons": {
+        "128": "logo.png"
+    },    
+    "content_scripts": [
+        {
+            "matches": ["http://172.16.0.6:81/ords/*", "http://faculty.induscms.com:81/ords/*", "http://local.induscms.com:81/ords/*", "http://faculty.induscms.com:8889/reports/*"], 
+	        "js": ["script.js"]             
+        }
+    ]
+}
+

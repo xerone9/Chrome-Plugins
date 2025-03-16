@@ -4,8 +4,6 @@ const SUBMIT_BUTTON = document.getElementById('B440422889565959082');
 const ACTIVITY_LIST = document.getElementById('P9661_EVENT_PROCESSING_TYPE');
 const APPROVAL_AGENTS = document.getElementById("P9661_APPROVAL_AGENT_ID")
 const TICKET_CLOSED = ["Approved", "Rejected", "Comments", "Close With Success", "Close With Attention", "Closed With Success", "Closed With Attention"]
-const today = new Date();
-const formattedDate = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
 
 function block_bakcground_styling(div, status) {
     div.style.borderRadius = '5px'
@@ -696,11 +694,7 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
             if (row.cells[3].innerHTML.toUpperCase().includes('BY KUICKPAY')) {
                 row.cells[3].style.color = 'rgb(0, 180, 0)';
                 row.cells[3].style.fontWeight = "750";
-            }
-            if (row.cells[3].innerHTML.toUpperCase().includes('POS CARD NO')) {
-                row.cells[3].style.color = 'rgb(233, 125, 18)';
-                row.cells[3].style.fontWeight = "750";
-            }                           
+            }                        
         } 
     }    
     
@@ -1257,7 +1251,7 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
                                 triggerFunction('Payment APP Not Responding'); // Trigger with custom error message if fetch fails
                             });
                         });
-                        var new_amount = (parseInt(voucherAmount.replace(",", "")) / 98.275002) * 100
+                        var new_amount = (parseInt(voucherAmount.replace(",", "")) / 98.275) * 100
                         var formatted_amount = new_amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
                         newAnchor.textContent = 'PAY VIA CARD (' + formatted_amount + ')';
 
@@ -1501,80 +1495,80 @@ else if (TICKETS_SCREEN) {
     });
   
     const pendingReportDiv = document.getElementById('Pending_report');
-    
-    if (pendingReportDiv) {
-        let TICKET_DATA;
-        try {
-        TICKET_DATA = JSON.parse(localStorage.getItem('TICKET_DATA')) || {};
-        } catch (e) {
-        TICKET_DATA = {};
-        }
-
-        // if (TICKET_DATA) {
-        //     for (let key in TICKET_DATA) {
-        //         if (!tickets_duplicate_control.includes(key)) {
-        //             delete TICKET_DATA[key];
-        //         }
-        //     }
-        //     localStorage.setItem('TICKET_DATA', JSON.stringify(TICKET_DATA));
-        // }
-    
-        const liItems = Array.from(pendingReportDiv.querySelectorAll('li'));
-    
-        const foundTickets = [];
-        const notFoundTickets = [];
-        const sortedTickets = {
-        Urgent: [],
-        Normal: [],
-        In_Waiting: [],
-        Ready_For_Collection: [],
-        Approval: [],
-        Student_Feedback_Required: []
-        };
-    
-        liItems.forEach(li => {
-        const ticketTitle = li.querySelector('.t-MediaList-title a'); // Adjusted selector
-        if (ticketTitle) {
-            const TICKET_DESC = ticketTitle.innerText;
-            const TICKET_NO = TICKET_DESC.split(" - ")[0].split("# ")[1];
-            // Check if the ticket no exists in TICKET_DATA
-            if (TICKET_DATA.hasOwnProperty(TICKET_NO)) {
-            let priority = TICKET_DATA[TICKET_NO][0];
-            if (priority.includes("Approval")) {
-                priority = "Approval"
-            }
-            if (priority.includes("In Waiting")) {
-                priority = "In_Waiting"
-            }
-            if (priority.includes("Student Feedback Required")) {
-                priority = "Student_Feedback_Required"
-            }
-            if (priority.includes("Ready For Collection")) {
-                priority = "Ready_For_Collection"
-            }
-                
-            if (sortedTickets[priority]) {
-                sortedTickets[priority].push(li);
-            } else {
-                foundTickets.push(li); // Handle unexpected priorities
-            }
-            } else {
-            notFoundTickets.push(li);
-            }
-        }
-        });
-        
-        pendingReportDiv.innerHTML = '';
-        notFoundTickets.forEach(li => pendingReportDiv.appendChild(li));
-    
-        ['Urgent', 'Normal', 'In_Waiting', 'Ready_For_Collection', 'Approval', 'Student_Feedback_Required'].forEach(priority => {
-        sortedTickets[priority].forEach(li => pendingReportDiv.appendChild(li));
-        });
-    
-        foundTickets.forEach(li => pendingReportDiv.appendChild(li));
-    } else {
-        console.log('Pending_report div not found!');
+  
+  if (pendingReportDiv) {
+    let TICKET_DATA;
+    try {
+      TICKET_DATA = JSON.parse(localStorage.getItem('TICKET_DATA')) || {};
+    } catch (e) {
+      TICKET_DATA = {};
     }
+
+    // if (TICKET_DATA) {
+    //     for (let key in TICKET_DATA) {
+    //         if (!tickets_duplicate_control.includes(key)) {
+    //             delete TICKET_DATA[key];
+    //         }
+    //     }
+    //     localStorage.setItem('TICKET_DATA', JSON.stringify(TICKET_DATA));
+    // }
+  
+    const liItems = Array.from(pendingReportDiv.querySelectorAll('li'));
+  
+    const foundTickets = [];
+    const notFoundTickets = [];
+    const sortedTickets = {
+      Urgent: [],
+      Normal: [],
+      In_Waiting: [],
+      Ready_For_Collection: [],
+      Approval: [],
+      Student_Feedback_Required: []
+    };
+  
+    liItems.forEach(li => {
+      const ticketTitle = li.querySelector('.t-MediaList-title a'); // Adjusted selector
+      if (ticketTitle) {
+        const TICKET_DESC = ticketTitle.innerText;
+        const TICKET_NO = TICKET_DESC.split(" - ")[0].split("# ")[1];
+        // Check if the ticket no exists in TICKET_DATA
+        if (TICKET_DATA.hasOwnProperty(TICKET_NO)) {
+          let priority = TICKET_DATA[TICKET_NO][0];
+          if (priority.includes("Approval")) {
+            priority = "Approval"
+          }
+          if (priority.includes("In Waiting")) {
+            priority = "In_Waiting"
+          }
+          if (priority.includes("Student Feedback Required")) {
+            priority = "Student_Feedback_Required"
+          }
+          if (priority.includes("Ready For Collection")) {
+            priority = "Ready_For_Collection"
+          }
+            
+          if (sortedTickets[priority]) {
+            sortedTickets[priority].push(li);
+          } else {
+            foundTickets.push(li); // Handle unexpected priorities
+          }
+        } else {
+          notFoundTickets.push(li);
+        }
+      }
+    });
+     
+    pendingReportDiv.innerHTML = '';
+    notFoundTickets.forEach(li => pendingReportDiv.appendChild(li));
+  
+    ['Urgent', 'Normal', 'In_Waiting', 'Ready_For_Collection', 'Approval', 'Student_Feedback_Required'].forEach(priority => {
+      sortedTickets[priority].forEach(li => pendingReportDiv.appendChild(li));
+    });
+  
+    foundTickets.forEach(li => pendingReportDiv.appendChild(li));
+  } else {
+    console.error('Pending_report div not found!');
+  }
 }
 else if (TICKET_OPENED_SCREEN) {
     const STU_FEE_LEDGER = document.getElementById('report_table_R496187200018386424');
@@ -1656,91 +1650,13 @@ else {
     console.log('Elements Reference May Have Changed')
 }
 
-setInterval(() => {
-    const button = document.querySelector("button.js-confirmBtn.ui-button.ui-corner-all.ui-widget.ui-button--hot");
-    if (button && button.innerText.trim() === "Extend") {
-        button.click();
-    }
-}, 1000);
+   
+      
 
 
 
-// ERP Automation Below
 
-
-// Agent Faizan
-if (TICKETS_SCREEN) {
-    var FAIZAN_REJECTED_TICKET_TODAY = JSON.parse(localStorage.getItem('FAIZAN_REJECTED_TICKET_TODAY'));
-    if (!FAIZAN_REJECTED_TICKET_TODAY) {
-        FAIZAN_REJECTED_TICKET_TODAY = {};
-        FAIZAN_REJECTED_TICKET_TODAY[formattedDate] = [];
-        localStorage.setItem('FAIZAN_REJECTED_TICKET_TODAY', JSON.stringify(FAIZAN_REJECTED_TICKET_TODAY));
-    }
-    else {
-        if (!FAIZAN_REJECTED_TICKET_TODAY.hasOwnProperty(formattedDate)) {
-            FAIZAN_REJECTED_TICKET_TODAY = {};
-            FAIZAN_REJECTED_TICKET_TODAY[formattedDate] = [];
-            localStorage.setItem('FAIZAN_REJECTED_TICKET_TODAY', JSON.stringify(FAIZAN_REJECTED_TICKET_TODAY));
-        }
-    }
-    
-    let userElement = document.querySelector(".t-NavigationBar-item.has-username .t-Button-label");
-    var user_id = userElement.textContent.trim();
-    
-    if (user_id == '1153') {
-        const allTitles = document.querySelectorAll('.t-MediaList-title a');
-        for (const [index, title] of allTitles.entries()) {
-            var raw_value = title.innerText;
-            var ticket_no = raw_value.split(" - ")[0].split("# ")[1];
-            const h6Element = title.closest('.t-MediaList-item')?.querySelector('h6');
-            const h6Text = h6Element.innerText;
-            const last_action = h6Text.split("LastAction: ")[1];
-        
-            if (last_action == "Rejected") {
-                if (!FAIZAN_REJECTED_TICKET_TODAY[formattedDate].includes(ticket_no)) {
-                    FAIZAN_REJECTED_TICKET_TODAY[formattedDate].push(ticket_no);
-                    localStorage.setItem('FAIZAN_REJECTED_TICKET_TODAY', JSON.stringify(FAIZAN_REJECTED_TICKET_TODAY));
-                    title.click()
-                    break;
-                }
-            }
-        }
-        
-    }
-}
-
-if (TICKET_OPENED_SCREEN) {
-    let userElement = document.querySelector(".t-NavigationBar-item.has-username .t-Button-label");
-    var user_id = userElement.textContent.trim();
-    const Submit_activity = document.getElementById("B440422889565959082");
-  
-
-    const TICKET_TITLE = document.querySelector('#R555757530040776432_report .t-SearchResults-title a');
-    const TICKET_DESCRIPTION = TICKET_TITLE.innerText;
-    const TICKET_NO = TICKET_DESCRIPTION.split(" - ")[0].split("#")[1];
-    if (user_id == '1153') {
-        var FAIZAN_REJECTED_TICKET_TODAY = JSON.parse(localStorage.getItem('FAIZAN_REJECTED_TICKET_TODAY'));
-        if (FAIZAN_REJECTED_TICKET_TODAY[formattedDate].includes(TICKET_NO)) {
-            
-            let selectElement2 = document.getElementById("P9661_EVENT_PROCESSING_TYPE");
-            if (selectElement2) {
-                let closedWithAttentionOption = Array.from(selectElement2.options).find(option => option.value === "Closed With Attention");
-        
-                if (closedWithAttentionOption) {
-                    selectElement2.value = "Closed With Attention";
-                } else {
-                    selectElement2.value = "Rejected";
-                }
-            }
-
-            var descriptionElement = document.getElementById("P9661_EVENT_DESCRIPTION");
-            descriptionElement.value = "As per the status rejected, no action is required so the matter has been closed."
-            Submit_activity.click()
-        
-        }
-     
-    }
-}
+ 
 
 
 
@@ -1889,26 +1805,6 @@ Bug Fixed
 `````````
 
 Auto Open Last Peding Voucher opening incorrect voucher (Adimission Vouchers). Now Fixed
-
-Changelog 7.5:
-``````````````
-
-Bug Fixed
-`````````
-
-Retain Session (dont let it expire) logic implemented
-
-Changelog 7.6:
-``````````````
-
-Added Orange Color To POS Voucher Posted Entries
-
-Changelog 8.0:
-``````````````
-
-AGENTS AUTOMATION ADDED
-
-1- Faizan Sir: All Rejected Tickets will be automatically gets closed
 
 
 */

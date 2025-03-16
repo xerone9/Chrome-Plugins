@@ -416,16 +416,21 @@ async function send_email() {
                     today_date_formated = today_date2.toLocaleDateString('en-GB', options).replace(' ', '-').replace(' ', '-');
                     policy_number = key.split(' - ')[1];
                     subject = 'Kindly Add Employee Under Policy No. ' + policy_number;
-                    body = `<p>Dear ${concerned_name},</p><p>It is requested that kindly Add below mentioned employee with effective date ${today_date_formated}</p>${tableHtml}<p>Regards,</p><p>Usman Mustafa Khawar<br>Senior Accountant<br>Indus University<br>UAN:111-400-300 (EXT: 114, 184)</p>`;
+                    body = `<p>Dear ${concerned_name},</p><p>It is requested that kindly Add below mentioned employee with effective date ${today_date_formated}</p>${tableHtml}<p>Regards,</p><p>Muhammad Arif<br>Accountant<br>Indus University<br>UAN:111-400-300 (EXT: 114, 184)</p>`;
                 }
                 else {
                     amount = val.Amount[0] * 2
                     subject = 'Kindly Add Insurance Charges Of Employee ID (' +  val.Emp_ID[0] + ')';
-                    body = `<p>Dear ${concerned_name},</p><p>It is requested that kindly add insurance charges to below mentioned employee. Total Insuracne Charges are ${amount.toLocaleString()} so add half amount accordingly</p>${tableHtml}<p>Regards,</p><p>Usman Mustafa Khawar<br>Senior Accountant<br>Indus University<br>UAN:111-400-300 (EXT: 114, 184)</p>`;
+                    body = `<p>Dear ${concerned_name},</p><p>It is requested that kindly add insurance charges to below mentioned employee. Total Insuracne Charges are ${amount.toLocaleString()} so add half amount accordingly</p>${tableHtml}<p>Regards,</p><p>Muhammad Arif<br>Accountant<br>Indus University<br>UAN:111-400-300 (EXT: 114, 184)</p>`;
                 }
                 
                 toEmail = INSURANCE_EMAIL_CREDENTIALS[key][1];
-                const ccEmail = 'muhammad.arif@indus.edu.pk, dir.finance-admin@indus.edu.pk';
+                let ccEmail;
+                if (toEmail === 'Noman.Siddiq@jubileelife.com') {
+                    ccEmail = 'accountofficer-2@indus.edu.pk, dir.finance-admin@indus.edu.pk, Grouphealth.Admin@jubileehealth.com';
+                } else {
+                    ccEmail = 'accountofficer-2@indus.edu.pk, dir.finance-admin@indus.edu.pk';
+                }
                 
                 await sendEmail(response.token, toEmail, ccEmail, subject, body);                             
             }
@@ -441,9 +446,14 @@ async function send_email() {
                     concerned_name = INSURANCE_EMAIL_CREDENTIALS[key][0]
                     // const toEmail = INSURANCE_EMAIL_CREDENTIALS[key][1];
                     toEmail = INSURANCE_EMAIL_CREDENTIALS[key][1];
-                    const ccEmail = 'muhammad.arif@indus.edu.pk, dir.finance-admin@indus.edu.pk';
+                    let ccEmail;
+                    if (toEmail === 'Noman.Siddiq@jubileelife.com') {
+                        ccEmail = 'accountofficer-2@indus.edu.pk, dir.finance-admin@indus.edu.pk, Grouphealth.Admin@jubileehealth.com';
+                    } else {
+                        ccEmail = 'accountofficer-2@indus.edu.pk, dir.finance-admin@indus.edu.pk';
+                    }
                     subject = 'Kindly Remove Employee Under Policy No. ' + policy_number;
-                    const body = `<p>Dear ${concerned_name},</p><p>It is requested that kindly delete below mentioned employee</p>${tableHtml}<p>Regards,</p><p>Usman Mustafa Khawar<br>Senior Accountant<br>Indus University<br>UAN:111-400-300 (EXT: 114, 184)</p>`;
+                    const body = `<p>Dear ${concerned_name},</p><p>It is requested that kindly delete below mentioned employee</p>${tableHtml}<p>Regards,</p><p>Muhammad Arif<br>Accountant<br>Indus University<br>UAN:111-400-300 (EXT: 114, 184)</p>`;
 
                     await sendEmail(response.token, toEmail, ccEmail, subject, body);
                 }

@@ -4,8 +4,6 @@ const SUBMIT_BUTTON = document.getElementById('B440422889565959082');
 const ACTIVITY_LIST = document.getElementById('P9661_EVENT_PROCESSING_TYPE');
 const APPROVAL_AGENTS = document.getElementById("P9661_APPROVAL_AGENT_ID")
 const TICKET_CLOSED = ["Approved", "Rejected", "Comments", "Close With Success", "Close With Attention", "Closed With Success", "Closed With Attention"]
-const today = new Date();
-const formattedDate = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
 
 function block_bakcground_styling(div, status) {
     div.style.borderRadius = '5px'
@@ -696,11 +694,7 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
             if (row.cells[3].innerHTML.toUpperCase().includes('BY KUICKPAY')) {
                 row.cells[3].style.color = 'rgb(0, 180, 0)';
                 row.cells[3].style.fontWeight = "750";
-            }
-            if (row.cells[3].innerHTML.toUpperCase().includes('POS CARD NO')) {
-                row.cells[3].style.color = 'rgb(233, 125, 18)';
-                row.cells[3].style.fontWeight = "750";
-            }                           
+            }                        
         } 
     }    
     
@@ -1066,291 +1060,132 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
             }
         });
     } 
-    
     const div = PENDING_VOUCHER_TABLE;
-    const vouchers = {};
-    let orderOfKeys = [];
-    const tdElements = div.getElementsByTagName('td');
-    let foundAnchor = false;
-    let scount = 0;
-    let voucher_status;
-    let voucher_expiry;
-    let voucher_key;
-    let voucher_total_amount = 0
-    if (div) {
-        for (let i = 0; i < tdElements.length; i++) {
-            const tdElement = tdElements[i];
-            const anchorElement = tdElement.querySelector('a');
-
-            if (anchorElement) {
-                dcount = 0
-                if (foundAnchor) {
-                    scount = i; 
-                }
-
-                voucher_key = anchorElement.innerHTML;
-                foundAnchor = true;
-            }
-
-            else {
-                voucher_total_amount = tdElements[i].innerText
-                const hasBoldText = tdElements[i].querySelector('strong') && tdElements[i].innerText != "";
-
-                if (hasBoldText) {
-                    
-                    voucher_status = tdElements[scount + 3].innerHTML;
-                    voucher_expiry = tdElements[scount + 7].innerHTML;
-                    const valueToAppend = [voucher_expiry, voucher_status, voucher_total_amount];
-                    
-
-                    if (!orderOfKeys.includes(voucher_key)) {
-                        orderOfKeys.push(voucher_key);
-                    }
-                    
-                    if (!vouchers.hasOwnProperty(voucher_key)) {
-                        vouchers[voucher_key] = valueToAppend;
-                    }
-                }
-                else {
-                    if (tdElement.getAttribute('headers') === 'DUE_DATE_000') {
-                        const dueDateText = tdElement.innerText.trim()
-                        if (dueDateText !== '') {
-                            const [day, month, year] = dueDateText.split('-');
-                            const monthIndex = new Date(Date.parse(month + " 1, 2023")).getMonth();
-                            const fullYear = 2000 + parseInt(year, 10);
-                            const dueDate = new Date(fullYear, monthIndex, day);
-                            dueDate.setHours(23, 59, 59);
-                            const currentDate = new Date();
-                            
-                            if (currentDate >= dueDate) {
-                                var pending_status = tdElements[i-4]
-                                if (pending_status.innerText.trim() === 'Pending') {
-                                    pending_status.innerText = 'Expired';
-                                    pending_status.style.color = 'red';
-                                    pending_status.style.fontFamily = "Arial";
-                                    pending_status.style.fontWeight = "900";
-                                    pending_status.style.fontSize = "15px";
-                                }
-                                
-                            }
-                        }
-                    }
-                }
-                
-            }
-        }
-
-        const currentDate = new Date();
-        get_voucher = '';
-
-
-        var get_student_id = localStorage.getItem('student_id');
-        if (get_student_id != STUDENT_ID.value) {
+    let getting_total_amount = false;
+    var get_student_id = localStorage.getItem('student_id');
+    if (get_student_id != STUDENT_ID.value) {
+        if (div && remaining_balance > 0) {
+            localStorage.setItem('student_id', STUDENT_ID.value);
+            const tdElements = div.getElementsByTagName('td');
+            let foundAnchor = false;
+            const vouchers = {};
+            let orderOfKeys = [];
+            let scount = 0;
+            let voucher_status;
+            let voucher_expiry;
+            let key;
+            let voucher_total_amount = 0
             let voucher_found = false;
-            if (div && remaining_balance > 0) {
-                localStorage.setItem('student_id', STUDENT_ID.value);
-                const currentDate = new Date();
-                get_voucher = '';
 
-                for (let key of orderOfKeys) {
-                    const voucherDate = new Date(vouchers[key][0]);
-                    const voucherAmount = vouchers[key][2];
-                    voucherDate.setHours(23, 59, 59);
-                    let day = String(voucherDate.getDate()).padStart(2, '0');
-                    let month = voucherDate.toLocaleString('default', { month: 'short' }).toUpperCase();
-                    let year = String(voucherDate.getFullYear());
-                    let due_date_for_sms = `${day}-${month}-${year}`;
-                    const get_voucher_status = vouchers[key][1]
-                    if (voucherDate >= currentDate && get_voucher_status == "Pending") {
-                        get_voucher = key;
-                        voucher_found = true;
-                        // let updated_url = URL.replace('Student_ID', STUDENT_ID.value).replace('Studnet_Name', firstName).replace('Student_Voucher', key).replace('Due_Date', due_date_for_sms).replace('Amount', voucherAmount).replace('Cell_Number', cell_number_for_sms);
-                        // try {
-                        //     fetch(updated_url);
-                        // } catch (error) {
+            for (let i = 0; i < tdElements.length; i++) {
+                const tdElement = tdElements[i];
+                const anchorElement = tdElement.querySelector('a');
 
-                        // }
-                        
-                        break;
-                    }
-                        else {
-                            
-                        }
+                if (anchorElement) {
+                    dcount = 0
+                    if (foundAnchor) {
+                        scount = i; 
                     }
 
-                
-                if (voucher_found) {
-                    const div2 = PENDING_VOUCHER_TABLE;
-                    const anchorElements = div2.getElementsByTagName('a');
-                    const searchNumber = get_voucher;
+                    key = anchorElement.innerHTML;
                     
-                    for (let i = 0; i < anchorElements.length; i++) {
-                    const anchorElement = anchorElements[i];
-                        if (anchorElement.innerHTML === searchNumber) {
-                            const print_voucher = anchorElement;
-                            
 
-                            // Get Chrome Version as it only works in most updated chrome browser
-                            var inputString = navigator.appVersion.match(/.*Chrome\/([0-9\.]+)/)[1];
-                            var parts = inputString.split('.');
-                            var firstPortion = parts[0];
-                            var intValue = parseInt(firstPortion, 10);
+                    foundAnchor = true;
+                    getting_total_amount = true;
+                }
 
-                            if (intValue >= 118) {
-                                print_voucher.click();  
-                                break; 
-                            }
-                            else{
-                                console.log("Auto Print Peding Voucher Not Working")
-                                break;
-                            }
-                            
+                else {
+                    voucher_total_amount = tdElements[i].innerText
+                    const hasBoldText = tdElements[i].querySelector('strong') && tdElements[i].innerText != "";
+
+                    if (hasBoldText) {
+                        voucher_status = tdElements[scount + 3].innerHTML;
+                        voucher_expiry = tdElements[scount + 7].innerHTML;
+                        const valueToAppend = [voucher_expiry, voucher_status, voucher_total_amount];
+                        
+
+                        if (!orderOfKeys.includes(key)) {
+                            orderOfKeys.push(key);
+                        }
+                        
+                        if (!vouchers.hasOwnProperty(key)) {
+                            vouchers[key] = valueToAppend;
                         }
                     }
+                    
                 }
             }
-        }
 
-        for (let key of orderOfKeys) {
-            const voucherDate = new Date(vouchers[key][0]);
-            const voucherAmount = vouchers[key][2];
-            voucherDate.setHours(23, 59, 59);
-            let day = String(voucherDate.getDate()).padStart(2, '0');
-            let month = voucherDate.toLocaleString('default', { month: 'short' }).toUpperCase();
-            let year = String(voucherDate.getFullYear());
-            let due_date_for_sms = `${day}-${month}-${year}`;
-            const get_voucher_status = vouchers[key][1]
-            if (voucherDate >= currentDate && get_voucher_status == "Pending") {
+            const currentDate = new Date();
+            get_voucher = '';
+
+            // for (const key in vouchers) {
+            // const voucherDate = new Date(vouchers[key][0]);
+            // voucherDate.setHours(23, 59, 59);
+            // const get_voucher_status = vouchers[key][1]
+            // if (voucherDate >= currentDate && get_voucher_status == "Pending") {
+            //     get_voucher = key;
+            //     voucher_found = true;
+            //     break;
+            // }
+            //     else {
+                    
+            //     }
+            // }
+
+            for (let key of orderOfKeys) {
+                const voucherDate = new Date(vouchers[key][0]);
+                const voucherAmount = vouchers[key][2];
+                voucherDate.setHours(23, 59, 59);
+                let day = String(voucherDate.getDate()).padStart(2, '0');
+                let month = voucherDate.toLocaleString('default', { month: 'short' }).toUpperCase();
+                let year = String(voucherDate.getFullYear());
+                let due_date_for_sms = `${day}-${month}-${year}`;
+                const get_voucher_status = vouchers[key][1]
+                if (voucherDate >= currentDate && get_voucher_status == "Pending") {
+                    get_voucher = key;
+                    voucher_found = true;
+                    // let updated_url = URL.replace('Student_ID', STUDENT_ID.value).replace('Studnet_Name', firstName).replace('Student_Voucher', key).replace('Due_Date', due_date_for_sms).replace('Amount', voucherAmount).replace('Cell_Number', cell_number_for_sms);
+                    // try {
+                    //     fetch(updated_url);
+                    // } catch (error) {
+
+                    // }
+                    
+                    break;
+                }
+                    else {
+                        
+                    }
+                }
+
+            if (voucher_found) {
                 const div2 = PENDING_VOUCHER_TABLE;
                 const anchorElements = div2.getElementsByTagName('a');
-                const searchNumber = key;
+                const searchNumber = get_voucher;
+                
+
                 for (let i = 0; i < anchorElements.length; i++) {
-                    const anchorElement = anchorElements[i];
+                const anchorElement = anchorElements[i];
                     if (anchorElement.innerHTML === searchNumber) {
+                        const print_voucher = anchorElement;
+                        
+
+                        // Get Chrome Version as it only works in most updated chrome browser
                         var inputString = navigator.appVersion.match(/.*Chrome\/([0-9\.]+)/)[1];
                         var parts = inputString.split('.');
                         var firstPortion = parts[0];
                         var intValue = parseInt(firstPortion, 10);
 
-                        let newAnchor = document.createElement('a');
-                        newAnchor.addEventListener('click', (event) => {
-                            event.preventDefault();
+                        if (intValue >= 118) {
+                            print_voucher.click();  
+                            break; 
+                        }
+                        else{
+                            console.log("Auto Print Peding Voucher Not Working")
+                            break;
+                        }
                         
-                            const url = `http://localhost:8000/${searchNumber}`;
-                            fetch(url)
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error(`HTTP error! status: ${response.status}`);
-                                }
-
-                                // Wait for the response to resolve and get the text content
-                                return response.text(); // This returns a promise
-                            })
-                            .then(data => {
-                                console.log('Response text:', data); // Log the plain text response
-
-                                // Pass the resolved text to the triggerFunction
-                                triggerFunction(data); // 'data' contains the response text ("Successful")
-                            })
-                            .catch(error => {
-                                console.error('Fetch error:', error); // Log any errors
-                                triggerFunction('Payment APP Not Responding'); // Trigger with custom error message if fetch fails
-                            });
-                        });
-                        var new_amount = (parseInt(voucherAmount.replace(",", "")) / 98.275002) * 100
-                        var formatted_amount = new_amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-                        newAnchor.textContent = 'PAY VIA CARD (' + formatted_amount + ')';
-
-                        newAnchor.style.display = 'block';
-                        newAnchor.style.textAlign = 'right';
-                        newAnchor.style.width = '100%';
-                        newAnchor.style.marginTop = '-20px';
-                        newAnchor.style.paddingRight = '15px';
-                        newAnchor.style.color = "darkgreen";
-                        newAnchor.style.textDecoration = "underline";
-                        newAnchor.style.fontWeight = "bolder";
-                        newAnchor.style.fontFamily = "Helvetica";
-                        anchorElement.appendChild(newAnchor);
-
-                        
-                    }
-
-                    function triggerFunction(value) {
-                        // Create a modal container
-                        const modal = document.createElement('div');
-                        modal.style.position = 'fixed';
-                        modal.style.top = '0';
-                        modal.style.left = '0';
-                        modal.style.width = '100vw';
-                        modal.style.height = '100vh';
-                        modal.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // Semi-transparent background
-                        modal.style.display = 'flex';
-                        modal.style.justifyContent = 'center';
-                        modal.style.alignItems = 'center';
-                        modal.style.zIndex = '1000'; // Ensure the modal is on top of other content
-
-                        // Create the modal content box
-                        const modalContent = document.createElement('div');
-                        modalContent.style.backgroundColor = '#fff';
-                        modalContent.style.padding = '20px';
-                        modalContent.style.borderRadius = '10px';
-                        modalContent.style.textAlign = 'center';
-                        modalContent.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
-                        modalContent.style.maxWidth = '400px';
-                        modalContent.style.width = '100%';
-
-                        // Create the message inside the modal
-                        const message = document.createElement('p');
-                        message.textContent = value;
-                        message.style.fontSize = '18px';
-                        if (value == "Successful") {
-                            message.style.color = '#007bff';
-                        }
-                        else {
-                            message.style.color = '#d9534f';
-                        }
-
-                         // Red color for the message
-
-                        // Add the message to the modal content
-                        modalContent.appendChild(message);
-
-                        // Create the close button
-                        const closeButton = document.createElement('button');
-                        closeButton.textContent = 'Close';
-                        closeButton.style.marginTop = '20px';
-                        closeButton.style.padding = '10px 20px';
-                        if (value == "Successful") {
-                            closeButton.style.backgroundColor = '#007bff';
-                        }
-                        else {
-                            closeButton.style.backgroundColor = '#d9534f';
-                        }
-                        closeButton.style.color = '#fff';
-                        closeButton.style.border = 'none';
-                        closeButton.style.borderRadius = '5px';
-                        closeButton.style.cursor = 'pointer';
-
-                        // Close the modal when the button is clicked
-                        closeButton.addEventListener('click', () => {
-                            if (!value == "Successful") {
-                                document.body.removeChild(modal);
-                            }
-                            else {
-                                document.body.removeChild(modal);
-                                location.reload();
-                            }
-                             // Remove the modal from the DOM
-                        });
-
-                        // Add the close button to the modal content
-                        modalContent.appendChild(closeButton);
-
-                        // Add the modal content to the modal container
-                        modal.appendChild(modalContent);
-
-                        // Add the modal to the body of the document
-                        document.body.appendChild(modal);
                     }
                 }
             }
@@ -1358,10 +1193,6 @@ if (PENDING_BALANCE_DETAIL_HEADING !== null) {
     }
 
 }
-
-
-
-
 else if (TICKETS_SCREEN) {
     const styleSheet = document.styleSheets[0]; // Access the first stylesheet
     styleSheet.insertRule('.t-MediaList--cols .t-MediaList-item { margin: 3px; }', styleSheet.cssRules.length);
@@ -1501,80 +1332,80 @@ else if (TICKETS_SCREEN) {
     });
   
     const pendingReportDiv = document.getElementById('Pending_report');
-    
-    if (pendingReportDiv) {
-        let TICKET_DATA;
-        try {
-        TICKET_DATA = JSON.parse(localStorage.getItem('TICKET_DATA')) || {};
-        } catch (e) {
-        TICKET_DATA = {};
-        }
-
-        // if (TICKET_DATA) {
-        //     for (let key in TICKET_DATA) {
-        //         if (!tickets_duplicate_control.includes(key)) {
-        //             delete TICKET_DATA[key];
-        //         }
-        //     }
-        //     localStorage.setItem('TICKET_DATA', JSON.stringify(TICKET_DATA));
-        // }
-    
-        const liItems = Array.from(pendingReportDiv.querySelectorAll('li'));
-    
-        const foundTickets = [];
-        const notFoundTickets = [];
-        const sortedTickets = {
-        Urgent: [],
-        Normal: [],
-        In_Waiting: [],
-        Ready_For_Collection: [],
-        Approval: [],
-        Student_Feedback_Required: []
-        };
-    
-        liItems.forEach(li => {
-        const ticketTitle = li.querySelector('.t-MediaList-title a'); // Adjusted selector
-        if (ticketTitle) {
-            const TICKET_DESC = ticketTitle.innerText;
-            const TICKET_NO = TICKET_DESC.split(" - ")[0].split("# ")[1];
-            // Check if the ticket no exists in TICKET_DATA
-            if (TICKET_DATA.hasOwnProperty(TICKET_NO)) {
-            let priority = TICKET_DATA[TICKET_NO][0];
-            if (priority.includes("Approval")) {
-                priority = "Approval"
-            }
-            if (priority.includes("In Waiting")) {
-                priority = "In_Waiting"
-            }
-            if (priority.includes("Student Feedback Required")) {
-                priority = "Student_Feedback_Required"
-            }
-            if (priority.includes("Ready For Collection")) {
-                priority = "Ready_For_Collection"
-            }
-                
-            if (sortedTickets[priority]) {
-                sortedTickets[priority].push(li);
-            } else {
-                foundTickets.push(li); // Handle unexpected priorities
-            }
-            } else {
-            notFoundTickets.push(li);
-            }
-        }
-        });
-        
-        pendingReportDiv.innerHTML = '';
-        notFoundTickets.forEach(li => pendingReportDiv.appendChild(li));
-    
-        ['Urgent', 'Normal', 'In_Waiting', 'Ready_For_Collection', 'Approval', 'Student_Feedback_Required'].forEach(priority => {
-        sortedTickets[priority].forEach(li => pendingReportDiv.appendChild(li));
-        });
-    
-        foundTickets.forEach(li => pendingReportDiv.appendChild(li));
-    } else {
-        console.log('Pending_report div not found!');
+  
+  if (pendingReportDiv) {
+    let TICKET_DATA;
+    try {
+      TICKET_DATA = JSON.parse(localStorage.getItem('TICKET_DATA')) || {};
+    } catch (e) {
+      TICKET_DATA = {};
     }
+
+    // if (TICKET_DATA) {
+    //     for (let key in TICKET_DATA) {
+    //         if (!tickets_duplicate_control.includes(key)) {
+    //             delete TICKET_DATA[key];
+    //         }
+    //     }
+    //     localStorage.setItem('TICKET_DATA', JSON.stringify(TICKET_DATA));
+    // }
+  
+    const liItems = Array.from(pendingReportDiv.querySelectorAll('li'));
+  
+    const foundTickets = [];
+    const notFoundTickets = [];
+    const sortedTickets = {
+      Urgent: [],
+      Normal: [],
+      In_Waiting: [],
+      Ready_For_Collection: [],
+      Approval: [],
+      Student_Feedback_Required: []
+    };
+  
+    liItems.forEach(li => {
+      const ticketTitle = li.querySelector('.t-MediaList-title a'); // Adjusted selector
+      if (ticketTitle) {
+        const TICKET_DESC = ticketTitle.innerText;
+        const TICKET_NO = TICKET_DESC.split(" - ")[0].split("# ")[1];
+        // Check if the ticket no exists in TICKET_DATA
+        if (TICKET_DATA.hasOwnProperty(TICKET_NO)) {
+          let priority = TICKET_DATA[TICKET_NO][0];
+          if (priority.includes("Approval")) {
+            priority = "Approval"
+          }
+          if (priority.includes("In Waiting")) {
+            priority = "In_Waiting"
+          }
+          if (priority.includes("Student Feedback Required")) {
+            priority = "Student_Feedback_Required"
+          }
+          if (priority.includes("Ready For Collection")) {
+            priority = "Ready_For_Collection"
+          }
+            
+          if (sortedTickets[priority]) {
+            sortedTickets[priority].push(li);
+          } else {
+            foundTickets.push(li); // Handle unexpected priorities
+          }
+        } else {
+          notFoundTickets.push(li);
+        }
+      }
+    });
+     
+    pendingReportDiv.innerHTML = '';
+    notFoundTickets.forEach(li => pendingReportDiv.appendChild(li));
+  
+    ['Urgent', 'Normal', 'In_Waiting', 'Ready_For_Collection', 'Approval', 'Student_Feedback_Required'].forEach(priority => {
+      sortedTickets[priority].forEach(li => pendingReportDiv.appendChild(li));
+    });
+  
+    foundTickets.forEach(li => pendingReportDiv.appendChild(li));
+  } else {
+    console.error('Pending_report div not found!');
+  }
 }
 else if (TICKET_OPENED_SCREEN) {
     const STU_FEE_LEDGER = document.getElementById('report_table_R496187200018386424');
@@ -1656,91 +1487,13 @@ else {
     console.log('Elements Reference May Have Changed')
 }
 
-setInterval(() => {
-    const button = document.querySelector("button.js-confirmBtn.ui-button.ui-corner-all.ui-widget.ui-button--hot");
-    if (button && button.innerText.trim() === "Extend") {
-        button.click();
-    }
-}, 1000);
+   
+      
 
 
 
-// ERP Automation Below
 
-
-// Agent Faizan
-if (TICKETS_SCREEN) {
-    var FAIZAN_REJECTED_TICKET_TODAY = JSON.parse(localStorage.getItem('FAIZAN_REJECTED_TICKET_TODAY'));
-    if (!FAIZAN_REJECTED_TICKET_TODAY) {
-        FAIZAN_REJECTED_TICKET_TODAY = {};
-        FAIZAN_REJECTED_TICKET_TODAY[formattedDate] = [];
-        localStorage.setItem('FAIZAN_REJECTED_TICKET_TODAY', JSON.stringify(FAIZAN_REJECTED_TICKET_TODAY));
-    }
-    else {
-        if (!FAIZAN_REJECTED_TICKET_TODAY.hasOwnProperty(formattedDate)) {
-            FAIZAN_REJECTED_TICKET_TODAY = {};
-            FAIZAN_REJECTED_TICKET_TODAY[formattedDate] = [];
-            localStorage.setItem('FAIZAN_REJECTED_TICKET_TODAY', JSON.stringify(FAIZAN_REJECTED_TICKET_TODAY));
-        }
-    }
-    
-    let userElement = document.querySelector(".t-NavigationBar-item.has-username .t-Button-label");
-    var user_id = userElement.textContent.trim();
-    
-    if (user_id == '1153') {
-        const allTitles = document.querySelectorAll('.t-MediaList-title a');
-        for (const [index, title] of allTitles.entries()) {
-            var raw_value = title.innerText;
-            var ticket_no = raw_value.split(" - ")[0].split("# ")[1];
-            const h6Element = title.closest('.t-MediaList-item')?.querySelector('h6');
-            const h6Text = h6Element.innerText;
-            const last_action = h6Text.split("LastAction: ")[1];
-        
-            if (last_action == "Rejected") {
-                if (!FAIZAN_REJECTED_TICKET_TODAY[formattedDate].includes(ticket_no)) {
-                    FAIZAN_REJECTED_TICKET_TODAY[formattedDate].push(ticket_no);
-                    localStorage.setItem('FAIZAN_REJECTED_TICKET_TODAY', JSON.stringify(FAIZAN_REJECTED_TICKET_TODAY));
-                    title.click()
-                    break;
-                }
-            }
-        }
-        
-    }
-}
-
-if (TICKET_OPENED_SCREEN) {
-    let userElement = document.querySelector(".t-NavigationBar-item.has-username .t-Button-label");
-    var user_id = userElement.textContent.trim();
-    const Submit_activity = document.getElementById("B440422889565959082");
-  
-
-    const TICKET_TITLE = document.querySelector('#R555757530040776432_report .t-SearchResults-title a');
-    const TICKET_DESCRIPTION = TICKET_TITLE.innerText;
-    const TICKET_NO = TICKET_DESCRIPTION.split(" - ")[0].split("#")[1];
-    if (user_id == '1153') {
-        var FAIZAN_REJECTED_TICKET_TODAY = JSON.parse(localStorage.getItem('FAIZAN_REJECTED_TICKET_TODAY'));
-        if (FAIZAN_REJECTED_TICKET_TODAY[formattedDate].includes(TICKET_NO)) {
-            
-            let selectElement2 = document.getElementById("P9661_EVENT_PROCESSING_TYPE");
-            if (selectElement2) {
-                let closedWithAttentionOption = Array.from(selectElement2.options).find(option => option.value === "Closed With Attention");
-        
-                if (closedWithAttentionOption) {
-                    selectElement2.value = "Closed With Attention";
-                } else {
-                    selectElement2.value = "Rejected";
-                }
-            }
-
-            var descriptionElement = document.getElementById("P9661_EVENT_DESCRIPTION");
-            descriptionElement.value = "As per the status rejected, no action is required so the matter has been closed."
-            Submit_activity.click()
-        
-        }
-     
-    }
-}
+ 
 
 
 
@@ -1872,43 +1625,5 @@ Agent Tickets Page Have Been Modified
 NOTE: Plugin use browser storage so any acitivity done in another ticket acitivity done in another computer might make the plugin behaves differently.
 Backgound colors will not be aloted to tickets unless/until you open ticket atleast one time
 Donot use other sorting radio/list buttons as it will make plungin wont work 
-
-Changelog 7.1:
-``````````````
-
-Added Pay Via POS Button
-`````````````````````````
-
-For Pending Unexpired Vouchers There is a button added for pay via POS Machine.
-Pending Vouchers whom due date has been passed will now appear as Expired with Red Color
-
-Changelog 7.2:
-``````````````
-
-Bug Fixed
-`````````
-
-Auto Open Last Peding Voucher opening incorrect voucher (Adimission Vouchers). Now Fixed
-
-Changelog 7.5:
-``````````````
-
-Bug Fixed
-`````````
-
-Retain Session (dont let it expire) logic implemented
-
-Changelog 7.6:
-``````````````
-
-Added Orange Color To POS Voucher Posted Entries
-
-Changelog 8.0:
-``````````````
-
-AGENTS AUTOMATION ADDED
-
-1- Faizan Sir: All Rejected Tickets will be automatically gets closed
-
 
 */

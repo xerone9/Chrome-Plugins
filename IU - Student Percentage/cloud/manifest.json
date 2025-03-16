@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "IU - Student Fee Percentage",
-    "description": "How much fee the student has paid in percentage and also tells how much minimum fee is required to sit in Mid-Term Examination",
-    "version": "6.0",
+    "name": "Indus University",
+    "description": "Student Fee Related Calculations, Automated Voucher Printing and Agent Tickets Dashboard Styling",
+    "version": "7.5",
     "icons": {
         "128": "logo.png"
     },    
